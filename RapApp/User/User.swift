@@ -13,5 +13,9 @@ struct User: Codable {
     var school: String
     var hobby: String
     var job: String
+    
+    static func Empty() -> User {
+        return User(imageURL: URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!, name: "", school: "", hobby: "", job: "")
+    }
      
 }

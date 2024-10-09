@@ -125,7 +125,7 @@ struct ProfileEdit: View {
                 
                 Button("保存") {
                     Task {
-                        user!.imageURL = imageURL
+                        user!.imageURL = imageURL ?? URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!
                         user!.name = name
                         user!.school = school
                         user!.job = job
@@ -164,7 +164,7 @@ struct ProfileEdit: View {
                         return
                     }
                     guard let url = url else { return }
-                    imageURL
+                    imageURL = url
                     saveImageUrlToFirestore(url: url)
                 }
             }

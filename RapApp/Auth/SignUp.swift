@@ -56,11 +56,6 @@ struct SignUp: View {
                             
                             
                             print("\(String(describing: Auth.auth().currentUser?.uid))")
-                            
-                            let user = User(imageURL: "", name: "", school: "", hobby: "", job: "")
-                            Task {
-                                await AppDelegate.setUser(user: user)
-                            }
                         }
                     default:
                         break

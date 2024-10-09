@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A6097C5F2CB698270096CBEB /* DefaultImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6097C5E2CB698260096CBEB /* DefaultImage.swift */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
 		A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */; };
 		A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B612C22F45E00BCE7FF /* Detail.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A6097C5E2CB698260096CBEB /* DefaultImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImage.swift; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
 		A61F8B612C22F45E00BCE7FF /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -84,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A6097C5D2CB6980F0096CBEB /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				A6097C5E2CB698260096CBEB /* DefaultImage.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		A658BA7E2C82F3AD000D7AA2 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +179,7 @@
 		A6EDA3D02C19B07C002A2C23 /* RapApp */ = {
 			isa = PBXGroup;
 			children = (
+				A6097C5D2CB6980F0096CBEB /* Util */,
 				A658BA542C674538000D7AA2 /* RapApp.entitlements */,
 				A65ADD662C4263AD003FBE1D /* Info.plist */,
 				A658BA842C874A8C000D7AA2 /* RapApp */,
@@ -285,6 +296,7 @@
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
+				A6097C5F2CB698270096CBEB /* DefaultImage.swift in Sources */,
 				A65ADD682C4267F2003FBE1D /* MapView.swift in Sources */,
 				A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */,
 				A658BA902C8875C4000D7AA2 /* placeholderpic.swift in Sources */,

@@ -17,14 +17,17 @@ struct ProfileNew: View {
     
     var body: some View {
         ZStack {
-            if let user, let im = URL(string: user.imageURL) {
-                KFImage(im)
+            if let user = user {
+                KFImage(user.imageURL)
                     .resizable()
                     .placeholder { _ in Image(uiImage: UIColor.tertiarySystemFill.image())}
                     .aspectRatio(contentMode: .fill)
                 //                .frame(width: 250, height: 250)
                     .frame(maxHeight: .infinity)
-                .cornerRadius(25)}
+                    .cornerRadius(25)
+            } else {
+                DefaultImage()
+            }
             
             ZStack {
                             Rectangle()
@@ -123,5 +126,5 @@ struct ProfileNew: View {
     }
 }
 #Preview {
-    ProfileNew(user: User(imageURL: "", name: "", school: "", hobby: "", job: ""))
+    ProfileNew(user: User(imageURL: URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!, name: "", school: "", hobby: "", job: ""))
 }

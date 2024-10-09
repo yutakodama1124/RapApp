@@ -27,13 +27,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             .data(as: User.self) {
             return user
         } else {
-            let user: User = .init(
-                imageURL: "https://firebasestorage.googleapis.com/v0/b/rapapp-220ed.appspot.com/o/Screenshot%202024-09-18%20at%2018.46.01.png?alt=media&token=fcb67cf2-de31-415c-9e80-6bf27ee3526a",
-                name: "aaa",
-                school: "aaa",
-                hobby: "aaa",
-                job: "aaa"
-            )
+            let user: User = .Empty()
             await setUser(
                 user: user
             )
