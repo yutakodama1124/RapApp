@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDotLnUZN2siOVOOvuaLPtxjGYN7XqDUeE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>297008389808</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.suika.RapApp</string>
+	<key>PROJECT_ID</key>
+	<string>rapapp-220ed</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rapapp-220ed.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:297008389808:ios:aee6e6afb4b5c536ce2575</string>
+</dict>
+</plist>
