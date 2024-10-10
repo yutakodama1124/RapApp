@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Detail: View {
-    
     @State var nextView = false
     @State var isPlaying = false
     

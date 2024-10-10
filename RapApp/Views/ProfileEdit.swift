@@ -37,7 +37,7 @@ struct ProfileEdit: View {
                             isShowingImagePicker = true
                         }
                         .sheet(isPresented: $isShowingImagePicker) {
-                            Profilepic(sourceType: .photoLibrary, selectedImage: $selectedImage)
+                            LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
                         }
                     } else {
                         Button("Choose Photo") {
@@ -49,7 +49,7 @@ struct ProfileEdit: View {
                         .cornerRadius(25)
                         .padding()
                         .sheet(isPresented: $isShowingImagePicker) {
-                            Profilepic(sourceType: .photoLibrary, selectedImage: $selectedImage)
+                            LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
                         }
                     }
                 }
