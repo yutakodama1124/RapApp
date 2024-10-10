@@ -27,10 +27,10 @@ struct RapAppApp: App {
     var body: some Scene {
         WindowGroup {
             if viewModel.isAuthenticated {
-                 ContentView(viewModel: viewModel)
-             } else {
-                 SignUp(viewModel: viewModel)
-             }
+                ContentView(viewModel: viewModel)
+            } else {
+                SignUp(viewModel: viewModel)
+            }
         }
     }
 }
