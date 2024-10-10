@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class AuthViewModel: ObservableObject {
     @Published var isAuthenticated = false
-    // イニシャライザメソッドを呼び出して、アプリの起動時に認証状態をチェックする
+    
     init() {
         observeAuthChanges()
     }

@@ -37,10 +37,6 @@ struct Battle: View {
             Text("Kai Kodama")
                 .font(.system(size: 30, weight: .medium, design: .rounded))
         }
-        .onAppear
-        {
-            
-        }
     }
 }
 
