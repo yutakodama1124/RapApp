@@ -9,13 +9,11 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class UserRepository {
-    private let COLLECTION = "users"
+    private let COLLECTION = Firestore.firestore().collection("users")
     
     func fetchUser(userId: String) async -> User? {
         do {
-            return try await Firestore
-                .firestore()
-                .collection(COLLECTION)
+            return try await COLLECTION
                 .document(userId)
                 .getDocument()
                 .data(as: User.self)
@@ -26,7 +24,7 @@ class UserRepository {
     }
     
     func storeUser(from user: User) async {
-        try! Firestore.firestore().collection(COLLECTION).document(user.id).setData(from: user)
+        try! COLLECTION.document(user.id).setData(from: user)
     }
     
     func uploadImage(user: User, image: UIImage) async -> URL? {
