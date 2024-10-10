@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1006E8F72CB7958C00E61613 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006E8F62CB7958800E61613 /* UserRepository.swift */; };
-		A6097C5F2CB698270096CBEB /* DefaultImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6097C5E2CB698260096CBEB /* DefaultImage.swift */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
 		A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */; };
 		A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B612C22F45E00BCE7FF /* Detail.swift */; };
@@ -42,7 +41,6 @@
 
 /* Begin PBXFileReference section */
 		1006E8F62CB7958800E61613 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
-		A6097C5E2CB698260096CBEB /* DefaultImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImage.swift; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
 		A61F8B612C22F45E00BCE7FF /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 		1006E8F22CB794C500E61613 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A6097C5E2CB698260096CBEB /* DefaultImage.swift */,
 				A658BA8A2C886BC8000D7AA2 /* LibraryPickerView.swift */,
 			);
 			path = View;
@@ -307,7 +304,6 @@
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
-				A6097C5F2CB698270096CBEB /* DefaultImage.swift in Sources */,
 				1006E8F72CB7958C00E61613 /* UserRepository.swift in Sources */,
 				A65ADD682C4267F2003FBE1D /* MapView.swift in Sources */,
 				A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */,
