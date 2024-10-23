@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ThankYou: View {
-    
     @State var homeView = false
     
     var body: some View {

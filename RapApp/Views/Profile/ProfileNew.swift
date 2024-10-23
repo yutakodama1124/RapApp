@@ -12,40 +12,33 @@ import FirebaseAuth
 import Kingfisher
 
 struct ProfileNew: View {
-    
-    @State var user: User?
+    @State var user: User = .Empty()
     
     var body: some View {
         ZStack {
-            if let user = user {
-                KFImage(user.imageURL)
-                    .resizable()
-                    .placeholder { _ in Image(uiImage: UIColor.tertiarySystemFill.image())}
-                    .aspectRatio(contentMode: .fill)
-                //                .frame(width: 250, height: 250)
-                    .frame(maxHeight: .infinity)
-                    .cornerRadius(25)
-            } else {
-                DefaultImage()
-            }
+            KFImage(user.imageURL)
+                .resizable()
+                .placeholder { _ in Image(uiImage: UIColor.tertiarySystemFill.image())}
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 250, height: 250)
+                .frame(maxHeight: .infinity)
+                .cornerRadius(25)
             
             ZStack {
-                            Rectangle()
-                                .fill(Color.white)
-                                .frame(width: 350, height: 380)
-                                .cornerRadius(30)
-                                .shadow(color: .gray, radius: 10)
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: 350, height: 380)
+                    .cornerRadius(30)
+                    .shadow(color: .gray, radius: 10)
                 
                 VStack(spacing: 30) {
                     HStack {
                         Image(systemName: "person.circle")
                             .font(.system(size: 35))
                         
-                        if let user {
-                            Text(user.name)
-                                .font(.system(size: 35, weight:
-                                        .heavy, design: .rounded))
-                        }
+                        Text(user.name)
+                            .font(.system(size: 35, weight:
+                                    .heavy, design: .rounded))
                     }
                     .frame(maxWidth: 310, alignment: .center)
                     
@@ -85,10 +78,8 @@ struct ProfileNew: View {
                             .foregroundStyle(.gray)
                             .font(.system(size: 15, weight: .medium, design: .rounded))
                         
-                        if let user {
-                            Text(user.school)
-                                .font(.system(size: 20, weight: .medium, design: .rounded))
-                        }
+                        Text(user.school)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
                     }
                     .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                     
@@ -97,10 +88,8 @@ struct ProfileNew: View {
                             .foregroundStyle(.gray)
                             .font(.system(size: 15, weight: .medium, design: .rounded))
                         
-                        if let user {
-                            Text(user.job)
-                                .font(.system(size: 20, weight: .medium, design: .rounded))
-                        }
+                        Text(user.job)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
                     }
                     .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                     
@@ -109,22 +98,16 @@ struct ProfileNew: View {
                             .foregroundStyle(.gray)
                             .font(.system(size: 15, weight: .medium, design: .rounded))
                         
-                        if let user {
-                            
-                            Text(user.hobby)
-                                .font(.system(size: 20, weight: .medium, design: .rounded))
-                        }
+                        Text(user.hobby)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
                     }
                     .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                 }
             }
             .offset(y: 140)
-            .task {
-                user = await AppDelegate.getUser()
-            }
         }
     }
 }
 #Preview {
-    ProfileNew(user: User(imageURL: URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!, name: "", school: "", hobby: "", job: ""))
+    ProfileNew(user: .Empty())
 }

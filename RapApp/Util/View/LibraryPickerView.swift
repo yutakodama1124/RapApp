@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 
-struct Profilepic: UIViewControllerRepresentable {
+struct LibraryPickerView: UIViewControllerRepresentable {
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Binding var selectedImage: UIImage?
     
@@ -21,9 +21,9 @@ struct Profilepic: UIViewControllerRepresentable {
     }
     
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        var parent: Profilepic
+        var parent: LibraryPickerView
         
-        init(_ parent: Profilepic) {
+        init(_ parent: LibraryPickerView) {
             self.parent = parent
         }
         

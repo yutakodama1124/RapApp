@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Codable, Identifiable {
+    var id: String
     var imageURL: URL
     var name: String
     var school: String
@@ -15,7 +16,6 @@ struct User: Codable {
     var job: String
     
     static func Empty() -> User {
-        return User(imageURL: URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!, name: "", school: "", hobby: "", job: "")
+        return User(id: "", imageURL: URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!, name: "", school: "", hobby: "", job: "")
     }
-     
 }

@@ -11,8 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 struct ProfileEdit: View {
-    
-    @State var user: User?
+    @State var user: User = .Empty()
     @State private var selectedImage: UIImage?
     @State private var isShowingImagePicker = false
     @State private var imageURL: URL?
@@ -20,6 +19,8 @@ struct ProfileEdit: View {
     @State private var school = ""
     @State private var hobby = ""
     @State private var job = ""
+    
+    private let repository: UserGateway = UserGateway()
     
     var body: some View {
         ScrollView {
@@ -37,7 +38,7 @@ struct ProfileEdit: View {
                             isShowingImagePicker = true
                         }
                         .sheet(isPresented: $isShowingImagePicker) {
-                            Profilepic(sourceType: .photoLibrary, selectedImage: $selectedImage)
+                            LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
                         }
                     } else {
                         Button("Choose Photo") {
@@ -49,7 +50,7 @@ struct ProfileEdit: View {
                         .cornerRadius(25)
                         .padding()
                         .sheet(isPresented: $isShowingImagePicker) {
-                            Profilepic(sourceType: .photoLibrary, selectedImage: $selectedImage)
+                            LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
                         }
                     }
                 }
@@ -125,14 +126,17 @@ struct ProfileEdit: View {
                 
                 Button("保存") {
                     Task {
-                        user!.imageURL = imageURL ?? URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!
-                        user!.name = name
-                        user!.school = school
-                        user!.job = job
-                        user!.hobby = hobby
-                        await AppDelegate.setUser(user: user!)
+                        user.name = name
+                        user.hobby = hobby
+                        user.school = school
+                        user.job = job
+                        
+                        let storeImage = selectedImage ?? UIImage(systemName: "person.crop.circle")!
+                        let storedImageURL = await repository.uploadImage(user: user, image: storeImage)
+                        user.imageURL = storedImageURL ?? user.imageURL
+                        
+                        await repository.storeUser(from: user)
                     }
-                    uploadImage()
                 }
                 .frame(width: 100, height: 70)
                 .foregroundColor(.white)
@@ -142,69 +146,22 @@ struct ProfileEdit: View {
             }
         }
         .task {
-            self.user = await AppDelegate.getUser()
-            self.name = self.user!.name
-            self.school = self.user!.school
-            self.job = self.user!.job
-            self.hobby = self.user!.hobby
-        }
-    }
-    func uploadImage() {
-        guard let image = selectedImage else { return }
-        let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")
-        if let imageData = image.jpegData(compressionQuality: 0.8) {
-            storageRef.putData(imageData, metadata: nil) { metadata, error in
-                if let error = error {
-                    print("Error uploading image: \(error.localizedDescription)")
-                    return
-                }
-                storageRef.downloadURL { url, error in
-                    if let error = error {
-                        print("Error getting download URL: \(error.localizedDescription)")
-                        return
-                    }
-                    guard let url = url else { return }
-                    imageURL = url
-                    saveImageUrlToFirestore(url: url)
-                }
-            }
-        }
-    }
-    
-    func saveImageUrlToFirestore(url: URL) {
-        let db = Firestore.firestore()
-        db.collection("images").addDocument(data: ["url": url.absoluteString]) { error in
-            if let error = error {
-                print("Error saving image URL to Firestore: \(error.localizedDescription)")
-            } else {
-                fetchImageUrl()
-            }
-        }
-    }
-    
-    func fetchImageUrl() {
-        let db = Firestore.firestore()
-        db.collection("images").getDocuments { snapshot, error in
-            if let error = error {
-                print("Error fetching image URLs: \(error.localizedDescription)")
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("ログインしているユーザーが見つかりません")
                 return
             }
-            if let documents = snapshot?.documents, let urlString = documents.last?.data()["url"] as? String, let url = URL(string: urlString) {
-                imageURL = url
-                downloadImage(from: url)
+            
+            guard let user = await repository.fetchUser(userId: uid) else {
+                print("ユーザー情報が取得できませんでした")
+                return
             }
+            
+            self.user = user
+            self.name = user.name
+            self.imageURL = user.imageURL
+            self.school = user.school
+            self.hobby = user.hobby
         }
-    }
-    
-    func downloadImage(from url: URL) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data, let downloadedImage = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    selectedImage = downloadedImage
-                }
-            }
-        }
-        task.resume()
     }
 }
 

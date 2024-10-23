@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A6097C5F2CB698270096CBEB /* DefaultImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6097C5E2CB698260096CBEB /* DefaultImage.swift */; };
+		1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006E8F62CB7958800E61613 /* UserGateway.swift */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
 		A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */; };
 		A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B612C22F45E00BCE7FF /* Detail.swift */; };
@@ -20,9 +20,9 @@
 		A658BA832C8740C1000D7AA2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA822C8740C1000D7AA2 /* User.swift */; };
 		A658BA862C874E3A000D7AA2 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A658BA852C874E3A000D7AA2 /* FirebaseFirestoreSwift */; };
 		A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA872C8868D3000D7AA2 /* ProfileEdit.swift */; };
-		A658BA8B2C886BC8000D7AA2 /* PicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA8A2C886BC8000D7AA2 /* PicManager.swift */; };
+		A658BA8B2C886BC8000D7AA2 /* LibraryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA8A2C886BC8000D7AA2 /* LibraryPickerView.swift */; };
 		A658BA8E2C886C1B000D7AA2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A658BA8D2C886C1B000D7AA2 /* Kingfisher */; };
-		A658BA902C8875C4000D7AA2 /* placeholderpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA8F2C8875C4000D7AA2 /* placeholderpic.swift */; };
+		A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA8F2C8875C4000D7AA2 /* ColorExt.swift */; };
 		A65ADD492C3E9125003FBE1D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A65ADD482C3E9125003FBE1D /* FirebaseFirestore */; };
 		A65ADD4B2C3E9152003FBE1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A65ADD4A2C3E9152003FBE1D /* FirebaseStorage */; };
 		A65ADD682C4267F2003FBE1D /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65ADD672C4267F2003FBE1D /* MapView.swift */; };
@@ -40,7 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A6097C5E2CB698260096CBEB /* DefaultImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImage.swift; sourceTree = "<group>"; };
+		1006E8F62CB7958800E61613 /* UserGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGateway.swift; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
 		A61F8B612C22F45E00BCE7FF /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -51,9 +51,9 @@
 		A658BA7C2C82F11B000D7AA2 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		A658BA822C8740C1000D7AA2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A658BA872C8868D3000D7AA2 /* ProfileEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEdit.swift; sourceTree = "<group>"; };
-		A658BA8A2C886BC8000D7AA2 /* PicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicManager.swift; sourceTree = "<group>"; };
-		A658BA8F2C8875C4000D7AA2 /* placeholderpic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placeholderpic.swift; sourceTree = "<group>"; };
-		A65ADD662C4263AD003FBE1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A658BA8A2C886BC8000D7AA2 /* LibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPickerView.swift; sourceTree = "<group>"; };
+		A658BA8F2C8875C4000D7AA2 /* ColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExt.swift; sourceTree = "<group>"; };
+		A65ADD662C4263AD003FBE1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A65ADD672C4267F2003FBE1D /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		A6E39B402C2C2E2600B13377 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A6EDA3CE2C19B07C002A2C23 /* RapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,10 +86,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1006E8F12CB7941200E61613 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A658BA8F2C8875C4000D7AA2 /* ColorExt.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1006E8F22CB794C500E61613 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A658BA8A2C886BC8000D7AA2 /* LibraryPickerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1006E8F32CB794E200E61613 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				A658BA822C8740C1000D7AA2 /* User.swift */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		1006E8F52CB7958100E61613 /* Gateway */ = {
+			isa = PBXGroup;
+			children = (
+				1006E8F62CB7958800E61613 /* UserGateway.swift */,
+			);
+			path = Gateway;
+			sourceTree = "<group>";
+		};
+		1006E8F82CB79BA200E61613 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				A658BA872C8868D3000D7AA2 /* ProfileEdit.swift */,
+				A658BA552C6C350E000D7AA2 /* ProfileNew.swift */,
+				A6EDA3DF2C19B5A9002A2C23 /* Profile.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		A6097C5D2CB6980F0096CBEB /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				A6097C5E2CB698260096CBEB /* DefaultImage.swift */,
+				1006E8F22CB794C500E61613 /* View */,
+				A658BA732C75F257000D7AA2 /* SoundPlayer.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -103,52 +146,16 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		A658BA7F2C82F3C6000D7AA2 /* Music */ = {
-			isa = PBXGroup;
-			children = (
-				A658BA732C75F257000D7AA2 /* SoundPlayer.swift */,
-			);
-			path = Music;
-			sourceTree = "<group>";
-		};
 		A658BA802C82F3D7000D7AA2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A6EDA3D32C19B07C002A2C23 /* ContentView.swift */,
+				1006E8F82CB79BA200E61613 /* Profile */,
 				A65ADD672C4267F2003FBE1D /* MapView.swift */,
-				A6EDA3DF2C19B5A9002A2C23 /* Profile.swift */,
-				A658BA552C6C350E000D7AA2 /* ProfileNew.swift */,
-				A658BA872C8868D3000D7AA2 /* ProfileEdit.swift */,
 				A61F8B612C22F45E00BCE7FF /* Detail.swift */,
 				A61F8B5D2C22E70C00BCE7FF /* Battle.swift */,
 				A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		A658BA812C8740AC000D7AA2 /* User */ = {
-			isa = PBXGroup;
-			children = (
-				A658BA822C8740C1000D7AA2 /* User.swift */,
-			);
-			path = User;
-			sourceTree = "<group>";
-		};
-		A658BA842C874A8C000D7AA2 /* RapApp */ = {
-			isa = PBXGroup;
-			children = (
-				A6EDA3D12C19B07C002A2C23 /* RapAppApp.swift */,
-			);
-			path = RapApp;
-			sourceTree = "<group>";
-		};
-		A658BA892C886BB0000D7AA2 /* Photo */ = {
-			isa = PBXGroup;
-			children = (
-				A658BA8A2C886BC8000D7AA2 /* PicManager.swift */,
-				A658BA8F2C8875C4000D7AA2 /* placeholderpic.swift */,
-			);
-			path = Photo;
 			sourceTree = "<group>";
 		};
 		A65ADD472C3E9125003FBE1D /* Frameworks */ = {
@@ -179,14 +186,15 @@
 		A6EDA3D02C19B07C002A2C23 /* RapApp */ = {
 			isa = PBXGroup;
 			children = (
+				A6EDA3D12C19B07C002A2C23 /* RapAppApp.swift */,
+				A6EDA3D32C19B07C002A2C23 /* ContentView.swift */,
+				1006E8F52CB7958100E61613 /* Gateway */,
+				1006E8F32CB794E200E61613 /* DataModel */,
+				1006E8F12CB7941200E61613 /* Extension */,
 				A6097C5D2CB6980F0096CBEB /* Util */,
 				A658BA542C674538000D7AA2 /* RapApp.entitlements */,
 				A65ADD662C4263AD003FBE1D /* Info.plist */,
-				A658BA842C874A8C000D7AA2 /* RapApp */,
-				A658BA812C8740AC000D7AA2 /* User */,
 				A658BA7E2C82F3AD000D7AA2 /* Auth */,
-				A658BA892C886BB0000D7AA2 /* Photo */,
-				A658BA7F2C82F3C6000D7AA2 /* Music */,
 				A658BA802C82F3D7000D7AA2 /* Views */,
 				A6EDA3D52C19B07D002A2C23 /* Assets.xcassets */,
 				A6EDA3D72C19B07D002A2C23 /* Preview Content */,
@@ -296,12 +304,12 @@
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
-				A6097C5F2CB698270096CBEB /* DefaultImage.swift in Sources */,
+				1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */,
 				A65ADD682C4267F2003FBE1D /* MapView.swift in Sources */,
 				A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */,
-				A658BA902C8875C4000D7AA2 /* placeholderpic.swift in Sources */,
+				A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */,
 				A6EDA3E02C19B5A9002A2C23 /* Profile.swift in Sources */,
-				A658BA8B2C886BC8000D7AA2 /* PicManager.swift in Sources */,
+				A658BA8B2C886BC8000D7AA2 /* LibraryPickerView.swift in Sources */,
 				A658BA7D2C82F11B000D7AA2 /* AuthViewModel.swift in Sources */,
 				A658BA832C8740C1000D7AA2 /* User.swift in Sources */,
 				A658BA562C6C350E000D7AA2 /* ProfileNew.swift in Sources */,
