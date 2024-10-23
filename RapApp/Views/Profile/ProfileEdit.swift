@@ -20,7 +20,7 @@ struct ProfileEdit: View {
     @State private var hobby = ""
     @State private var job = ""
     
-    private let repository: UserRepository = UserRepository()
+    private let repository: UserGateway = UserGateway()
     
     var body: some View {
         ScrollView {

@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import FirebaseStorage
 
-class UserRepository {
+class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
     
     func fetchUser(userId: String) async -> User? {
