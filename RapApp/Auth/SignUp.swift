@@ -17,6 +17,7 @@ struct SignUp: View {
     @State private var isLoggedIn = false
     @State var isAuthenticated = false
     @ObservedObject var viewModel: AuthViewModel
+    private let userGateway = UserGateway()
     
     var body: some View {
         NavigationStack {
@@ -53,6 +54,13 @@ struct SignUp: View {
                             }
                             print("signed in")
                             self.isAuthenticated = true
+                            
+                            var authUser = User.Empty()
+                            authUser.id = (authResult?.user.uid)!
+                            
+                            Task {
+                                await userGateway.storeUser(from: authUser)
+                            }
                             
                             
                             print("\(String(describing: Auth.auth().currentUser?.uid))")

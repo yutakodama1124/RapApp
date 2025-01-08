@@ -25,7 +25,10 @@
 		A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A658BA8F2C8875C4000D7AA2 /* ColorExt.swift */; };
 		A65ADD492C3E9125003FBE1D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A65ADD482C3E9125003FBE1D /* FirebaseFirestore */; };
 		A65ADD4B2C3E9152003FBE1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A65ADD4A2C3E9152003FBE1D /* FirebaseStorage */; };
-		A65ADD682C4267F2003FBE1D /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65ADD672C4267F2003FBE1D /* MapView.swift */; };
+		A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65AFC842CC90ECF0020A67B /* LocationGateway.swift */; };
+		A65AFC872CC910610020A67B /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65AFC862CC910610020A67B /* UserLocation.swift */; };
+		A6C32BF62CE4BA67003FC0C7 /* Geohash in Frameworks */ = {isa = PBXBuildFile; productRef = A6C32BF52CE4BA67003FC0C7 /* Geohash */; };
+		A6C32BF82CEDF9EC003FC0C7 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */; };
 		A6E39B412C2C2E2600B13377 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6E39B402C2C2E2600B13377 /* GoogleService-Info.plist */; };
 		A6E39B442C2C2ED600B13377 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A6E39B432C2C2ED600B13377 /* FirebaseAnalytics */; };
 		A6E39B462C2C2ED600B13377 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = A6E39B452C2C2ED600B13377 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -54,7 +57,9 @@
 		A658BA8A2C886BC8000D7AA2 /* LibraryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPickerView.swift; sourceTree = "<group>"; };
 		A658BA8F2C8875C4000D7AA2 /* ColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExt.swift; sourceTree = "<group>"; };
 		A65ADD662C4263AD003FBE1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A65ADD672C4267F2003FBE1D /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		A65AFC842CC90ECF0020A67B /* LocationGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGateway.swift; sourceTree = "<group>"; };
+		A65AFC862CC910610020A67B /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
+		A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		A6E39B402C2C2E2600B13377 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A6EDA3CE2C19B07C002A2C23 /* RapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6EDA3D12C19B07C002A2C23 /* RapAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapAppApp.swift; sourceTree = "<group>"; };
@@ -75,6 +80,7 @@
 				A6E39B4C2C2C2ED600B13377 /* FirebaseAppCheck in Frameworks */,
 				A658BA7B2C82B094000D7AA2 /* FirebaseAuth in Frameworks */,
 				A658BA862C874E3A000D7AA2 /* FirebaseFirestoreSwift in Frameworks */,
+				A6C32BF62CE4BA67003FC0C7 /* Geohash in Frameworks */,
 				A65ADD4B2C3E9152003FBE1D /* FirebaseStorage in Frameworks */,
 				A658BA792C7E1891000D7AA2 /* MijickPopupView in Frameworks */,
 				A658BA8E2C886C1B000D7AA2 /* Kingfisher in Frameworks */,
@@ -106,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				A658BA822C8740C1000D7AA2 /* User.swift */,
+				A65AFC862CC910610020A67B /* UserLocation.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -114,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				1006E8F62CB7958800E61613 /* UserGateway.swift */,
+				A65AFC842CC90ECF0020A67B /* LocationGateway.swift */,
 			);
 			path = Gateway;
 			sourceTree = "<group>";
@@ -150,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				1006E8F82CB79BA200E61613 /* Profile */,
-				A65ADD672C4267F2003FBE1D /* MapView.swift */,
+				A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */,
 				A61F8B612C22F45E00BCE7FF /* Detail.swift */,
 				A61F8B5D2C22E70C00BCE7FF /* Battle.swift */,
 				A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */,
@@ -238,6 +246,7 @@
 				A658BA7A2C82B094000D7AA2 /* FirebaseAuth */,
 				A658BA852C874E3A000D7AA2 /* FirebaseFirestoreSwift */,
 				A658BA8D2C886C1B000D7AA2 /* Kingfisher */,
+				A6C32BF52CE4BA67003FC0C7 /* Geohash */,
 			);
 			productName = RapApp;
 			productReference = A6EDA3CE2C19B07C002A2C23 /* RapApp.app */;
@@ -271,6 +280,7 @@
 				A6E39B422C2C2ED600B13377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				A658BA772C7E1891000D7AA2 /* XCRemoteSwiftPackageReference "PopupView" */,
 				A658BA8C2C886C1B000D7AA2 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				A6C32BF42CE4BA67003FC0C7 /* XCRemoteSwiftPackageReference "Geohash" */,
 			);
 			productRefGroup = A6EDA3CF2C19B07C002A2C23 /* Products */;
 			projectDirPath = "";
@@ -300,12 +310,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A658BA742C75F257000D7AA2 /* SoundPlayer.swift in Sources */,
+				A6C32BF82CEDF9EC003FC0C7 /* MapView.swift in Sources */,
 				A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */,
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
+				A65AFC872CC910610020A67B /* UserLocation.swift in Sources */,
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
 				1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */,
-				A65ADD682C4267F2003FBE1D /* MapView.swift in Sources */,
+				A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */,
 				A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */,
 				A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */,
 				A6EDA3E02C19B5A9002A2C23 /* Profile.swift in Sources */,
@@ -560,6 +572,14 @@
 				minimumVersion = 7.12.0;
 			};
 		};
+		A6C32BF42CE4BA67003FC0C7 /* XCRemoteSwiftPackageReference "Geohash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nh7a/Geohash.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		A6E39B422C2C2ED600B13377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -600,6 +620,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A6E39B422C2C2ED600B13377 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		A6C32BF52CE4BA67003FC0C7 /* Geohash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6C32BF42CE4BA67003FC0C7 /* XCRemoteSwiftPackageReference "Geohash" */;
+			productName = Geohash;
 		};
 		A6E39B432C2C2ED600B13377 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

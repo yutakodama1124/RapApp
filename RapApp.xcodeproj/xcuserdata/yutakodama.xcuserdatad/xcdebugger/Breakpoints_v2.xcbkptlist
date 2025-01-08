@@ -18,53 +18,6 @@
             endingLineNumber = "27"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "73270D0D-11D9-4FEC-9B04-49D05580A135 - fb99eb60ca8976d2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RapApp.MapView.body.getter : some"
-                  moduleName = "RapApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yutakodama/Desktop/My%20projects/RapApp/RapApp/MapView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "1752">
-               </Location>
-               <Location
-                  uuid = "73270D0D-11D9-4FEC-9B04-49D05580A135 - c658eff3f88eb116"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Sendable () async -&gt; () in RapApp.MapView.body.getter : some"
-                  moduleName = "RapApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yutakodama/Desktop/My%20projects/RapApp/RapApp/MapView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "176">
-               </Location>
-               <Location
-                  uuid = "73270D0D-11D9-4FEC-9B04-49D05580A135 - df6c11c91efa2426"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #3 @Sendable () async -&gt; () in RapApp.MapView.body.getter : some"
-                  moduleName = "RapApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yutakodama/Desktop/My%20projects/RapApp/RapApp/MapView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
