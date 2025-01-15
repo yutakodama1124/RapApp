@@ -29,7 +29,11 @@ class LocationGateway {
         let db = Firestore.firestore()
         do {
             print("Location successfully recieved")
-            return try await db.collection("locations").getDocuments().documents.compactMap { try? $0.data(as: UserLocation.self)}
+            let json = try await db.collection("locations").getDocuments().documents
+            
+            print("json: \(json)")
+            
+            return json.compactMap { try? $0.data(as: UserLocation.self)}
         } catch {
             print("Error fetching location: \(error.localizedDescription)")
         }

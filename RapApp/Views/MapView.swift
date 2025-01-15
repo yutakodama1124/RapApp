@@ -45,9 +45,8 @@ struct MapView: View {
                 Spacer()
                 
                 Button(action: {
-                    //isRecievingLocation()
-toggleSavingLocation()
-                    
+                    isRecievingLocation()
+                    toggleSavingLocation()
                 }) {
                     Text(isSavingLocation ? "Stop Saving Location" : "Start Saving Location")
                         .padding()

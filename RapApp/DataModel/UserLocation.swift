@@ -21,6 +21,7 @@ struct UserLocation : Codable {
     
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
         try container.encode(self.latitude, forKey: .latitude)
         try container.encode(self.longitude, forKey: .longitude)
         try container.encode(self.userId, forKey: .userId)
