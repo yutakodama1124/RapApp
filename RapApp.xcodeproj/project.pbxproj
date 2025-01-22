@@ -128,9 +128,8 @@
 		1006E8F52CB7958100E61613 /* Gateway */ = {
 			isa = PBXGroup;
 			children = (
+				108640182D40EDA0004DB57E /* protocol */,
 				108640132D40EC10004DB57E /* dummy */,
-				108640112D40EA83004DB57E /* UserGatewayProtocol.swift */,
-				1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */,
 				1006E8F62CB7958800E61613 /* UserGateway.swift */,
 				A65AFC842CC90ECF0020A67B /* LocationGateway.swift */,
 			);
@@ -156,6 +155,32 @@
 			path = dummy;
 			sourceTree = "<group>";
 		};
+		108640182D40EDA0004DB57E /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */,
+				108640112D40EA83004DB57E /* UserGatewayProtocol.swift */,
+			);
+			path = protocol;
+			sourceTree = "<group>";
+		};
+		108640192D40EDB2004DB57E /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		1086401A2D40EDC0004DB57E /* Battle */ = {
+			isa = PBXGroup;
+			children = (
+				A61F8B5D2C22E70C00BCE7FF /* Battle.swift */,
+				A61F8B612C22F45E00BCE7FF /* Detail.swift */,
+			);
+			path = Battle;
+			sourceTree = "<group>";
+		};
 		A6097C5D2CB6980F0096CBEB /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,10 +202,9 @@
 		A658BA802C82F3D7000D7AA2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1086401A2D40EDC0004DB57E /* Battle */,
+				108640192D40EDB2004DB57E /* Map */,
 				1006E8F82CB79BA200E61613 /* Profile */,
-				A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */,
-				A61F8B612C22F45E00BCE7FF /* Detail.swift */,
-				A61F8B5D2C22E70C00BCE7FF /* Battle.swift */,
 				A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */,
 			);
 			path = Views;
