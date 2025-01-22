@@ -11,9 +11,7 @@ import CoreLocation
 import MapKit
 
 
-class LocationGateway {
-    
-    
+class LocationGateway : LocationGatewayProtocol {
     func saveLocation(location: UserLocation) async {
         let db = Firestore.firestore()
         

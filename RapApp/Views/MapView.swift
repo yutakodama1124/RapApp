@@ -70,7 +70,7 @@ struct MapView: View {
         }
     }
     func isRecievingLocation() {
-        let gateway = LocationGateway()
+        let gateway = LocationGatewayDummy()
         Task {
             let result = await gateway.getLocations()
             print("result ; ", result)
@@ -89,7 +89,7 @@ struct MapView: View {
     func startSavingLocation() {
         isSavingLocation = true
         saveTask = Task {
-            let gateway = LocationGateway()
+            let gateway = LocationGatewayDummy()
             while isSavingLocation {
                 try? await Task.sleep(for: .seconds(60))
                 

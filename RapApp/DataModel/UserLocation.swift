@@ -11,7 +11,7 @@ import Geohash
 import FirebaseFirestoreSwift
 
 struct UserLocation : Codable {
-    @DocumentID var id: String?
+    let id: UUID
     let latitude: Double
     let longitude: Double
     let userId: String
@@ -29,7 +29,7 @@ struct UserLocation : Codable {
     }
     
     init(latitude: Double, longitude: Double, userId: String) {
-        self.id = UUID().uuidString
+        self.id = UUID()
         self.latitude = latitude
         self.longitude = longitude
         self.userId = userId
@@ -41,12 +41,11 @@ struct UserLocation : Codable {
         let longtitudeStr = try container.decode(String.self, forKey: .longitude)
         let latitudeStr = try container.decode(String.self, forKey: .latitude)
         
-        self.id = idStr
+        self.id = UUID(uuidString: idStr)!
         self.longitude = Double(longtitudeStr) ?? 0
         self.latitude = Double(latitudeStr) ?? 0
         self.userId = try container.decode(String.self, forKey: .userId)
     }
-    
     
     enum CodingKeys: String, CodingKey {
         case id

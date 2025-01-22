@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006E8F62CB7958800E61613 /* UserGateway.swift */; };
+		108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */; };
+		108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640112D40EA83004DB57E /* UserGatewayProtocol.swift */; };
+		108640152D40EC1A004DB57E /* LocationDummyGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640142D40EC16004DB57E /* LocationDummyGateway.swift */; };
+		108640172D40ECE3004DB57E /* UserDummyGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640162D40ECDF004DB57E /* UserDummyGateway.swift */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
 		A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */; };
 		A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B612C22F45E00BCE7FF /* Detail.swift */; };
@@ -44,6 +48,10 @@
 
 /* Begin PBXFileReference section */
 		1006E8F62CB7958800E61613 /* UserGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGateway.swift; sourceTree = "<group>"; };
+		1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGatewayProtocol.swift; sourceTree = "<group>"; };
+		108640112D40EA83004DB57E /* UserGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGatewayProtocol.swift; sourceTree = "<group>"; };
+		108640142D40EC16004DB57E /* LocationDummyGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDummyGateway.swift; sourceTree = "<group>"; };
+		108640162D40ECDF004DB57E /* UserDummyGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDummyGateway.swift; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
 		A61F8B612C22F45E00BCE7FF /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -120,6 +128,9 @@
 		1006E8F52CB7958100E61613 /* Gateway */ = {
 			isa = PBXGroup;
 			children = (
+				108640132D40EC10004DB57E /* dummy */,
+				108640112D40EA83004DB57E /* UserGatewayProtocol.swift */,
+				1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */,
 				1006E8F62CB7958800E61613 /* UserGateway.swift */,
 				A65AFC842CC90ECF0020A67B /* LocationGateway.swift */,
 			);
@@ -134,6 +145,15 @@
 				A6EDA3DF2C19B5A9002A2C23 /* Profile.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		108640132D40EC10004DB57E /* dummy */ = {
+			isa = PBXGroup;
+			children = (
+				108640162D40ECDF004DB57E /* UserDummyGateway.swift */,
+				108640142D40EC16004DB57E /* LocationDummyGateway.swift */,
+			);
+			path = dummy;
 			sourceTree = "<group>";
 		};
 		A6097C5D2CB6980F0096CBEB /* Util */ = {
@@ -316,14 +336,18 @@
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
 				A65AFC872CC910610020A67B /* UserLocation.swift in Sources */,
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
+				108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */,
 				1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */,
 				A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */,
+				108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */,
 				A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */,
 				A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */,
 				A6EDA3E02C19B5A9002A2C23 /* Profile.swift in Sources */,
+				108640152D40EC1A004DB57E /* LocationDummyGateway.swift in Sources */,
 				A658BA8B2C886BC8000D7AA2 /* LibraryPickerView.swift in Sources */,
 				A658BA7D2C82F11B000D7AA2 /* AuthViewModel.swift in Sources */,
 				A658BA832C8740C1000D7AA2 /* User.swift in Sources */,
+				108640172D40ECE3004DB57E /* UserDummyGateway.swift in Sources */,
 				A658BA562C6C350E000D7AA2 /* ProfileNew.swift in Sources */,
 				A658BA582C75EDE7000D7AA2 /* SignUp.swift in Sources */,
 				A6EDA3D22C19B07C002A2C23 /* RapAppApp.swift in Sources */,
