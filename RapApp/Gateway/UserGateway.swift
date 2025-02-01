@@ -1,54 +1,71 @@
 //
-//  UserRepository.swift
+//  UserGateway 2.swift
 //  RapApp
 //
-//  Created by 浦山秀斗 on 2024/10/10.
+//  Created by yuta kodama on 2025/01/29.
 //
 
+
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseStorage
+import UIKit
 
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
     
     func fetchUser(userId: String) async -> User? {
         do {
-            return try await COLLECTION
-                .document(userId)
-                .getDocument()
-                .data(as: User.self)
-        } catch let error as NSError {
-            print("Userの取得に失敗しました: \(error.localizedDescription)")
-            return nil
+            let document = try await COLLECTION.document(userId).getDocument()
+            if let data = document.data() {
+                var user = try Firestore.Decoder().decode(User.self, from: data)
+                
+                if user.imageURL.isEmpty {
+                    user.imageURL = "https://example.com/default-profile.png"
+                }
+                
+                return user
+            }
+        } catch {
+            print("Failed to fetch user: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
+    func storeUser(user: User) async -> Bool {
+        do {
+            let encoder = Firestore.Encoder()
+            encoder.dateEncodingStrategy = .timestamp  // Ensure `Date` is stored correctly
+            try await COLLECTION.document(user.id).setData(from: user, encoder: encoder)
+            print("User saved successfully!")
+            return true
+        } catch {
+            print("Failed to save user: \(error.localizedDescription)")
+            return false
         }
     }
     
-    func storeUser(from user: User) async {
-        try! COLLECTION.document(user.id).setData(from: user)
-    }
-    
-    func uploadImage(user: User, image: UIImage) async -> URL? {
+    func uploadImage(user: User, image: UIImage) async -> (success: Bool, url: String?) {
         let storageRef = Storage.storage().reference().child("images/\(user.id).jpg")
         
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            print("画像の変換に失敗しました")
-            return nil
+            print("Failed to convert image to data.")
+            return (false, nil)
         }
         
         do {
             let _ = try await storageRef.putDataAsync(imageData, metadata: nil)
+            let downloadURL = try await storageRef.downloadURL()
+            
+            var updatedUser = user
+            updatedUser.imageURL = downloadURL.absoluteString
+            
+            let success = await storeUser(user: updatedUser)
+            return (success, downloadURL.absoluteString)
+            
         } catch {
-            print("画像のアップロードに失敗しました: \(error.localizedDescription)")
-            return nil
+            print("Failed to upload image: \(error.localizedDescription)")
+            return (false, nil)
         }
-        
-        do {
-            return try await storageRef.downloadURL()
-        } catch {
-            print("URLの取得に失敗しました: \(error.localizedDescription)")
-        }
-        
-        print("不明なエラー")
-        return nil
     }
 }

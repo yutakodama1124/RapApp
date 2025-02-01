@@ -6,16 +6,19 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct User: Codable, Identifiable {
     var id: String
-    var imageURL: URL
+    var imageURL: String
     var name: String
     var school: String
     var hobby: String
     var job: String
+    var favrapper: String
+    @ServerTimestamp var birthday: Date?
     
     static func Empty() -> User {
-        return User(id: "", imageURL: URL(string: "https://louisville.edu/enrollmentmanagement/images/person-icon/image")!, name: "", school: "", hobby: "", job: "")
+        return User(id: "", imageURL: "", name: "", school: "", hobby: "", job: "", favrapper: "", birthday: Date())
     }
 }

@@ -1,107 +1,112 @@
 //
-//  Profile.swift
+//  ProfileNew.swift
 //  RapApp
 //
-//  Created by yuta kodama on 2024/06/12.
+//  Created by yuta kodama on 2024/08/13.
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import FirebaseAuth
+import Kingfisher
 
 struct Profile: View {
+    @State var user: User = .Empty()
+    
     var body: some View {
-        ScrollView {
-            VStack {
-                Rectangle()
-                    .fill(Color.gray)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 30)
-                            .stroke(.black, lineWidth: 5))
-                    .frame(width: 350, height: 350)
-                    .cornerRadius(30)
-                
-                HStack(spacing: 35) {
-                    
-                    VStack {
-                        Text("歴")
-                            .font(.system(size: 20, weight: .medium, design: .rounded))
-                        
-                        Text("3年")
-                            .font(.system(size: 30, weight: .heavy, design: .rounded))
-                    }
-                    
-                    VStack {
-                        Text("バトル数")
-                            .font(.system(size: 20, weight: .medium, design: .rounded))
-                        
-                        Text("30")
-                            .font(.system(size: 30, weight: .heavy, design: .rounded))
-                    }
-                    
-                    
-                    VStack {
-                        Text("年齢")
-                            .font(.system(size: 20, weight: .medium, design: .rounded))
-                        
-                        Text("15")
-                            .font(.system(size: 30, weight: .heavy, design: .rounded))
-                    }
-                }
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.black, lineWidth: 7))
-                .background(.white)
-                .cornerRadius(16)
-                .offset(y: -60)
-            }
+        ZStack {
+            KFImage(URL(string: user.imageURL))
+                .placeholder { _ in Image(uiImage: UIColor.tertiarySystemFill.image())}
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.top)
+                .cornerRadius(25)
             
-            VStack {
+            ZStack {
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: 350, height: 380)
+                    .cornerRadius(30)
+                    .shadow(color: .gray, radius: 10)
                 
-                Text("Yuta Kodama")
-                    .font(.system(size: 36, weight:
-                            .heavy, design: .rounded))
-                
-                Spacer(minLength: 30)
-                
-                HStack {
-                    Text("職業：")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
+                VStack(spacing: 30) {
+                    HStack {
+                        Image(systemName: "person.circle")
+                            .font(.system(size: 35))
+                        
+                        Text(user.name)
+                            .font(.system(size: 35, weight:
+                                    .heavy, design: .rounded))
+                    }
+                    .frame(maxWidth: 310, alignment: .center)
                     
-                    Text("teacher")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
-                }
-                Spacer(minLength: 30)
-                
-                HStack {
-                    Text("学校：")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
+                    HStack(spacing: 30) {
+                        VStack {
+                            Text("歴")
+                                .font(.system(size: 15, weight: .medium, design: .rounded))
+                            
+                            Text("2年")
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        }
+                        Rectangle()
+                            .frame(width: 2, height: 30)
+                        
+                        VStack {
+                            Text("バトル数")
+                                .font(.system(size: 15, weight: .medium, design: .rounded))
+                            
+                            Text("30")
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        }
+                        Rectangle()
+                            .frame(width: 2, height: 30)
+                        
+                        VStack {
+                            Text("年齢")
+                                .font(.system(size: 15, weight: .medium, design: .rounded))
+                            
+                            Text("15")
+                                .font(.system(size: 20, weight: .heavy, design: .rounded))
+                        }
+                    }
+                    .frame(maxWidth: 310, alignment: .center)
                     
-                    Text("広尾小石川")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
-                }
-                Spacer(minLength: 30)
-                
-                HStack {
-                    Text("趣味：")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
+                    VStack {
+                        Text("学校")
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 15, weight: .medium, design: .rounded))
+                        
+                        Text(user.school)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
+                    }
+                    .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                     
-                    Text("ラップバトル")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
-                }
-                Spacer(minLength: 30)
-                
-                HStack {
-                    Text("好きなラッパー：")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
+                    VStack {
+                        Text("職業")
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 15, weight: .medium, design: .rounded))
+                        
+                        Text(user.job)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
+                    }
+                    .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                     
-                    Text("晋平太")
-                        .font(.system(size: 30, weight: .medium, design: .rounded))
+                    VStack {
+                        Text("趣味")
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 15, weight: .medium, design: .rounded))
+                        
+                        Text(user.hobby)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
+                    }
+                    .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                 }
             }
-            .offset(y: -20)
+            .offset(y: 140)
         }
     }
 }
 #Preview {
-    Profile()
+    Profile(user: .Empty())
 }

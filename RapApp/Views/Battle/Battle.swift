@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct Battle: View {
+    
+    @State var isplaying = false
+    @State var nextview = false
+    
+    let musicplayer = SoundPlayer()
     var body: some View {
         VStack {
             Text("先攻")
@@ -25,6 +30,21 @@ struct Battle: View {
             Text("Yuta Kodama")
                 .font(.system(size: 30, weight: .medium, design: .rounded))
         }
+        .onAppear() {
+            Task {
+                try? await Task.sleep(for: .seconds(4))
+                await musicplayer.musicPlayer()
+                isplaying = true
+            }
+            Task {
+                try? await Task.sleep(for: .seconds(140))
+                nextview = true
+            }
+        }
+        .fullScreenCover(isPresented: $nextview) {
+           ThankYou()
+        }
+        
         Spacer().frame(height: 140)
         
         VStack {
@@ -39,6 +59,7 @@ struct Battle: View {
         }
     }
 }
+
 
 #Preview {
     Battle()

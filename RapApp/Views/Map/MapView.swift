@@ -1,13 +1,11 @@
 import SwiftUI
 import MapKit
-import Foundation
 import Firebase
 import FirebaseAuth
-import Geohash
 
 @MainActor
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    private let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager() // Correctly initialized
     @Published var currentLocation: CLLocation? // Stores the user's current location
     
     override init() {
@@ -30,68 +28,88 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 struct MapView: View {
     @ObservedObject var locationManager = LocationManager()
     @State private var saveTask: Task<Void, Never>? // Task to handle location-saving
-    @State private var isSavingLocation = false
+    @State private var fetchTask: Task<Void, Never>? // Task to handle location-receiving
     @State private var alert = false
-    @State var position: MapCameraPosition = .userLocation(fallback: .automatic)
-    @State var isshowUserSheet: Bool = false
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    )
+    @State private var isFollowingUser = true // Automatically follow user's location
+    @State private var nextpage = true
     
     var body: some View {
         ZStack {
-            Map(position: $position)
+            Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .none)
                 .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                
-                Spacer()
-                
-                Button(action: {
-                    isRecievingLocation()
-                    toggleSavingLocation()
-                }) {
-                    Text(isSavingLocation ? "Stop Saving Location" : "Start Saving Location")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                .onChange(of: locationManager.currentLocation) { location in
+                    if isFollowingUser, let location = location {
+                        region.center = location.coordinate
+                    }
                 }
-                .padding()
+                .onAppear {
+                    checkLocationAuthorization()
+                    startSavingAndReceivingLocations() // Start saving and receiving locations
+                }
+                .onDisappear {
+                    stopSavingAndReceivingLocations() // Stop saving and receiving locations
+                }
+                .alert(isPresented: $alert) {
+                    Alert(title: Text("Location Access Denied"),
+                          message: Text("Please enable location access in the Settings app."),
+                          dismissButton: .default(Text("OK")))
+                }
+            VStack{
+                Spacer ()
+                
+                ScrollView(.horizontal){
+                    HStack(spacing: 12){
+                        UserNearCell()
+                            .onTapGesture {
+                                nextpage = true
+                            }
+                            .fullScreenCover(isPresented: $nextpage) {
+                                Detail()
+                            }
+                        UserNearCell()
+                            .onTapGesture {
+                                nextpage = true
+                            }
+                            .fullScreenCover(isPresented: $nextpage) {
+                                Detail()
+                            }
+                        UserNearCell()
+                            .onTapGesture {
+                                nextpage = true
+                            }
+                            .fullScreenCover(isPresented: $nextpage) {
+                                Detail()
+                            }
+                        UserNearCell()
+                            .onTapGesture {
+                                nextpage = true
+                            }
+                            .fullScreenCover(isPresented: $nextpage) {
+                                Detail()
+                            }
+                    }
+                    .padding()
+                    
+                }
             }
         }
-        .onAppear {
-            checkLocationAuthorization()
-        }
-        .onDisappear {
-            saveTask?.cancel()
-        }
-        .alert(isPresented: $alert) {
-            Alert(title: Text("Location Access Denied"),
-                  message: Text("Please enable location access in the Settings app."),
-                  dismissButton: .default(Text("OK")))
-        }
-    }
-    func isRecievingLocation() {
-        let gateway = LocationGatewayDummy()
-        Task {
-            let result = await gateway.getLocations()
-            print("result ; ", result)
-        }
     }
     
-    
-    func toggleSavingLocation() {
-        if isSavingLocation {
-            stopSavingLocation()
-        } else {
-            startSavingLocation()
-        }
-    }
-    
-    func startSavingLocation() {
-        isSavingLocation = true
+    func startSavingAndReceivingLocations() {
+        // Start saving the user's location every 30 seconds
         saveTask = Task {
-            let gateway = LocationGatewayDummy()
-            while isSavingLocation {
-                try? await Task.sleep(for: .seconds(60))
+            let gateway = LocationGateway()
+            while true {
+                do {
+                    try await Task.sleep(for: .seconds(30)) // Save every 30 seconds
+                } catch {
+                    print("Save task interrupted: \(error)")
+                    break
+                }
                 
                 guard let location = locationManager.currentLocation else {
                     print("Location unavailable")
@@ -108,25 +126,54 @@ struct MapView: View {
                     longitude: location.coordinate.longitude,
                     userId: userID
                 )
+                
                 await gateway.saveLocation(location: userLocation)
+                print("Saved location: \(userLocation)")
+            }
+        }
+        
+        // Start receiving location info from backend every 30 seconds
+        fetchTask = Task {
+            let gateway = LocationGateway()
+            while true {
+                do {
+                    try await Task.sleep(for: .seconds(30)) // Fetch every 30 seconds
+                } catch {
+                    print("Fetch task interrupted: \(error)")
+                    break
+                }
+                
+                let result = await gateway.getLocations()
+                print("Fetched locations: \(result)")
             }
         }
     }
     
-    func stopSavingLocation() {
-        isSavingLocation = false
+    func stopSavingAndReceivingLocations() {
         saveTask?.cancel()
         saveTask = nil
+        
+        fetchTask?.cancel()
+        fetchTask = nil
     }
     
     func checkLocationAuthorization() {
-        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse &&
-            CLLocationManager.authorizationStatus() != .authorizedAlways {
+        let authorizationStatus = CLLocationManager.authorizationStatus() // Use the static method
+        switch authorizationStatus {
+        case .notDetermined:
+            locationManager.locationManager.requestWhenInUseAuthorization() // Access the internal `CLLocationManager` instance
+        case .denied, .restricted:
+            alert = true
+        case .authorizedWhenInUse, .authorizedAlways:
+            break // Location is authorized
+        @unknown default:
             alert = true
         }
     }
 }
 
-#Preview {
-    MapView()
+struct MapView_Previews: PreviewProvider {
+    static var previews: some View {
+        MapView()
+    }
 }

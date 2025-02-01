@@ -22,7 +22,7 @@ struct ContentView: View {
                     )
                     
                 }
-            ProfileNew() //2枚目の子ビュー
+            Profile() //2枚目の子ビュー
                 .tabItem {
                     Label(
                         "Profile",

@@ -30,7 +30,7 @@ struct Detail: View {
                     
                     Text("児玉勇太")
                         .foregroundStyle(.black)
-                        .font(.system(size: 25, weight:
+                        .font(.system(size: 22, weight:
                                 .heavy, design: .rounded))
                 }
             }
@@ -43,7 +43,7 @@ struct Detail: View {
                 
                 Text("８小節　２本")
                     .foregroundStyle(.black)
-                    .font(.system(size: 25, weight:
+                    .font(.system(size: 22, weight:
                             .heavy, design: .rounded))
             }
             VStack {
@@ -55,7 +55,7 @@ struct Detail: View {
                 HStack {
                     Text("バトルビートを再生")
                         .foregroundStyle(.black)
-                        .font(.system(size: 25, weight:
+                        .font(.system(size: 22, weight:
                                 .heavy, design: .rounded))
                     
                     Button
@@ -83,9 +83,6 @@ struct Detail: View {
                     .accentColor(Color.white)
                     .background(Color.black)
                     .cornerRadius(60)
-                    .fullScreenCover(isPresented: $nextView) {
-                        Battle()
-                    }
                 }
             }
             
@@ -96,10 +93,10 @@ struct Detail: View {
                 }
                 
             } label: {
-                Text("Battle!")
-                    .font(.system(size: 25, weight:
+                Text("バトル!")
+                    .font(.system(size: 22, weight:
                             .medium, design: .rounded))
-                    .frame(width: 120, height: 60)
+                    .frame(width: 140, height: 50)
             }
             .accentColor(Color.white)
             .background(Color.black)
@@ -109,6 +106,10 @@ struct Detail: View {
                 Battle()
             }
         }
+        .frame(width: 340, height: 470)
+        .cornerRadius(10)
+        .overlay(RoundedRectangle(cornerRadius: 15)
+            .stroke(.gray, lineWidth: 3))
     }
 }
 #Preview {
