@@ -16,7 +16,7 @@ struct UserLocation: Codable {
     let longitude: Double
     let userId: String
     var hash: String {
-        Geohash.encode(latitude: latitude, longitude: longitude, length: 10)
+        Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
     }
 
     // Custom encoder
@@ -36,7 +36,6 @@ struct UserLocation: Codable {
         // Decode and handle possible format inconsistencies
         let idStr = try container.decode(String.self, forKey: .id)
         self.id = UUID(uuidString: idStr) ?? UUID()
-        
         self.latitude = try container.decode(Double.self, forKey: .latitude)
         self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.userId = try container.decode(String.self, forKey: .userId)

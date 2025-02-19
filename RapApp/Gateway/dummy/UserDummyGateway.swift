@@ -21,8 +21,7 @@ class UserGatewayDummy: UserGatewayProtocol {
                 school: "Tokyo University",
                 hobby: "Photography",
                 job: "Software Engineer",
-                favrapper: "Authroity",
-                birthday: Date()
+                favrapper: "Authroity"
             ),
             "user2": User(
                 id: "user2",
@@ -31,8 +30,7 @@ class UserGatewayDummy: UserGatewayProtocol {
                 school: "Kyoto University",
                 hobby: "Cycling",
                 job: "Data Scientist",
-                favrapper: "Authroity",
-                birthday: Date()
+                favrapper: "Authroity"
             ),
             "user3": User(
                 id: "user3",
@@ -41,8 +39,7 @@ class UserGatewayDummy: UserGatewayProtocol {
                 school: "Osaka University",
                 hobby: "Cooking",
                 job: "Product Manager",
-                favrapper: "Authroity",
-                birthday: Date()
+                favrapper: "Authroity"
             )
         ]
     }

@@ -9,10 +9,15 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
+import Foundation
+import CoreLocation
+import Geohash
+import MapKit
 import UIKit
 
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
+    private let db = Firestore.firestore()
     
     func fetchUser(userId: String) async -> User? {
         do {
@@ -33,14 +38,26 @@ class UserGateway {
     }
     
     func storeUser(user: User) async -> Bool {
+        let db = Firestore.firestore()
         do {
-            let encoder = Firestore.Encoder()
-            encoder.dateEncodingStrategy = .timestamp  // Ensure `Date` is stored correctly
-            try await COLLECTION.document(user.id).setData(from: user, encoder: encoder)
-            print("User saved successfully!")
-            return true
+            // Query for existing location document with the same userId
+            let querySnapshot = try await db.collection("users")
+                .whereField("userId", isEqualTo: user.id)
+                .getDocuments()
+            
+            if let existingDoc = querySnapshot.documents.first {
+                // Update existing document
+                try await existingDoc.reference.setData(from: user, merge: true)
+                print("User information successfully updated: \(user)")
+                return true
+            } else {
+                // Create new document if none exists for this user
+                try await db.collection("users").document(user.id).setData(from: user)
+                print("New user information created: \(user)")
+                return true
+            }
         } catch {
-            print("Failed to save user: \(error.localizedDescription)")
+            print("Error saving user information: \(error.localizedDescription)")
             return false
         }
     }
@@ -68,4 +85,5 @@ class UserGateway {
             return (false, nil)
         }
     }
+
 }

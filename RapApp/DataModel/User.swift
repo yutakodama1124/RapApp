@@ -16,9 +16,8 @@ struct User: Codable, Identifiable {
     var hobby: String
     var job: String
     var favrapper: String
-    @ServerTimestamp var birthday: Date?
     
     static func Empty() -> User {
-        return User(id: "", imageURL: "", name: "", school: "", hobby: "", job: "", favrapper: "", birthday: Date())
+        return User(id: "", imageURL: "", name: "", school: "", hobby: "", job: "", favrapper: "")
     }
 }

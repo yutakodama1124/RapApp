@@ -38,67 +38,37 @@ struct MapView: View {
     @State private var nextpage = true
     
     var body: some View {
-        ZStack {
-            Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .none)
-                .edgesIgnoringSafeArea(.all)
-                .onChange(of: locationManager.currentLocation) { location in
-                    if isFollowingUser, let location = location {
-                        region.center = location.coordinate
+        NavigationView {
+            ZStack {
+                Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .none)
+                    .edgesIgnoringSafeArea(.all)
+                    .onChange(of: locationManager.currentLocation) { location in
+                        if isFollowingUser, let location = location {
+                            region.center = location.coordinate
+                        }
                     }
-                }
-                .onAppear {
-                    checkLocationAuthorization()
-                    startSavingAndReceivingLocations() // Start saving and receiving locations
-                }
-                .onDisappear {
-                    stopSavingAndReceivingLocations() // Stop saving and receiving locations
-                }
-                .alert(isPresented: $alert) {
-                    Alert(title: Text("Location Access Denied"),
-                          message: Text("Please enable location access in the Settings app."),
-                          dismissButton: .default(Text("OK")))
-                }
-            VStack{
-                Spacer ()
+                    .onAppear {
+                        checkLocationAuthorization()
+                        startSavingAndReceivingLocations() // Start saving and receiving locations
+                    }
+                    .onDisappear {
+                        stopSavingAndReceivingLocations() // Stop saving and receiving locations
+                    }
+                    .alert(isPresented: $alert) {
+                        Alert(title: Text("Location Access Denied"),
+                              message: Text("Please enable location access in the Settings app."),
+                              dismissButton: .default(Text("OK")))
+                    }
                 
                 ScrollView(.horizontal){
-                    HStack(spacing: 12){
-                        UserNearCell()
-                            .onTapGesture {
-                                nextpage = true
-                            }
-                            .fullScreenCover(isPresented: $nextpage) {
-                                Detail()
-                            }
-                        UserNearCell()
-                            .onTapGesture {
-                                nextpage = true
-                            }
-                            .fullScreenCover(isPresented: $nextpage) {
-                                Detail()
-                            }
-                        UserNearCell()
-                            .onTapGesture {
-                                nextpage = true
-                            }
-                            .fullScreenCover(isPresented: $nextpage) {
-                                Detail()
-                            }
-                        UserNearCell()
-                            .onTapGesture {
-                                nextpage = true
-                            }
-                            .fullScreenCover(isPresented: $nextpage) {
-                                Detail()
-                            }
-                    }
-                    .padding()
                     
                 }
             }
+            .navigationTitle("Nearby Users")
+            .onAppear {
+            }
+            }
         }
-    }
-    
     func startSavingAndReceivingLocations() {
         // Start saving the user's location every 30 seconds
         saveTask = Task {
@@ -135,16 +105,38 @@ struct MapView: View {
         // Start receiving location info from backend every 30 seconds
         fetchTask = Task {
             let gateway = LocationGateway()
+            
             while true {
                 do {
                     try await Task.sleep(for: .seconds(30)) // Fetch every 30 seconds
                 } catch {
                     print("Fetch task interrupted: \(error)")
                     break
+                    
+                    guard let location = locationManager.currentLocation else {
+                        print("Location unavailable")
+                        continue
+                    }
+                    
+                    guard let userID = Auth.auth().currentUser?.uid else {
+                        print("User not logged in")
+                        continue
+                    }
+                    
+                    let userLocation = UserLocation(
+                        latitude: location.coordinate.latitude,
+                        longitude: location.coordinate.longitude,
+                        userId: userID
+                    )
+                    
+                    
+                    let locations = await gateway.getNearLocations(location: userLocation)
+                    
+                    // locations -> userId -> UserGateway (fetchUser) -> User -> add user array
+                    
+                    
+                    print("Fetched locations: \(locations)")
                 }
-                
-                let result = await gateway.getLocations()
-                print("Fetched locations: \(result)")
             }
         }
     }

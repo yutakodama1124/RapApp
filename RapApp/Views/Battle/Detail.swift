@@ -28,10 +28,14 @@ struct Detail: View {
                     Image(systemName: "person.circle")
                         .font(.system(size: 30))
                     
-                    Text("児玉勇太")
-                        .foregroundStyle(.black)
-                        .font(.system(size: 22, weight:
-                                .heavy, design: .rounded))
+                    VStack {
+                        Text("児玉勇太")
+                            .foregroundStyle(.black)
+                            .font(.system(size: 22, weight:
+                                    .heavy, design: .rounded))
+                        
+           
+                    }
                 }
             }
             

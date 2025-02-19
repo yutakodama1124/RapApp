@@ -150,7 +150,6 @@ struct ProfileEdit: View {
                         user.school = school
                         user.job = job
                         user.favrapper = favrapper
-                        user.birthday = birthday
                         
                         let storeImage = selectedImage ?? UIImage(systemName: "person.crop.circle")!
                         let uploadResult = await repository.uploadImage(user: user, image: storeImage)

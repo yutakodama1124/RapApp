@@ -8,10 +8,14 @@
 import Foundation
 import FirebaseFirestore
 import CoreLocation
+import Geohash
 import MapKit
 
 
 class LocationGateway: LocationGatewayProtocol {
+    
+    private let db = Firestore.firestore()
+    
     func saveLocation(location: UserLocation) async {
         let db = Firestore.firestore()
         do {
@@ -44,5 +48,11 @@ class LocationGateway: LocationGatewayProtocol {
             print("Error fetching locations: \(error.localizedDescription)")
         }
         return []
+    }
+    
+    func getNearLocations(location: UserLocation) async -> [UserLocation] {
+        let locations = await getLocations()
+        let filterdLocations = locations.filter { $0.hash == location.hash }
+        return filterdLocations
     }
 }

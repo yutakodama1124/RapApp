@@ -6,30 +6,33 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct UserNearCell: View {
+    let user: User
     
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "person.circle")
-                .font(.system(size: 70))
-                        .scaledToFit()
-                        .frame(width: 90, height: 90)
-
-                   
-                    Text("Yuta K")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                }
-        .frame(width: 110, height: 140)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .overlay(RoundedRectangle(cornerRadius: 15)
-                    .stroke(.black, lineWidth: 3))
+        VStack {
+            AsyncImage(url: URL(string: user.imageURL)) { image in
+                image.resizable()
+                     .aspectRatio(contentMode: .fill)
+                     .frame(width: 100, height: 100)
+                     .clipShape(Circle())
+            } placeholder: {
+                ProgressView()
+            }
+            
+            Text(user.name)
+                .font(.headline)
+                .lineLimit(1)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(10)
     }
-}
+    }
 
 #Preview {
-    UserNearCell()
+    UserNearCell(user: .Empty())
 }
