@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1006E8F62CB7958800E61613 /* UserGateway.swift */; };
+		101A45FE2D6F1FFC00D1F3AE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */; };
 		108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */; };
 		108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640112D40EA83004DB57E /* UserGatewayProtocol.swift */; };
 		108640152D40EC1A004DB57E /* LocationDummyGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640142D40EC16004DB57E /* LocationDummyGateway.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		1006E8F62CB7958800E61613 /* UserGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGateway.swift; sourceTree = "<group>"; };
+		101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGatewayProtocol.swift; sourceTree = "<group>"; };
 		108640112D40EA83004DB57E /* UserGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGatewayProtocol.swift; sourceTree = "<group>"; };
 		108640142D40EC16004DB57E /* LocationDummyGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDummyGateway.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		108640192D40EDB2004DB57E /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */,
 				A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */,
 				A69507EE2D40FF6900D4E8CF /* UserNearCell.swift */,
 				A6081AB42D65A7FA00F457F5 /* UserMapCell.swift */,
@@ -361,6 +364,7 @@
 			files = (
 				A658BA742C75F257000D7AA2 /* SoundPlayer.swift in Sources */,
 				A6C32BF82CEDF9EC003FC0C7 /* MapView.swift in Sources */,
+				101A45FE2D6F1FFC00D1F3AE /* LocationManager.swift in Sources */,
 				A6081AB52D65A7FB00F457F5 /* UserMapCell.swift in Sources */,
 				A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */,
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,

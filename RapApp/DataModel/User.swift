@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct User: Codable, Identifiable {
+struct User: Codable, Identifiable, Hashable {
     var id: String
     var imageURL: String
     var name: String
