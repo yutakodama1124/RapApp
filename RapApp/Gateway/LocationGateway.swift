@@ -37,7 +37,7 @@ class LocationGateway: LocationGatewayProtocol {
             print("Error saving location: \(error.localizedDescription)")
         }
     }
-
+    
     func getLocations() async -> [UserLocation] {
         let db = Firestore.firestore()
         do {
@@ -52,7 +52,15 @@ class LocationGateway: LocationGatewayProtocol {
     
     func getNearLocations(location: UserLocation) async -> [UserLocation] {
         let locations = await getLocations()
-        let filterdLocations = locations.filter { $0.hash == location.hash }
-        return filterdLocations
+        
+        print("📡 Fetching locations... Total: \(locations.count)")
+        
+        let filteredLocations = locations.filter {
+            print("Comparing hash: \(location.hash) == \($0.hash)")
+            return $0.hash == location.hash
+        }
+        
+        print("Nearby Users Found: \(filteredLocations.count)")
+        return filteredLocations
     }
 }

@@ -4,93 +4,63 @@ import Firebase
 import FirebaseAuth
 
 struct MapView: View {
-    private let defaultRegion: MKCoordinateRegion = .init(
+    @StateObject private var locationManager = LocationManager()
+    @State private var currentRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
-    private var locationManager = LocationManager()
-    
-    @State private var currentUser: User? = User(id: "ss", imageURL: "ss", name: "ss", school: "ss", hobby: "ss", job: "ss", favrapper: "ss")
-    
-    @State private var currentRegion: MKCoordinateRegion
-    @State private var currentLocation: UserLocation? = nil
-    
-    @State private var nearbyUsers: [User: UserLocation] = [:]
+    @State private var isShowAlert = false
+    @State private var nearbyUsers: [UserLocation] = []
 
-    @State private var isShowAlert: Bool = false
-    
-    init() {
-        currentRegion = defaultRegion
-        locationManager.locationManagerDelegate = self
-    }
-    
+    private let locationGateway = LocationGateway()
+
     var body: some View {
         NavigationView {
             ZStack {
-                Map(coordinateRegion: $currentRegion, showsUserLocation: true, userTrackingMode: .none)
+                Map(coordinateRegion: $currentRegion, showsUserLocation: true)
                     .edgesIgnoringSafeArea(.all)
                     .onAppear {
                         checkLocationAuthorization()
-                        Task {
-                            await fetchNearbyUsers() // Start saving and receiving locations
+                    }
+                    .onChange(of: locationManager.lastLocation) { newLocation in
+                        if let newLocation = newLocation {
+                            updateRegion(to: newLocation)
+                            Task {
+                                await fetchNearbyUsers()
+                            }
                         }
-                        
                     }
                     .alert(isPresented: $isShowAlert) {
-                        Alert(title: Text("Location Access Denied"),
-                              message: Text("Please enable location access in the Settings app."),
-                              dismissButton: .default(Text("OK")))
+                        Alert(
+                            title: Text("Location Access Denied"),
+                            message: Text("Please enable location access in the Settings app."),
+                            dismissButton: .default(Text("OK"))
+                        )
                     }
-                
-                ScrollView(.horizontal){
-                    
-                }
             }
             .navigationTitle("Nearby Users")
         }
     }
-    
-    
-    func fetchNearbyUsers() async {
-        let locationGateway = LocationGateway()
-        let usergateway = UserGateway()
-        
-        guard let currentLocation = currentLocation else { return }
-        let nearLocations = await locationGateway.getNearLocations(location: currentLocation)
-        
+
+    private func updateRegion(to location: CLLocation) {
+        currentRegion.center = location.coordinate
     }
-    
-    func checkLocationAuthorization() {
-        let authorizationStatus = CLLocationManager.authorizationStatus() // Use the static method
-        switch authorizationStatus {
-        case .notDetermined:
-            locationManager.locationManager.requestWhenInUseAuthorization() // Access the internal `CLLocationManager` instance
-        case .denied, .restricted:
-            isShowAlert = true
-        case .authorizedWhenInUse, .authorizedAlways:
-            break // Location is authorized
-        @unknown default:
-            isShowAlert = true
+
+    private func fetchNearbyUsers() async {
+        if let lastLocation = locationManager.lastLocation {
+            let userLocation = UserLocation(
+                latitude: lastLocation.coordinate.latitude,
+                longitude: lastLocation.coordinate.longitude,
+                userId: Auth.auth().currentUser?.uid ?? "unknown"
+            )
+            nearbyUsers = await locationGateway.getNearLocations(location: userLocation)
         }
     }
-}
 
-extension MapView : LocationManagerDelegate {
-    func onUpdateLocation(_ location: CLLocation) {
-        guard let currentUser = currentUser else { return }
-        
-        let gateway = LocationGateway()
-        
-        currentRegion.center = location.coordinate
-        
-        currentLocation = UserLocation(
-            latitude: location.coordinate.latitude,
-            longitude: location.coordinate.longitude,
-            userId: currentUser.id
-        )
-        
-        Task {
-            await gateway.saveLocation(location: currentLocation!)
+    private func checkLocationAuthorization() {
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if authorizationStatus == .denied || authorizationStatus == .restricted {
+            isShowAlert = true
         }
     }
 }

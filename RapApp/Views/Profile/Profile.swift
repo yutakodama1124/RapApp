@@ -13,6 +13,16 @@ import Kingfisher
 
 struct Profile: View {
     @State var user: User = .Empty()
+    @State private var selectedImage: UIImage?
+    @State private var isShowingImagePicker = false
+    @State private var imageURL = ""
+    @State private var name = ""
+    @State private var school = ""
+    @State private var hobby = ""
+    @State private var job = ""
+    @State private var birthday = Date()
+    @State private var favrapper = ""
+    private let repository: UserGateway = UserGateway()
     
     var body: some View {
         ZStack {
@@ -104,6 +114,24 @@ struct Profile: View {
                 }
             }
             .offset(y: 140)
+            .task {
+                guard let uid = Auth.auth().currentUser?.uid else {
+                    print("ログインしているユーザーが見つかりません")
+                    return
+                }
+                
+                guard let user = await repository.fetchUser(userId: uid) else {
+                    print("ユーザー情報が取得できませんでした")
+                    return
+                }
+                
+                self.user = user
+                self.name = user.name
+                self.imageURL = user.imageURL
+                self.school = user.school
+                self.hobby = user.hobby
+                self.favrapper = user.favrapper
+            }
         }
     }
 }

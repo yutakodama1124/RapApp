@@ -22,12 +22,12 @@ struct ContentView: View {
                     )
                     
                 }
-            Profile() //2枚目の子ビュー
+            Profile()
                 .tabItem {
                     Label(
                         "Profile",
                         systemImage: "person.circle"
-                    ) //タブバーの②
+                    ) 
                 }
             ProfileEdit()
                 .tabItem {

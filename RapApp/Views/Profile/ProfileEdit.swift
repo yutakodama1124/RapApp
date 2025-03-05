@@ -183,6 +183,7 @@ struct ProfileEdit: View {
             self.imageURL = user.imageURL
             self.school = user.school
             self.hobby = user.hobby
+            self.favrapper = user.favrapper
         }
     }
 }
