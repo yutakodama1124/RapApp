@@ -25,7 +25,7 @@ class LocationGatewayDummy: LocationGatewayProtocol {
         ]
     }
 
-    func saveLocation(location: UserLocation) async {
+    func updateUserLocation(location: UserLocation) async {
         // データを追加
         locations.append(location)
     }

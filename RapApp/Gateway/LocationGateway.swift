@@ -14,55 +14,50 @@ import MapKit
 
 class LocationGateway: LocationGatewayProtocol {
     
-    private let db = Firestore.firestore()
+    private let COLLECTION = Firestore.firestore().collection("users")
     
-    func updateUserLocation(userId: String, latitude: Double, longitude: Double) async -> Bool {
+    func updateUserLocation(user: User) async {
+        let geohash = Geohash.encode(latitude: user.latitude, longitude: user.longitude, length: 7)
         let db = Firestore.firestore()
-        let geohash = Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
-        
         do {
-            try await db.collection("users").document(userId).setData([
-                "latitude": latitude,
-                "longitude": longitude,
+            try await db.collection("users").document(user.id).setData([
+                "latitude": user.latitude,
+                "longitude": user.longitude,
                 "hash": geohash
             ], merge: true)
             
             print("User location successfully updated.")
-            return true
         } catch {
             print("Error updating user location: \(error.localizedDescription)")
+        }
+    }
+
+    func updateUserInfo(user: User) async -> Bool {
+        let db = Firestore.firestore()
+        do {
+            try await db.collection("users").document(user.id).setData([
+                "imageURL": user.imageURL,
+                "name": user.name,
+                "school": user.school,
+                "hobby": user.hobby,
+                "job": user.job,
+                "favrapper": user.favrapper
+            ], merge: true)
+            
+            print("User information successfully updated: \(user)")
+            return true
+        } catch {
+            print("Error updating user information: \(error.localizedDescription)")
             return false
         }
     }
     
-    func saveLocation(location: UserLocation) async {
-        let db = Firestore.firestore()
-        do {
-            // Query for existing location document with the same userId
-            let querySnapshot = try await db.collection("locations")
-                .whereField("userId", isEqualTo: location.userId)
-                .getDocuments()
-            
-            if let existingDoc = querySnapshot.documents.first {
-                // Update existing document
-                try await existingDoc.reference.setData(from: location, merge: true)
-                print("Location successfully updated: \(location)")
-            } else {
-                // Create new document if none exists for this user
-                try await db.collection("locations").document().setData(from: location)
-                print("New location created: \(location)")
-            }
-        } catch {
-            print("Error saving location: \(error.localizedDescription)")
-        }
-    }
-    
-    func getLocations() async -> [UserLocation] {
+    func getLocations() async -> [User] {
         let db = Firestore.firestore()
         do {
             print("Fetching locations...")
             let json = try await db.collection("locations").getDocuments().documents
-            return json.compactMap { try? $0.data(as: UserLocation.self) }
+            return json.compactMap { try? $0.data(as: User.self) }
         } catch {
             print("Error fetching locations: \(error.localizedDescription)")
         }

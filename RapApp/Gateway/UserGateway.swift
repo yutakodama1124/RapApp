@@ -17,7 +17,6 @@ import UIKit
 
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
-    private let db = Firestore.firestore()
     
     func fetchUser(userId: String) async -> User? {
         do {
@@ -57,51 +56,7 @@ class UserGateway {
         }
     }
 
-    
-    func updateUserLocation(userId: String, latitude: Double, longitude: Double) async -> Bool {
-        let db = Firestore.firestore()
-        let geohash = Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
         
-        do {
-            try await db.collection("users").document(userId).setData([
-                "latitude": latitude,
-                "longitude": longitude,
-                "hash": geohash
-            ], merge: true)
-            
-            print("User location successfully updated.")
-            return true
-        } catch {
-            print("Error updating user location: \(error.localizedDescription)")
-            return false
-        }
-    }
-    
-    func storeUser(user: User) async -> Bool {
-        let db = Firestore.firestore()
-        do {
-            // Query for existing location document with the same userId
-            let querySnapshot = try await db.collection("users")
-                .whereField("userId", isEqualTo: user.id)
-                .getDocuments()
-            
-            if let existingDoc = querySnapshot.documents.first {
-                // Update existing document
-                try await existingDoc.reference.setData(from: user, merge: true)
-                print("User information successfully updated: \(user)")
-                return true
-            } else {
-                // Create new document if none exists for this user
-                try await db.collection("users").document(user.id).setData(from: user)
-                print("New user information created: \(user)")
-                return true
-            }
-        } catch {
-            print("Error saving user information: \(error.localizedDescription)")
-            return false
-        }
-    }
-    
     func uploadImage(user: User, image: UIImage) async -> (success: Bool, url: String?) {
         let storageRef = Storage.storage().reference().child("images/\(user.id).jpg")
         
@@ -117,7 +72,7 @@ class UserGateway {
             var updatedUser = user
             updatedUser.imageURL = downloadURL.absoluteString
             
-            let success = await storeUser(user: updatedUser)
+            let success = await updateUserInfo(user: updatedUser)
             return (success, downloadURL.absoluteString)
             
         } catch {

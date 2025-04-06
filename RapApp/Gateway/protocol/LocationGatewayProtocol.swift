@@ -6,6 +6,6 @@
 //
 
 protocol LocationGatewayProtocol {
-    func saveLocation(location: UserLocation) async 
-    func getLocations() async -> [UserLocation]
+    func updateUserLocation(user: User) async
+    func getLocations() async -> [User]
 }

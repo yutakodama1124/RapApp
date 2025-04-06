@@ -42,7 +42,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         )
         
         Task {
-            await locationGateway.updateUserLocation(userId: userId, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            await locationGateway.updateUserLocation(location: userLocation)
         }
     }
 }

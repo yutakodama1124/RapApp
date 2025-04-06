@@ -9,6 +9,6 @@ import UIKit
 
 protocol UserGatewayProtocol {
     func fetchUser(userId: String) async -> User?
-    func storeUser(from user: User)
+    func updateUserInfo(from user: User)
     func uploadImage(user: User, image: UIImage) async -> URL?
 }

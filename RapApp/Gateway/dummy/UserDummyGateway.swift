@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class UserGatewayDummy: UserGatewayProtocol {
+    
     private var users: [String: User]
 
     init() {
@@ -56,7 +57,7 @@ class UserGatewayDummy: UserGatewayProtocol {
     }
 
     // ユーザー情報を保存または更新
-    func storeUser(from user: User) {
+    func updateUserInfo(from user: User) {
         users[user.id] = user
     }
 

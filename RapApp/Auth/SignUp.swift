@@ -59,7 +59,7 @@ struct SignUp: View {
                             authUser.id = (authResult?.user.uid)!
                             
                             Task {
-                                await userGateway.storeUser(user: authUser)
+                                await userGateway.updateUserInfo(user: authUser)
                             }
                             
                             
