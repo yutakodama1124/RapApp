@@ -16,6 +16,25 @@ class LocationGateway: LocationGatewayProtocol {
     
     private let db = Firestore.firestore()
     
+    func updateUserLocation(userId: String, latitude: Double, longitude: Double) async -> Bool {
+        let db = Firestore.firestore()
+        let geohash = Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
+        
+        do {
+            try await db.collection("users").document(userId).setData([
+                "latitude": latitude,
+                "longitude": longitude,
+                "hash": geohash
+            ], merge: true)
+            
+            print("User location successfully updated.")
+            return true
+        } catch {
+            print("Error updating user location: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
     func saveLocation(location: UserLocation) async {
         let db = Firestore.firestore()
         do {
@@ -59,6 +78,8 @@ class LocationGateway: LocationGatewayProtocol {
             print("Comparing hash: \(location.hash) == \($0.hash)")
             return $0.hash == location.hash
         }
+        
+        
         
         print("Nearby Users Found: \(filteredLocations.count)")
         return filteredLocations

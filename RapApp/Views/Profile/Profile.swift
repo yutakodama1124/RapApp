@@ -25,26 +25,23 @@ struct Profile: View {
     private let repository: UserGateway = UserGateway()
     
     var body: some View {
-        ZStack {
+        VStack {
             KFImage(URL(string: user.imageURL))
                 .placeholder { _ in Image(uiImage: UIColor.tertiarySystemFill.image())}
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.top)
-                .cornerRadius(25)
+                .aspectRatio(contentMode: .fill)
+                .clipped()
             
             ZStack {
                 Rectangle()
                     .fill(Color.white)
-                    .frame(width: 350, height: 380)
-                    .cornerRadius(30)
+                    .edgesIgnoringSafeArea(.bottom)
+                    .frame(maxWidth: .infinity)
                     .shadow(color: .gray, radius: 10)
                 
                 VStack(spacing: 30) {
                     HStack {
-                        Image(systemName: "person.circle")
-                            .font(.system(size: 35))
-                        
                         Text(user.name)
                             .font(.system(size: 35, weight:
                                     .heavy, design: .rounded))
@@ -60,7 +57,7 @@ struct Profile: View {
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                         }
                         Rectangle()
-                            .frame(width: 2, height: 30)
+                            .frame(width: 2, height: 33)
                         
                         VStack {
                             Text("バトル数")
@@ -70,7 +67,7 @@ struct Profile: View {
                                 .font(.system(size: 20, weight: .heavy, design: .rounded))
                         }
                         Rectangle()
-                            .frame(width: 2, height: 30)
+                            .frame(width: 2, height: 33)
                         
                         VStack {
                             Text("年齢")
@@ -111,9 +108,19 @@ struct Profile: View {
                             .font(.system(size: 20, weight: .medium, design: .rounded))
                     }
                     .frame(maxWidth: 310, minHeight: 43, alignment: .center)
+                    
+                    VStack {
+                        Text("好きなラッパー")
+                            .foregroundStyle(.gray)
+                            .font(.system(size: 15, weight: .medium, design: .rounded))
+                        
+                        Text(user.favrapper)
+                            .font(.system(size: 20, weight: .medium, design: .rounded))
+                    }
+                    .frame(maxWidth: 310, minHeight: 43, alignment: .center)
                 }
+                .padding()
             }
-            .offset(y: 140)
             .task {
                 guard let uid = Auth.auth().currentUser?.uid else {
                     print("ログインしているユーザーが見つかりません")

@@ -14,12 +14,12 @@ struct ThankYou: View {
         
         VStack(spacing: 60) {
             Text("バトル終了")
-                .foregroundStyle(.gray)
+                .foregroundStyle(.black)
                 .font(.system(size: 30, weight: .black, design: .rounded))
             
             Text("23回目のバトル終了おめでとうございます！！")
                 .frame(width: 300)
-                .foregroundStyle(.gray)
+                .foregroundStyle(.black)
                 .font(.system(size: 20, weight: .black, design: .rounded))
             
             Button(action: {

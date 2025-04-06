@@ -157,7 +157,7 @@ struct ProfileEdit: View {
                             user.imageURL = newURL
                         }
                         
-                        await repository.storeUser(user: user)
+                        await repository.updateUserInfo(user: user)
                     }
                 }
                 .frame(width: 100, height: 60)

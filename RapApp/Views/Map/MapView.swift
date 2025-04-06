@@ -10,7 +10,8 @@ struct MapView: View {
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
     @State private var isShowAlert = false
-    @State private var nearbyUsers: [UserLocation] = []
+    @State private var nearbyUserLocations: [UserLocation] = []
+    @State private var nearbyUsers: [User] = []
 
     private let locationGateway = LocationGateway()
 
@@ -38,7 +39,6 @@ struct MapView: View {
                         )
                     }
             }
-            .navigationTitle("Nearby Users")
         }
     }
 
@@ -53,7 +53,7 @@ struct MapView: View {
                 longitude: lastLocation.coordinate.longitude,
                 userId: Auth.auth().currentUser?.uid ?? "unknown"
             )
-            nearbyUsers = await locationGateway.getNearLocations(location: userLocation)
+            nearbyUserLocations = await locationGateway.getNearLocations(location: userLocation)
         }
     }
 

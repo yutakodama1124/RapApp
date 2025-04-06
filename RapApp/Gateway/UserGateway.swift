@@ -37,6 +37,46 @@ class UserGateway {
         return nil
     }
     
+    func updateUserInfo(user: User) async -> Bool {
+        let db = Firestore.firestore()
+        do {
+            try await db.collection("users").document(user.id).setData([
+                "imageURL": user.imageURL,
+                "name": user.name,
+                "school": user.school,
+                "hobby": user.hobby,
+                "job": user.job,
+                "favrapper": user.favrapper
+            ], merge: true)
+            
+            print("User information successfully updated: \(user)")
+            return true
+        } catch {
+            print("Error updating user information: \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    
+    func updateUserLocation(userId: String, latitude: Double, longitude: Double) async -> Bool {
+        let db = Firestore.firestore()
+        let geohash = Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
+        
+        do {
+            try await db.collection("users").document(userId).setData([
+                "latitude": latitude,
+                "longitude": longitude,
+                "hash": geohash
+            ], merge: true)
+            
+            print("User location successfully updated.")
+            return true
+        } catch {
+            print("Error updating user location: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
     func storeUser(user: User) async -> Bool {
         let db = Firestore.firestore()
         do {
@@ -85,5 +125,4 @@ class UserGateway {
             return (false, nil)
         }
     }
-
 }
