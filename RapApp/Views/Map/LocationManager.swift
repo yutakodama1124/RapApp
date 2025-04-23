@@ -5,7 +5,7 @@ import CoreLocation
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
     
-    @Published var lastLocation: CLLocation? 
+    @Published var lastLocation: CLLocation?
     private let locationGateway = LocationGateway()
 
     override init() {
@@ -35,14 +35,21 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private func updateUserLocation(_ location: CLLocation) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        let userLocation = UserLocation(
+        // Create a User object with just the location data
+        let user = User(
+            id: userId,
+            imageURL: "",
+            name: "",
+            school: "",
+            hobby: "",
+            job: "",
+            favrapper: "",
             latitude: location.coordinate.latitude,
-            longitude: location.coordinate.longitude,
-            userId: userId
+            longitude: location.coordinate.longitude
         )
         
         Task {
-            await locationGateway.updateUserLocation(location: userLocation)
+            await locationGateway.updateUserLocation(user: user)
         }
     }
 }

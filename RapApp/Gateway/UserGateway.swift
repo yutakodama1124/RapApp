@@ -39,7 +39,7 @@ class UserGateway {
     func updateUserInfo(user: User) async -> Bool {
         let db = Firestore.firestore()
         do {
-            try await db.collection("users").document(user.id).setData([
+            try await db.collection("users").document(user.id!).setData([
                 "imageURL": user.imageURL,
                 "name": user.name,
                 "school": user.school,
@@ -79,5 +79,28 @@ class UserGateway {
             print("Failed to upload image: \(error.localizedDescription)")
             return (false, nil)
         }
+    }
+    
+    func getUsers() async -> [User] {
+        let db = Firestore.firestore()
+        do {
+            print("Fetching usrs")
+            let json = try await db.collection("users").getDocuments().documents
+            return json.compactMap { try? $0.data(as: User.self) }
+        } catch {
+            print("error getting users \(error.localizedDescription)")
+        }
+        return []
+    }
+    
+    
+    func getNearUser(user: User) async -> [User] {
+        let users = await getUsers()
+        
+        let filteredUsers = users.filter {
+            return $0.hash == user.hash
+        }
+        print("fetched users: \(filteredUsers.count)")
+        return filteredUsers
     }
 }

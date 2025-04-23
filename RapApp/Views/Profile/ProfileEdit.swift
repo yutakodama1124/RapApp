@@ -19,7 +19,6 @@ struct ProfileEdit: View {
     @State private var school = ""
     @State private var hobby = ""
     @State private var job = ""
-    @State private var birthday = Date()
     @State private var favrapper = ""
     
     private let repository: UserGateway = UserGateway()
@@ -145,6 +144,9 @@ struct ProfileEdit: View {
                 
                 Button("保存") {
                     Task {
+                        guard let userId = Auth.auth().currentUser?.uid else { return }
+                       
+                        user.id = userId
                         user.name = name
                         user.hobby = hobby
                         user.school = school
@@ -158,6 +160,7 @@ struct ProfileEdit: View {
                         }
                         
                         await repository.updateUserInfo(user: user)
+                        print("user info saved")
                     }
                 }
                 .frame(width: 100, height: 60)

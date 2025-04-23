@@ -20,7 +20,6 @@ struct Profile: View {
     @State private var school = ""
     @State private var hobby = ""
     @State private var job = ""
-    @State private var birthday = Date()
     @State private var favrapper = ""
     private let repository: UserGateway = UserGateway()
     

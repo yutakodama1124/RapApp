@@ -14,24 +14,29 @@ struct UserNearCell: View {
     
     var body: some View {
         VStack {
+            // User image
             AsyncImage(url: URL(string: user.imageURL)) { image in
-                image.resizable()
-                     .aspectRatio(contentMode: .fill)
-                     .frame(width: 100, height: 100)
-                     .clipShape(Circle())
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
             } placeholder: {
-                ProgressView()
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .foregroundColor(.gray)
             }
+            .frame(width: 80, height: 80)
+            .clipShape(Circle())
             
+            // User name
             Text(user.name)
-                .font(.headline)
+                .font(.subheadline)
                 .lineLimit(1)
+                .frame(width: 90)
         }
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(10)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 4)
     }
-    }
+}
 
 #Preview {
     UserNearCell(user: .Empty())

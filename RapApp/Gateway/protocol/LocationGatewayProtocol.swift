@@ -7,5 +7,4 @@
 
 protocol LocationGatewayProtocol {
     func updateUserLocation(user: User) async
-    func getLocations() async -> [User]
 }

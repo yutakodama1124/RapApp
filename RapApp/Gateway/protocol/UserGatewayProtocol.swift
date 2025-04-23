@@ -11,4 +11,5 @@ protocol UserGatewayProtocol {
     func fetchUser(userId: String) async -> User?
     func updateUserInfo(from user: User)
     func uploadImage(user: User, image: UIImage) async -> URL?
+    func getLocations() async -> [User]
 }

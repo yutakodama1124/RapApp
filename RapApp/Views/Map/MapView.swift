@@ -10,10 +10,10 @@ struct MapView: View {
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
     @State private var isShowAlert = false
-    @State private var nearbyUserLocations: [UserLocation] = []
     @State private var nearbyUsers: [User] = []
 
     private let locationGateway = LocationGateway()
+    private let userGateway = UserGateway()
 
     var body: some View {
         NavigationView {
@@ -48,12 +48,21 @@ struct MapView: View {
 
     private func fetchNearbyUsers() async {
         if let lastLocation = locationManager.lastLocation {
-            let userLocation = UserLocation(
+            guard let userId = Auth.auth().currentUser?.uid else { return }
+            
+            let user = User(
+                id: userId,
+                imageURL: "",
+                name: "",
+                school: "",
+                hobby: "",
+                job: "",
+                favrapper: "",
                 latitude: lastLocation.coordinate.latitude,
-                longitude: lastLocation.coordinate.longitude,
-                userId: Auth.auth().currentUser?.uid ?? "unknown"
+                longitude: lastLocation.coordinate.longitude
             )
-            nearbyUserLocations = await locationGateway.getNearLocations(location: userLocation)
+            
+            nearbyUsers = await userGateway.getNearUser(user: user)
         }
     }
 
