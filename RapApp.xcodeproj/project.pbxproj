@@ -11,7 +11,6 @@
 		101A45FE2D6F1FFC00D1F3AE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */; };
 		108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */; };
 		108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640112D40EA83004DB57E /* UserGatewayProtocol.swift */; };
-		A6081AB52D65A7FB00F457F5 /* UserMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6081AB42D65A7FA00F457F5 /* UserMapCell.swift */; };
 		A6081AB72D6EF1F500F457F5 /* BattleMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6081AB62D6EF1F500F457F5 /* BattleMe.swift */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
 		A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */; };
@@ -32,7 +31,9 @@
 		A65ADD4B2C3E9152003FBE1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A65ADD4A2C3E9152003FBE1D /* FirebaseStorage */; };
 		A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65AFC842CC90ECF0020A67B /* LocationGateway.swift */; };
 		A65AFC872CC910610020A67B /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65AFC862CC910610020A67B /* UserLocation.swift */; };
-		A69507EF2D40FF6900D4E8CF /* UserNearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69507EE2D40FF6900D4E8CF /* UserNearCell.swift */; };
+		A66C96292DD4A1BA0082C138 /* RapperCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66C96282DD4A1BA0082C138 /* RapperCellView.swift */; };
+		A66C962B2DD4AEF50082C138 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66C962A2DD4AEF50082C138 /* HomeView.swift */; };
+		A66C962D2DD4B0950082C138 /* RapperListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66C962C2DD4B0950082C138 /* RapperListView.swift */; };
 		A6C32BF62CE4BA67003FC0C7 /* Geohash in Frameworks */ = {isa = PBXBuildFile; productRef = A6C32BF52CE4BA67003FC0C7 /* Geohash */; };
 		A6C32BF82CEDF9EC003FC0C7 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */; };
 		A6E39B412C2C2E2600B13377 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6E39B402C2C2E2600B13377 /* GoogleService-Info.plist */; };
@@ -52,7 +53,6 @@
 		101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGatewayProtocol.swift; sourceTree = "<group>"; };
 		108640112D40EA83004DB57E /* UserGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGatewayProtocol.swift; sourceTree = "<group>"; };
-		A6081AB42D65A7FA00F457F5 /* UserMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMapCell.swift; sourceTree = "<group>"; };
 		A6081AB62D6EF1F500F457F5 /* BattleMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleMe.swift; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
@@ -69,7 +69,9 @@
 		A65ADD662C4263AD003FBE1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A65AFC842CC90ECF0020A67B /* LocationGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGateway.swift; sourceTree = "<group>"; };
 		A65AFC862CC910610020A67B /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
-		A69507EE2D40FF6900D4E8CF /* UserNearCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNearCell.swift; sourceTree = "<group>"; };
+		A66C96282DD4A1BA0082C138 /* RapperCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapperCellView.swift; sourceTree = "<group>"; };
+		A66C962A2DD4AEF50082C138 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A66C962C2DD4B0950082C138 /* RapperListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapperListView.swift; sourceTree = "<group>"; };
 		A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		A6E39B402C2C2E2600B13377 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A6EDA3CE2C19B07C002A2C23 /* RapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,8 +162,6 @@
 			children = (
 				101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */,
 				A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */,
-				A69507EE2D40FF6900D4E8CF /* UserNearCell.swift */,
-				A6081AB42D65A7FA00F457F5 /* UserMapCell.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -197,6 +197,7 @@
 		A658BA802C82F3D7000D7AA2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A66C96272DD4A1A00082C138 /* RapperCell */,
 				1086401A2D40EDC0004DB57E /* Battle */,
 				108640192D40EDB2004DB57E /* Map */,
 				1006E8F82CB79BA200E61613 /* Profile */,
@@ -210,6 +211,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A66C96272DD4A1A00082C138 /* RapperCell */ = {
+			isa = PBXGroup;
+			children = (
+				A66C96282DD4A1BA0082C138 /* RapperCellView.swift */,
+				A66C962C2DD4B0950082C138 /* RapperListView.swift */,
+				A66C962A2DD4AEF50082C138 /* HomeView.swift */,
+			);
+			path = RapperCell;
 			sourceTree = "<group>";
 		};
 		A6EDA3C52C19B07C002A2C23 = {
@@ -348,10 +359,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A66C962D2DD4B0950082C138 /* RapperListView.swift in Sources */,
 				A658BA742C75F257000D7AA2 /* SoundPlayer.swift in Sources */,
 				A6C32BF82CEDF9EC003FC0C7 /* MapView.swift in Sources */,
 				101A45FE2D6F1FFC00D1F3AE /* LocationManager.swift in Sources */,
-				A6081AB52D65A7FB00F457F5 /* UserMapCell.swift in Sources */,
 				A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */,
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
@@ -360,16 +371,17 @@
 				108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */,
 				1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */,
 				A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */,
+				A66C96292DD4A1BA0082C138 /* RapperCellView.swift in Sources */,
 				108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */,
 				A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */,
 				A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */,
 				A658BA8B2C886BC8000D7AA2 /* LibraryPickerView.swift in Sources */,
 				A658BA7D2C82F11B000D7AA2 /* AuthViewModel.swift in Sources */,
 				A658BA832C8740C1000D7AA2 /* User.swift in Sources */,
-				A69507EF2D40FF6900D4E8CF /* UserNearCell.swift in Sources */,
 				A658BA562C6C350E000D7AA2 /* Profile.swift in Sources */,
 				A658BA582C75EDE7000D7AA2 /* SignUp.swift in Sources */,
 				A6EDA3D22C19B07C002A2C23 /* RapAppApp.swift in Sources */,
+				A66C962B2DD4AEF50082C138 /* HomeView.swift in Sources */,
 				A6081AB72D6EF1F500F457F5 /* BattleMe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
