@@ -46,6 +46,7 @@
 		A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EDA3D32C19B07C002A2C23 /* ContentView.swift */; };
 		A6EDA3D62C19B07D002A2C23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6EDA3D52C19B07D002A2C23 /* Assets.xcassets */; };
 		A6EDA3D92C19B07D002A2C23 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6EDA3D82C19B07D002A2C23 /* Preview Assets.xcassets */; };
+		A6FC0F812DDDDDC80001064A /* RapperDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FC0F802DDDDDC70001064A /* RapperDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		A6EDA3D32C19B07C002A2C23 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A6EDA3D52C19B07D002A2C23 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A6EDA3D82C19B07D002A2C23 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A6FC0F802DDDDDC70001064A /* RapperDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapperDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 			children = (
 				A66C96282DD4A1BA0082C138 /* RapperCellView.swift */,
 				A66C962C2DD4B0950082C138 /* RapperListView.swift */,
+				A6FC0F802DDDDDC70001064A /* RapperDetailView.swift */,
 				A66C962A2DD4AEF50082C138 /* HomeView.swift */,
 			);
 			path = RapperCell;
@@ -331,6 +334,7 @@
 				A658BA772C7E1891000D7AA2 /* XCRemoteSwiftPackageReference "PopupView" */,
 				A658BA8C2C886C1B000D7AA2 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				A6C32BF42CE4BA67003FC0C7 /* XCRemoteSwiftPackageReference "Geohash" */,
+				A6FC0F822DDDE97B0001064A /* XCRemoteSwiftPackageReference "AppleSignInFirebase" */,
 			);
 			productRefGroup = A6EDA3CF2C19B07C002A2C23 /* Products */;
 			projectDirPath = "";
@@ -370,6 +374,7 @@
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
 				108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */,
 				1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */,
+				A6FC0F812DDDDDC80001064A /* RapperDetailView.swift in Sources */,
 				A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */,
 				A66C96292DD4A1BA0082C138 /* RapperCellView.swift in Sources */,
 				108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */,
@@ -641,7 +646,15 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 10.28.1;
+				minimumVersion = 11.0.0;
+			};
+		};
+		A6FC0F822DDDE97B0001064A /* XCRemoteSwiftPackageReference "AppleSignInFirebase" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yukiny0811/AppleSignInFirebase";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

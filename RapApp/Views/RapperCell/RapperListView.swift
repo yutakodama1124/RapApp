@@ -6,11 +6,27 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct RapperListView: View {
+    
+    @State private var nearbyUsers: [User] = []
+
     var body: some View {
-        ScrollView {
-            
+        NavigationView {
+            List(nearbyUsers) { user in
+                NavigationLink(destination: RapperDetailView(user: user)) {
+                    RapperCellView(user: user)
+                }
+            }
+            .listStyle(PlainListStyle())
+            .navigationTitle("Nearby Users")
+            .task {
+                let currentUser = Auth.auth().currentUser?
+                // Fetch nearby users when view loads
+                let filtered = await UserGateway().getNearUser(user: currentUser)
+                self.nearbyUsers = filtered
+            }
         }
     }
 }
