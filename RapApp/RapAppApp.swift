@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
+import AppleSignInFirebase
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -28,8 +29,10 @@ struct RapAppApp: App {
         WindowGroup {
             if viewModel.isAuthenticated {
                 ContentView(viewModel: viewModel)
+                    .environment(AuthManager.shared)
             } else {
                 SignUp(viewModel: viewModel)
+                    .environment(AuthManager.shared)
             }
         }
     }

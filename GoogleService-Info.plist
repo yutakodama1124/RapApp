@@ -9,22 +9,22 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.suika.RapApp</string>
+	<string>com.suika.RapApp4</string>
 	<key>PROJECT_ID</key>
 	<string>rapapp-220ed</string>
 	<key>STORAGE_BUCKET</key>
 	<string>rapapp-220ed.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:297008389808:ios:aee6e6afb4b5c536ce2575</string>
+	<string>1:297008389808:ios:8e99abacd5331da2ce2575</string>
 </dict>
 </plist>

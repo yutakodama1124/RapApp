@@ -14,6 +14,7 @@ import CoreLocation
 import Geohash
 import MapKit
 import UIKit
+import FirebaseAuth
 
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
@@ -37,17 +38,17 @@ class UserGateway {
     }
     
     func updateUserInfo(user: User) async -> Bool {
-        let db = Firestore.firestore()
         do {
-            try await db.collection("users").document(user.id!).setData([
+            try await COLLECTION.document(user.id!).setData([
                 "imageURL": user.imageURL,
                 "name": user.name,
                 "school": user.school,
                 "hobby": user.hobby,
                 "job": user.job,
-                "favrapper": user.favrapper
+                "favrapper": user.favrapper,
+                "latitude": user.latitude,
+                "longitude": user.longitude
             ], merge: true)
-            
             print("User information successfully updated: \(user)")
             return true
         } catch {
@@ -102,5 +103,15 @@ class UserGateway {
         }
         print("fetched users: \(filteredUsers.count)")
         return filteredUsers
+    }
+    
+    func getSelf() async -> User? {
+        if let firebaseUser = Auth.auth().currentUser {
+            print("Authenticated user: \(firebaseUser.uid)")
+            return await fetchUser(userId: firebaseUser.uid)
+        } else {
+            print("No authenticated user in getSelf")
+            return nil
+        }
     }
 }

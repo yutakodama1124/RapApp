@@ -1,6 +1,7 @@
 import Foundation
 import Firebase
 import CoreLocation
+import FirebaseAuth
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
