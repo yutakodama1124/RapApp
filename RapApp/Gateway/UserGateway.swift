@@ -18,10 +18,33 @@ import FirebaseAuth
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
     
+    func fetchUser(userId: String) async -> User? {
+        do {
+            let document = try await COLLECTION.document(userId).getDocument()
+            if let data = document.data() {
+                return User(
+                    id: userId,
+                    imageURL: data["imageURL"] as? String ?? "https://example.com/default-profile.png",
+                    name: data["name"] as? String ?? "",
+                    school: data["school"] as? String ?? "",
+                    hobby: data["hobby"] as? String ?? "",
+                    job: data["job"] as? String ?? "",
+                    favrapper: data["favrapper"] as? String ?? "",
+                    latitude: data["latitude"] as? Double ?? 0.0,
+                    longitude: data["longitude"] as? Double ?? 0.0
+                )
+            }
+        } catch {
+            print("Failed to fetch user: \(error.localizedDescription)")
+        }
+        return nil
+    }
+
+    
     func updateUserInfo(user: User) async -> Bool {
         do {
-            let userData: [String: Any] = [
-                "imageURL": user.imageURL.isEmpty ? "https://example.com/default-profile.png" : user.imageURL,
+            try await COLLECTION.document(user.id!).setData([
+                "imageURL": user.imageURL,
                 "name": user.name,
                 "school": user.school,
                 "hobby": user.hobby,
@@ -29,9 +52,7 @@ class UserGateway {
                 "favrapper": user.favrapper,
                 "latitude": user.latitude,
                 "longitude": user.longitude
-            ]
-            
-            try await COLLECTION.document(user.id!).setData(userData, merge: true)
+            ], merge: true)
             print("User information successfully updated: \(user)")
             return true
         } catch {
