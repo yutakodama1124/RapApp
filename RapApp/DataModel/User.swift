@@ -7,7 +7,7 @@
 import Foundation
 import CoreLocation
 import Geohash
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 
 struct User: Codable, Identifiable, Hashable {

@@ -7,7 +7,6 @@
 
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 import FirebaseStorage
 import Foundation
 import CoreLocation
@@ -19,28 +18,10 @@ import FirebaseAuth
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
     
-    func fetchUser(userId: String) async -> User? {
-        do {
-            let document = try await COLLECTION.document(userId).getDocument()
-            if let data = document.data() {
-                var user = try Firestore.Decoder().decode(User.self, from: data)
-                
-                if user.imageURL.isEmpty {
-                    user.imageURL = "https://example.com/default-profile.png"
-                }
-                
-                return user
-            }
-        } catch {
-            print("Failed to fetch user: \(error.localizedDescription)")
-        }
-        return nil
-    }
-    
     func updateUserInfo(user: User) async -> Bool {
         do {
-            try await COLLECTION.document(user.id!).setData([
-                "imageURL": user.imageURL,
+            let userData: [String: Any] = [
+                "imageURL": user.imageURL.isEmpty ? "https://example.com/default-profile.png" : user.imageURL,
                 "name": user.name,
                 "school": user.school,
                 "hobby": user.hobby,
@@ -48,7 +29,9 @@ class UserGateway {
                 "favrapper": user.favrapper,
                 "latitude": user.latitude,
                 "longitude": user.longitude
-            ], merge: true)
+            ]
+            
+            try await COLLECTION.document(user.id!).setData(userData, merge: true)
             print("User information successfully updated: \(user)")
             return true
         } catch {

@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 import Geohash
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 struct UserLocation: Codable {
     let id: UUID
@@ -19,21 +19,19 @@ struct UserLocation: Codable {
         Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
     }
 
-    // Custom encoder
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id.uuidString, forKey: .id) // Encode UUID as a string
+        try container.encode(id.uuidString, forKey: .id)
         try container.encode(latitude, forKey: .latitude)
         try container.encode(longitude, forKey: .longitude)
         try container.encode(userId, forKey: .userId)
         try container.encode(hash, forKey: .hash)
     }
 
-    // Custom decoder
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        // Decode and handle possible format inconsistencies
+   
         let idStr = try container.decode(String.self, forKey: .id)
         self.id = UUID(uuidString: idStr) ?? UUID()
         self.latitude = try container.decode(Double.self, forKey: .latitude)
@@ -41,7 +39,6 @@ struct UserLocation: Codable {
         self.userId = try container.decode(String.self, forKey: .userId)
     }
 
-    // Standard initializer
     init(latitude: Double, longitude: Double, userId: String) {
         self.id = UUID()
         self.latitude = latitude
@@ -49,7 +46,6 @@ struct UserLocation: Codable {
         self.userId = userId
     }
 
-    // Coding keys for Firestore compatibility
     enum CodingKeys: String, CodingKey {
         case id
         case latitude
