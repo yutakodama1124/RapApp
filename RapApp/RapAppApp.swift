@@ -10,22 +10,31 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 import AppleSignInFirebase
-
+import FirebaseStorage
+import Foundation
+import CoreLocation
+import Geohash
+import MapKit
+import UIKit
+import FirebaseAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
-    private let COLLECTION = Firestore.firestore().collection("users")
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+    
         
         return true
     }
+    
+    private static let COLLECTION = Firestore.firestore().collection("users")
+    
     func applicationWillTerminate(_ application: UIApplication) {
         func updateUserInfo(user: User) async -> Bool {
             do {
-                try await COLLECTION.document(user.id!).setData([
+                try await AppDelegate.COLLECTION.document(user.id!).setData([
                     "latitude": 0,
                     "longitude": 0
                 ], merge: true)
