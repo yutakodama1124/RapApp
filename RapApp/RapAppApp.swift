@@ -62,6 +62,22 @@ struct RapAppApp: App {
                     .onDisappear {
                         
                     }
+                    .onAppear {
+                        Task {
+                            while true {
+                                try? await Task.sleep(for: .seconds(5))
+                                
+                                let db = Firestore.firestore()
+                                guard let userId = Auth.auth().currentUser?.uid else { return }
+                                
+                                if let opponentUser = try? await db.collection("matches").document(userId).getDocument().data(as: User.self) {
+                                    print("found match requests")
+                                } else {
+                                    print("no match requests")
+                                }
+                            }
+                        }
+                    }
             } else {
                 SignUp(viewModel: viewModel)
                     .environment(AuthManager.shared)

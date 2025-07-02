@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseAuth
+import FirebaseStorage
 
 struct RapperDetailView: View {
+    
+    @StateObject private var locationManager = LocationManager()
     let user: User
 
     var body: some View {
@@ -27,6 +32,21 @@ struct RapperDetailView: View {
             Text((user.favrapper))
                 .font(.title3)
                 .padding(.top)
+            
+            Button("match") {
+                Task {
+                    guard let userId = Auth.auth().currentUser?.uid else { return }
+                    
+                    let db = Firestore.firestore()
+                    
+                    
+                    let location = locationManager.lastLocation
+                    
+                    let m = match(id: user.id, userAId: userId, latitude: location?.coordinate.latitude ?? 0, longitude: location?.coordinate.longitude ?? 0, accepted: false)
+                    
+                    try? db.collection("mathces").document(user.id ?? "").setData(from: m)
+                }
+            }
 
             Spacer()
         }
