@@ -24,7 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-    
+        
         
         return true
     }
@@ -45,7 +45,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 return false
             }
         }
-
+        
     }
 }
 
@@ -54,30 +54,71 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct RapAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var viewModel = AuthViewModel()
+    
+    @State var showAcceptView = false
+    @State var MatchMapView = false
+    
     var body: some Scene {
         WindowGroup {
             if viewModel.isAuthenticated {
-                ContentView(viewModel: viewModel)
-                    .environment(AuthManager.shared)
-                    .onDisappear {
+                Group {
+                    if showAcceptView {
+                        Text("request")
                         
-                    }
-                    .onAppear {
-                        Task {
-                            while true {
-                                try? await Task.sleep(for: .seconds(5))
-                                
+                        Button("accept") {
+                            Task {
                                 let db = Firestore.firestore()
                                 guard let userId = Auth.auth().currentUser?.uid else { return }
                                 
-                                if let opponentUser = try? await db.collection("matches").document(userId).getDocument().data(as: User.self) {
-                                    print("found match requests")
-                                } else {
-                                    print("no match requests")
-                                }
+                                try? db.collection("matches").document(userId).setData([
+                                    "accepted": true], merge: true)
+                            }
+                        }
+                        
+                        Button("reject") {
+                            Task {
+                                let db = Firestore.firestore()
+                                guard let userId = Auth.auth().currentUser?.uid else { return }
+                                
+                                try? db.collection("matches").document(userId).delete()
+                            }
+                        }
+                        
+                        
+                    } else {
+                        ContentView(viewModel: viewModel)
+                            .environment(AuthManager.shared)
+                            .onDisappear {
+                                
+                            }
+                    }
+                }
+                .fullScreenCover(isPresented: $MatchMapView) {
+                    MatchMapView(latitude: , longitude: )
+                }
+                .onAppear {
+                    Task {
+                        while true {
+                            try? await Task.sleep(for: .seconds(5))
+                            
+                            let db = Firestore.firestore()
+                            guard let userId = Auth.auth().currentUser?.uid else { return }
+                            
+                            print(userId)
+                            let a = try! await db.collection("matches").document(userId).getDocument().data()
+                            if let match = try? await db.collection("matches").document(userId).getDocument().data(as: Match.self) {
+                                print("found match requests")
+
+                                    showAcceptView = true
+                                
+                                
+                                
+                            } else {
+                                print("no match requests")
                             }
                         }
                     }
+                }
             } else {
                 SignUp(viewModel: viewModel)
                     .environment(AuthManager.shared)

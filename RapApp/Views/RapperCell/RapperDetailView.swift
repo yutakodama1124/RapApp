@@ -14,6 +14,8 @@ struct RapperDetailView: View {
     
     @StateObject private var locationManager = LocationManager()
     let user: User
+    
+    @State var isMapShown = false
 
     var body: some View {
         VStack(spacing: 20) {
@@ -42,9 +44,38 @@ struct RapperDetailView: View {
                     
                     let location = locationManager.lastLocation
                     
-                    let m = match(id: user.id, userAId: userId, latitude: location?.coordinate.latitude ?? 0, longitude: location?.coordinate.longitude ?? 0, accepted: false)
+                    let m = Match(id: user.id, userAId: userId, latitude: location?.coordinate.latitude ?? 0, longitude: location?.coordinate.longitude ?? 0, accepted: false)
                     
-                    try? db.collection("mathces").document(user.id ?? "").setData(from: m)
+                    try? db.collection("matches").document(user.id ?? "").setData(from: m)
+                    
+                    
+                    
+                    Task {
+                        let db = Firestore.firestore()
+                        
+                        while true {
+                            do {
+                                let document = try await db.collection("matches").document(user.id!).getDocument()
+                                
+                                if document.exists {
+                                    let boolvalue = document.data()?["accepted"] as? Bool ?? false
+                                    
+                                    if boolvalue {
+                                        
+                                        print("accepted")
+                                    } else {
+                                        print("pending")
+                                    }
+                                } else {
+                                    print("declined")
+                                }
+                            } catch {
+                                print("Error: \(error)")
+                            }
+                            
+                            try? await Task.sleep(for: .seconds(1))
+                        }
+                    }
                 }
             }
 
@@ -52,6 +83,9 @@ struct RapperDetailView: View {
         }
         .navigationTitle("詳細")
         .padding()
+        .fullScreenCover(isPresented: $isMapShown) {
+            OpponentWaitView()
+        }
     }
 }
 #Preview("Authority") {

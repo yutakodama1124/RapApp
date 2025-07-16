@@ -10,7 +10,7 @@ import CoreLocation
 import Geohash
 import FirebaseFirestore
 
-struct match: Codable, Identifiable {
+struct Match: Codable, Identifiable {
     @DocumentID var id: String?
     let userAId: String
     let latitude: Double
