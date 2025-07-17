@@ -7,9 +7,20 @@ struct RapperCellView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            Image(systemName: "person.circle.fill")
-                .font(.system(size: 40))
-                .padding(.trailing, 4)
+            AsyncImage(url: URL(string: user.imageURL)) { image in
+                 image
+                     .resizable()
+                     .scaledToFill()
+                     .frame(width: 50, height: 50)
+                     .clipShape(Circle())
+             } placeholder: {
+                 Image(systemName: "person.circle.fill")
+                     .resizable()
+                     .scaledToFit()
+                     .frame(width: 50, height: 50)
+                     .foregroundColor(.black)
+                     .clipShape(Circle())
+             }
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(user.name)
