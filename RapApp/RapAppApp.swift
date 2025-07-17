@@ -54,9 +54,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct RapAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var viewModel = AuthViewModel()
-    
     @State var showAcceptView = false
     @State var MatchMapView = false
+    
+    @State var matchLatitude: Double = 0.0
+    @State var matchLongitude: Double = 0.0
     
     var body: some Scene {
         WindowGroup {
@@ -72,6 +74,9 @@ struct RapAppApp: App {
                                 
                                 try? db.collection("matches").document(userId).setData([
                                     "accepted": true], merge: true)
+                                
+                                showAcceptView = false
+                                MatchMapView = true
                             }
                         }
                         
@@ -81,6 +86,8 @@ struct RapAppApp: App {
                                 guard let userId = Auth.auth().currentUser?.uid else { return }
                                 
                                 try? db.collection("matches").document(userId).delete()
+                                
+                                showAcceptView = false
                             }
                         }
                         
@@ -94,7 +101,7 @@ struct RapAppApp: App {
                     }
                 }
                 .fullScreenCover(isPresented: $MatchMapView) {
-                    MatchMapView(latitude: , longitude: )
+                    RapApp.MatchMapView(latitude: matchLatitude, longitude: matchLongitude)
                 }
                 .onAppear {
                     Task {
@@ -108,9 +115,13 @@ struct RapAppApp: App {
                             let a = try! await db.collection("matches").document(userId).getDocument().data()
                             if let match = try? await db.collection("matches").document(userId).getDocument().data(as: Match.self) {
                                 print("found match requests")
-
-                                    showAcceptView = true
                                 
+                                showAcceptView = true
+                                
+                                if let data = try? await db.collection("matches").document(userId).getDocument() {
+                                    matchLatitude = data["latitude"] as? Double ?? 0.0
+                                    matchLongitude = data["longitude"] as? Double ?? 0.0
+                                }
                                 
                                 
                             } else {
