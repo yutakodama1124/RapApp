@@ -59,6 +59,7 @@ struct RapAppApp: App {
     
     @State var matchLatitude: Double = 0.0
     @State var matchLongitude: Double = 0.0
+    @State var opponentId: String = ""
     
     var body: some Scene {
         WindowGroup {
@@ -121,6 +122,7 @@ struct RapAppApp: App {
                                 if let data = try? await db.collection("matches").document(userId).getDocument() {
                                     matchLatitude = data["latitude"] as? Double ?? 0.0
                                     matchLongitude = data["longitude"] as? Double ?? 0.0
+                                    opponentId = data["userAId"] as? String ?? ""
                                 }
                                 
                                 

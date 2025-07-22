@@ -11,7 +11,7 @@
 		101A45FE2D6F1FFC00D1F3AE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */; };
 		108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */; };
 		108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640112D40EA83004DB57E /* UserGatewayProtocol.swift */; };
-		A6081AB72D6EF1F500F457F5 /* BattleMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6081AB62D6EF1F500F457F5 /* BattleMe.swift */; };
+		A6081AB72D6EF1F500F457F5 /* matchWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6081AB62D6EF1F500F457F5 /* matchWait.swift */; };
 		A608839D2DF04B07006865C7 /* AppleSignInFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = A608839C2DF04B07006865C7 /* AppleSignInFirebase */; };
 		A608839F2DF05087006865C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A608839E2DF05086006865C7 /* GoogleService-Info.plist */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
@@ -56,7 +56,7 @@
 		101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGatewayProtocol.swift; sourceTree = "<group>"; };
 		108640112D40EA83004DB57E /* UserGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGatewayProtocol.swift; sourceTree = "<group>"; };
-		A6081AB62D6EF1F500F457F5 /* BattleMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleMe.swift; sourceTree = "<group>"; };
+		A6081AB62D6EF1F500F457F5 /* matchWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = matchWait.swift; sourceTree = "<group>"; };
 		A608839E2DF05086006865C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 			children = (
 				A61F8B5D2C22E70C00BCE7FF /* Battle.swift */,
 				A61F8B612C22F45E00BCE7FF /* Detail.swift */,
-				A6081AB62D6EF1F500F457F5 /* BattleMe.swift */,
+				A6081AB62D6EF1F500F457F5 /* matchWait.swift */,
 				A65CE9382E15423B00DA9A35 /* MatchMapView.swift */,
 				A65CE93A2E27BCF700DA9A35 /* OpponentWaitView.swift */,
 			);
@@ -396,7 +396,7 @@
 				A658BA582C75EDE7000D7AA2 /* SignUp.swift in Sources */,
 				A6EDA3D22C19B07C002A2C23 /* RapAppApp.swift in Sources */,
 				A66C962B2DD4AEF50082C138 /* HomeView.swift in Sources */,
-				A6081AB72D6EF1F500F457F5 /* BattleMe.swift in Sources */,
+				A6081AB72D6EF1F500F457F5 /* matchWait.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

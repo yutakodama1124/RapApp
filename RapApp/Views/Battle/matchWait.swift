@@ -1,13 +1,13 @@
 //
-//  Detail.swift
+//  BattleMe.swift
 //  RapApp
 //
-//  Created by yuta kodama on 2024/06/19.
+//  Created by yuta kodama on 2025/02/26.
 //
 
 import SwiftUI
 
-struct Detail: View {
+struct matchWait: View {
     @State var nextView = false
     @State var isPlaying = false
     
@@ -189,5 +189,5 @@ struct Detail: View {
 }
 
 #Preview {
-    Detail()
+    matchWait()
 }
