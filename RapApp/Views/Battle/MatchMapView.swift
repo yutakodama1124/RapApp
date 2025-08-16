@@ -5,6 +5,7 @@ struct MatchMapView: View {
     let latitude: Double
     let longitude: Double
     
+    @State var battleview = false
     
     var body: some View {
         ZStack {
@@ -62,7 +63,7 @@ struct MatchMapView: View {
                 .padding(.horizontal, 20)
                 .padding(.bottom, 15)
                 
-
+                
                 VStack(spacing: 12) {
                     HStack(spacing: 16) {
                         Text("自分")
@@ -82,9 +83,9 @@ struct MatchMapView: View {
                     }
                     .padding(.horizontal, 32)
                     
-
+                    
                     Button(action: {
-
+                        battleview = true
                     }) {
                         HStack(spacing: 12) {
                             Image(systemName: "play.fill")
@@ -105,6 +106,9 @@ struct MatchMapView: View {
                     .padding(.bottom, 30)
                 }
             }
+        }
+        .fullScreenCover(isPresented: $battleview) {
+            Battle()
         }
     }
 }

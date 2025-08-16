@@ -13,6 +13,8 @@ struct Detail: View {
     
     let musicplayer = SoundPlayer()
     
+    let opponentUser: User
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -42,14 +44,14 @@ struct Detail: View {
                                 )
                                 .frame(width: 80, height: 80)
                                 .overlay(
-                                    Image(systemName: "person.fill")
+                                    Image(systemName: opponentUser.imageURL)
                                         .font(.system(size: 35))
                                         .foregroundColor(.white)
                                 )
                                 .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                             
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("児玉勇太")
+                                Text(opponentUser.name)
                                     .foregroundStyle(.black)
                                     .font(.system(size: 22, weight: .bold, design: .rounded))
                                 
@@ -57,7 +59,7 @@ struct Detail: View {
                                     Text("職業:")
                                         .foregroundStyle(.gray)
                                         .font(.system(size: 16, weight: .medium))
-                                    Text("プロサッカー選手")
+                                    Text(opponentUser.job)
                                         .foregroundStyle(.black)
                                         .font(.system(size: 16, weight: .semibold))
                                 }
@@ -66,7 +68,7 @@ struct Detail: View {
                                     Text("趣味:")
                                         .foregroundStyle(.gray)
                                         .font(.system(size: 16, weight: .medium))
-                                    Text("勉強")
+                                    Text(opponentUser.hobby)
                                         .foregroundStyle(.black)
                                         .font(.system(size: 16, weight: .semibold))
                                 }
@@ -85,7 +87,7 @@ struct Detail: View {
                             .foregroundStyle(.black)
                             .font(.system(size: 24, weight: .bold, design: .rounded))
                         
-                        Text("８小節　２本")
+                        Text("８小節　4本")
                             .foregroundStyle(.black)
                             .font(.system(size: 20, weight: .bold, design: .rounded))
                     }
@@ -186,8 +188,4 @@ struct Detail: View {
             Battle()
         }
     }
-}
-
-#Preview {
-    Detail()
 }
