@@ -35,7 +35,6 @@
 		A65CE93B2E27BCF700DA9A35 /* OpponentWaitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65CE93A2E27BCF700DA9A35 /* OpponentWaitView.swift */; };
 		A664EB172E02CD4C003FF01D /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = A664EB162E02CD4C003FF01D /* Match.swift */; };
 		A66C96292DD4A1BA0082C138 /* RapperCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66C96282DD4A1BA0082C138 /* RapperCellView.swift */; };
-		A66C962B2DD4AEF50082C138 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66C962A2DD4AEF50082C138 /* HomeView.swift */; };
 		A66C962D2DD4B0950082C138 /* RapperListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66C962C2DD4B0950082C138 /* RapperListView.swift */; };
 		A6C32BF62CE4BA67003FC0C7 /* Geohash in Frameworks */ = {isa = PBXBuildFile; productRef = A6C32BF52CE4BA67003FC0C7 /* Geohash */; };
 		A6C32BF82CEDF9EC003FC0C7 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */; };
@@ -75,7 +74,6 @@
 		A65CE93A2E27BCF700DA9A35 /* OpponentWaitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpponentWaitView.swift; sourceTree = "<group>"; };
 		A664EB162E02CD4C003FF01D /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		A66C96282DD4A1BA0082C138 /* RapperCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapperCellView.swift; sourceTree = "<group>"; };
-		A66C962A2DD4AEF50082C138 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A66C962C2DD4B0950082C138 /* RapperListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapperListView.swift; sourceTree = "<group>"; };
 		A6C32BF72CEDF9EC003FC0C7 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		A6DC941F2E30F89E008EB6AD /* mov_1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = mov_1.mp4; sourceTree = "<group>"; };
@@ -225,7 +223,6 @@
 				A66C96282DD4A1BA0082C138 /* RapperCellView.swift */,
 				A66C962C2DD4B0950082C138 /* RapperListView.swift */,
 				A658BA552C6C350E000D7AA2 /* RapperDetailView.swift */,
-				A66C962A2DD4AEF50082C138 /* HomeView.swift */,
 			);
 			path = RapperCell;
 			sourceTree = "<group>";
@@ -392,7 +389,6 @@
 				A658BA562C6C350E000D7AA2 /* RapperDetailView.swift in Sources */,
 				A658BA582C75EDE7000D7AA2 /* SignUp.swift in Sources */,
 				A6EDA3D22C19B07C002A2C23 /* RapApp.swift in Sources */,
-				A66C962B2DD4AEF50082C138 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +520,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RapApp/RapApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RapApp/Preview Content\"";
@@ -548,6 +545,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.suika.RapApp4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -564,6 +562,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RapApp/RapApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RapApp/Preview Content\"";
@@ -588,6 +587,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.suika.RapApp4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

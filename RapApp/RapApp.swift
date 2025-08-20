@@ -17,6 +17,7 @@ import Geohash
 import MapKit
 import UIKit
 import FirebaseAuth
+import Kingfisher
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -152,22 +153,28 @@ struct AcceptView: View {
                             .font(.system(size: 24, weight: .bold, design: .rounded))
                         
                         HStack(spacing: 15) {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
+                            KFImage(URL(string: user.imageURL))
+                                .placeholder { _ in
+                                    Circle()
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                        .overlay(
+                                            Image(systemName: "person.fill")
+                                                .font(.system(size: 35))
+                                                .foregroundColor(.white.opacity(0.7))
+                                        )
+                                }
+                                .resizable()
+                                .scaledToFill()
                                 .frame(width: 80, height: 80)
-                                .overlay(
-                                    Image(systemName: user.imageURL)
-                                        .font(.system(size: 35))
-                                        .foregroundColor(.white)
-                                )
+                                .clipShape(Circle())
                                 .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
-//                            
+                            
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(user.name)
                                     .foregroundStyle(.black)

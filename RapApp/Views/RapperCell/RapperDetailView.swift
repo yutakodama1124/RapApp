@@ -7,7 +7,8 @@ struct RapperDetailView: View {
     
     @StateObject private var locationManager = LocationManager()
     let user: User
-    @State var isMapShown = false
+    @State var NextShown = false
+    @State private var isPressed = false
     
     var body: some View {
         ScrollView {
@@ -66,43 +67,20 @@ struct RapperDetailView: View {
                             guard let userId = Auth.auth().currentUser?.uid else { return }
                             
                             let db = Firestore.firestore()
-                            
-                            
                             let location = locationManager.lastLocation
                             
-                            let m = Match(id: user.id, userAId: userId, latitude: location?.coordinate.latitude ?? 0, longitude: location?.coordinate.longitude ?? 0, accepted: false)
+                            let m = Match(
+                                id: user.id,
+                                userAId: userId,
+                                latitude: location?.coordinate.latitude ?? 0,
+                                longitude: location?.coordinate.longitude ?? 0,
+                                accepted: false
+                            )
                             
                             try? db.collection("matches").document(user.id ?? "").setData(from: m)
                             
-                            
-                            
-                            Task {
-                                let db = Firestore.firestore()
-                                
-                                while true {
-                                    do {
-                                        let document = try await db.collection("matches").document(user.id!).getDocument()
-                                        
-                                        if document.exists {
-                                            let boolvalue = document.data()?["accepted"] as? Bool ?? false
-                                            
-                                            if boolvalue {
-                                                
-                                                print("accepted")
-                                            } else {
-                                                print("pending")
-                                            }
-                                        } else {
-                                            print("declined")
-                                        }
-                                    } catch {
-                                        print("Error: \(error)")
-                                    }
-                                    
-                                    try? await Task.sleep(for: .seconds(1))
-                                }
-                            }
                         }
+                        NextShown = true
                     } label: {
                         Text("マッチ！")
                             .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -112,17 +90,25 @@ struct RapperDetailView: View {
                             .background(Color.black)
                             .clipShape(RoundedRectangle(cornerRadius: 32))
                             .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
+                            .scaleEffect(isPressed ? 0.95 : 1.0)   // bounce effect
+                            .opacity(isPressed ? 0.7 : 1.0)        // fade effect
+                            .animation(.spring(response: 0.2, dampingFraction: 0.5), value: isPressed)
                     }
                     .padding(.horizontal, 20)
-                    .zIndex(1)
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { _ in isPressed = true }
+                            .onEnded { _ in isPressed = false }
+                    )
+
                     
                 }
                 .background(Color.gray.opacity(0.05))
         }
         .ignoresSafeArea(.all, edges: .top)
         .navigationTitle("")
-            .fullScreenCover(isPresented: $isMapShown) {
-                Detail(opponentUser: user)
+            .fullScreenCover(isPresented: $NextShown) {
+               OpponentWaitView(opponentUser: user)
             }
     }
     

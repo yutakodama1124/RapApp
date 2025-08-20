@@ -21,6 +21,8 @@ struct ProfileEdit: View {
     @State private var job = ""
     @State private var favrapper = ""
     
+    @State private var isPressed = false
+    
     private let repository: UserGateway = UserGateway()
     
     var body: some View {
@@ -163,11 +165,22 @@ struct ProfileEdit: View {
                         print("user info saved")
                     }
                 }
-                .frame(width: 100, height: 60)
+                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .frame(width: 120, height: 60)
                 .foregroundColor(.white)
                 .background(.black)
                 .cornerRadius(25)
+                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                .scaleEffect(isPressed ? 0.95 : 1.0)   // bounce
+                .opacity(isPressed ? 0.7 : 1.0)        // fade
+                .animation(.spring(response: 0.2, dampingFraction: 0.5),
+                           value: isPressed)
                 .padding()
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in isPressed = true }
+                        .onEnded { _ in isPressed = false }
+                )
             }
         }
         .task {
@@ -187,6 +200,7 @@ struct ProfileEdit: View {
             self.school = user.school
             self.hobby = user.hobby
             self.favrapper = user.favrapper
+            self.job = user.job
         }
     }
 }

@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct Detail: View {
     @State var nextView = false
     @State var isPlaying = false
+    @State private var isPressed = false
     
     let musicplayer = SoundPlayer()
     
@@ -34,21 +36,28 @@ struct Detail: View {
                             .font(.system(size: 24, weight: .bold, design: .rounded))
                         
                         HStack(spacing: 15) {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
+                            KFImage(URL(string: opponentUser.imageURL))
+                                .placeholder { _ in
+                                    Circle()
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                        .overlay(
+                                            Image(systemName: "person.fill")
+                                                .font(.system(size: 35))
+                                                .foregroundColor(.white.opacity(0.7))
+                                        )
+                                }
+                                .resizable()
+                                .scaledToFill()
                                 .frame(width: 80, height: 80)
-                                .overlay(
-                                    Image(systemName: opponentUser.imageURL)
-                                        .font(.system(size: 35))
-                                        .foregroundColor(.white)
-                                )
+                                .clipShape(Circle())
                                 .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
+
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(opponentUser.name)
@@ -172,9 +181,19 @@ struct Detail: View {
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                         .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5)
+                        .scaleEffect(isPressed ? 0.95 : 1.0)   // bounce
+                        .opacity(isPressed ? 0.7 : 1.0)        // fade
+                        .animation(.spring(response: 0.2, dampingFraction: 0.5),
+                                   value: isPressed)
                     }
                     .padding(.top, 10)
-                    .scaleEffect(nextView ? 0.95 : 1.0)
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { _ in isPressed = true }
+                            .onEnded { _ in isPressed = false }
+                    )
+                    
+                    
                     
                     Spacer(minLength: 30)
                 }

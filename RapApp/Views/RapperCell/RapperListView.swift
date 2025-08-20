@@ -20,11 +20,6 @@ struct RapperListView: View {
                             RapperCellView(user: user)
                         }
                         .listRowSeparator(.hidden)
-                        .overlay(alignment: .bottom) {
-                            Rectangle()
-                                .frame(width: .infinity, height: 1)
-                                .foregroundColor(.gray)
-                        }
                     }
                     .listStyle(PlainListStyle())
                 }
