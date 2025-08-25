@@ -46,7 +46,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             job: "",
             favrapper: "",
             latitude: location.coordinate.latitude,
-            longitude: location.coordinate.longitude
+            longitude: location.coordinate.longitude,
+            battleCount: 0
+            
         )
         
         Task {

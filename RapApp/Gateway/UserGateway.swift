@@ -31,7 +31,8 @@ class UserGateway {
                     job: data["job"] as? String ?? "",
                     favrapper: data["favrapper"] as? String ?? "",
                     latitude: data["latitude"] as? Double ?? 0.0,
-                    longitude: data["longitude"] as? Double ?? 0.0
+                    longitude: data["longitude"] as? Double ?? 0.0,
+                    battleCount: data["battleCount"] as? Int ?? 0
                 )
             }
         } catch {
@@ -116,6 +117,24 @@ class UserGateway {
         } else {
             print("No authenticated user in getSelf")
             return nil
+        }
+    }
+
+    func incrementBattleCount() async -> Bool {
+        guard let firebaseUser = Auth.auth().currentUser else {
+            print("No authenticated user")
+            return false
+        }
+        
+        do {
+            try await COLLECTION.document(firebaseUser.uid).updateData([
+                "battleCount": FieldValue.increment(Int64(1))
+            ])
+            print("Battle count incremented successfully")
+            return true
+        } catch {
+            print("Error incrementing battle count: \(error.localizedDescription)")
+            return false
         }
     }
 }

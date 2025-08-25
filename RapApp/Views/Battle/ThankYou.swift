@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 
 struct ThankYou: View {
+    
     @State var homeView = false
+    private let gateway = UserGateway()
     
     var body: some View {
         
@@ -23,6 +28,15 @@ struct ThankYou: View {
                 .font(.system(size: 20, weight: .black, design: .rounded))
             
             Button(action: {
+                Task {
+                    let success = await gateway.incrementBattleCount()
+                    if success {
+                        print("Battle count updated!")
+                    } else {
+                        print("Failed to update battle count")
+                    }
+                }
+
                 
                 homeView = true
                 

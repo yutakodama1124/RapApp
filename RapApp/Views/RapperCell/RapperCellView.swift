@@ -119,7 +119,8 @@ struct RapperCellView: View {
             job: "高校生",
             favrapper: "晋平太",
             latitude: 1,
-            longitude: 1
+            longitude: 1,
+            battleCount: 0
         )
     )
 }

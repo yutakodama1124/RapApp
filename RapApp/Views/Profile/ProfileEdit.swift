@@ -1,14 +1,8 @@
-//
-//  ProfileEdit.swift
-//  RapApp
-//
-//  Created by yuta kodama on 2024/09/04.
-//
-
 import SwiftUI
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
+import Kingfisher
 
 struct ProfileEdit: View {
     @State var user: User = .Empty()
@@ -22,147 +16,83 @@ struct ProfileEdit: View {
     @State private var favrapper = ""
     
     @State private var isPressed = false
+    @State var close = false
     
     private let repository: UserGateway = UserGateway()
     
     var body: some View {
         ScrollView {
             VStack {
-                Group {
-                    if selectedImage != nil {
-                        Image(uiImage: selectedImage!)
+                ZStack(alignment: .bottomTrailing) {
+                    if let selectedImage = selectedImage {
+                        Image(uiImage: selectedImage)
                             .resizable()
-                            .frame(width: 290, height: 350)
                             .scaledToFill()
+                            .frame(width: 290, height: 350)
                             .clipShape(Rectangle())
                             .cornerRadius(25)
-                        
-                        Button("Change Image") {
-                            isShowingImagePicker = true
-                        }
-                        .sheet(isPresented: $isShowingImagePicker) {
-                            LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
-                        }
+                            .onTapGesture { isShowingImagePicker = true }
+                    } else if !imageURL.isEmpty {
+                        KFImage(URL(string: imageURL))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 290, height: 350)
+                            .clipShape(Rectangle())
+                            .cornerRadius(25)
+                            .onTapGesture { isShowingImagePicker = true }
                     } else {
-                        Button("Choose Photo") {
-                            isShowingImagePicker = true
-                        }
-                        .frame(width: 290, height: 350)
-                        .foregroundColor(.white)
-                        .background(.black)
-                        .cornerRadius(25)
-                        .padding()
-                        .sheet(isPresented: $isShowingImagePicker) {
-                            LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
-                        }
+                        Rectangle()
+                            .fill(Color.black.opacity(0.1))
+                            .frame(width: 290, height: 350)
+                            .cornerRadius(25)
+                            .overlay(Text("Choose Photo").foregroundColor(.black))
+                            .onTapGesture { isShowingImagePicker = true }
                     }
+
+                    Button(action: { isShowingImagePicker = true }) {
+                        Image(systemName: "camera.fill")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color.black.opacity(0.7))
+                            .clipShape(Circle())
+                            .shadow(radius: 3)
+                    }
+                    .padding(12)
                 }
                 .padding()
-                
-                VStack {
-                    Text("名前")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 24, weight:
-                                .medium, design: .rounded))
-                        .offset(x: 30)
-                    
-                    TextField("名前", text: $name)
-                        .font(.system(size: 20, design: .rounded))
-                        .foregroundColor(.black)
-                        .offset(x: 30)
-                    
-                    Rectangle()
-                        .frame(width: 305, height: 1)
+                .sheet(isPresented: $isShowingImagePicker) {
+                    LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
                 }
-                .padding()
-                
-                VStack {
-                    Text("学校")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 24, weight:
-                                .medium, design: .rounded))
-                        .offset(x: 30)
-                    
-                    TextField("学校", text: $school)
-                        .font(.system(size: 20, design: .rounded))
-                        .foregroundColor(.black)
-                        .offset(x: 30)
-                    
-                    Rectangle()
-                        .frame(width: 305, height: 1)
-                }
-                .padding()
-                
-                VStack {
-                    Text("仕事")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 24, weight:
-                                .medium, design: .rounded))
-                        .offset(x: 30)
-                    
-                    TextField("仕事", text: $job)
-                        .font(.system(size: 20, design: .rounded))
-                        .foregroundColor(.black)
-                        .offset(x: 30)
-                    
-                    Rectangle()
-                        .frame(width: 305, height: 1)
-                }
-                .padding()
-                
-                VStack {
-                    Text("趣味")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 24, weight:
-                                .medium, design: .rounded))
-                        .offset(x: 30)
-                    
-                    TextField("趣味", text: $hobby)
-                        .font(.system(size: 20, design: .rounded))
-                        .foregroundColor(.black)
-                        .offset(x: 30)
-                    
-                    Rectangle()
-                        .frame(width: 305, height: 1)
-                }
-                .padding()
-                
-                VStack {
-                    Text("好きなラッパー")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 24, weight:
-                                .medium, design: .rounded))
-                        .offset(x: 30)
-                    
-                    TextField("好きなラッパー", text: $favrapper)
-                        .font(.system(size: 20, design: .rounded))
-                        .foregroundColor(.black)
-                        .offset(x: 30)
-                    
-                    Rectangle()
-                        .frame(width: 305, height: 1)
-                }
-                .padding()
-                
+
+                profileField(title: "名前", text: $name)
+                profileField(title: "学校", text: $school)
+                profileField(title: "仕事", text: $job)
+                profileField(title: "趣味", text: $hobby)
+                profileField(title: "好きなラッパー", text: $favrapper)
+
                 Button("保存") {
                     Task {
                         guard let userId = Auth.auth().currentUser?.uid else { return }
-                       
+                        
                         user.id = userId
                         user.name = name
                         user.hobby = hobby
                         user.school = school
                         user.job = job
                         user.favrapper = favrapper
-                        
-                        let storeImage = selectedImage ?? UIImage(systemName: "person.crop.circle")!
-                        let uploadResult = await repository.uploadImage(user: user, image: storeImage)
-                        if uploadResult.success, let newURL = uploadResult.url {
-                            user.imageURL = newURL
+
+                        if let newImage = selectedImage {
+                            let uploadResult = await repository.uploadImage(user: user, image: newImage)
+                            if uploadResult.success, let newURL = uploadResult.url {
+                                user.imageURL = newURL
+                            }
+                        } else {
+                            user.imageURL = imageURL
                         }
                         
                         await repository.updateUserInfo(user: user)
-                        print("user info saved")
+                        print("✅ User info saved")
+                        close = true
                     }
                 }
                 .font(.system(size: 20, weight: .bold, design: .rounded))
@@ -171,8 +101,8 @@ struct ProfileEdit: View {
                 .background(.black)
                 .cornerRadius(25)
                 .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
-                .scaleEffect(isPressed ? 0.95 : 1.0)   // bounce
-                .opacity(isPressed ? 0.7 : 1.0)        // fade
+                .scaleEffect(isPressed ? 0.95 : 1.0)
+                .opacity(isPressed ? 0.7 : 1.0)
                 .animation(.spring(response: 0.2, dampingFraction: 0.5),
                            value: isPressed)
                 .padding()
@@ -202,6 +132,27 @@ struct ProfileEdit: View {
             self.favrapper = user.favrapper
             self.job = user.job
         }
+        .fullScreenCover(isPresented: $close) {
+            ContentView()
+        }
+    }
+
+    private func profileField(title: String, text: Binding<String>) -> some View {
+        VStack {
+            Text(title)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.system(size: 24, weight: .medium, design: .rounded))
+                .offset(x: 30)
+            
+            TextField(title, text: text)
+                .font(.system(size: 20, design: .rounded))
+                .foregroundColor(.black)
+                .offset(x: 30)
+            
+            Rectangle()
+                .frame(width: 305, height: 1)
+        }
+        .padding()
     }
 }
 

@@ -23,8 +23,9 @@ struct User: Codable, Identifiable, Hashable {
     var hash: String {
         Geohash.encode(latitude: latitude, longitude: longitude, length: 7)
     }
+    var battleCount: Int
     
     static func Empty() -> User {
-        return User(id: "", imageURL: "", name: "", school: "", hobby: "", job: "", favrapper: "", latitude: 0, longitude: 0)
+        return User(id: "", imageURL: "", name: "", school: "", hobby: "", job: "", favrapper: "", latitude: 0, longitude: 0, battleCount: 0)
     }
 }

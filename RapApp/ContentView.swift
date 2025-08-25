@@ -9,25 +9,22 @@ import SwiftUI
 import AppleSignInFirebase
 
 struct ContentView: View {
-    @StateObject var viewModel = AuthViewModel() // Create AuthViewModel here
+    @StateObject var viewModel = AuthViewModel()
 
     var body: some View {
         if viewModel.isAuthenticated {
             TabView {
-                RapperListView()
+               HomeView()
                     .tabItem {
-                        Label("Nearby Users", systemImage: "person.3.fill")
+                        Label("ホーム", systemImage: "house.fill")
                     }
-                MapView()
-                    .tabItem {
-                        Label("Map", systemImage: "map.circle.fill")
-                    }
-                ProfileEdit()
+
+                Profile()
                     .tabItem {
                         Label("Profile", systemImage: "person.circle")
                     }
             }
-            .environmentObject(viewModel) // Inject AuthViewModel
+            .environmentObject(viewModel)
         } else {
             SignUp(viewModel: viewModel)
         }
