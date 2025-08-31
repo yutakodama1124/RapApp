@@ -172,17 +172,11 @@ struct Detail: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 60)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [Color.black, Color.gray.opacity(0.8)]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
+                        .background(Color.black)
                         .clipShape(RoundedRectangle(cornerRadius: 30))
                         .shadow(color: .black.opacity(0.4), radius: 10, x: 0, y: 5)
-                        .scaleEffect(isPressed ? 0.95 : 1.0)   // bounce
-                        .opacity(isPressed ? 0.7 : 1.0)        // fade
+                        .scaleEffect(isPressed ? 0.95 : 1.0)
+                        .opacity(isPressed ? 0.7 : 1.0)
                         .animation(.spring(response: 0.2, dampingFraction: 0.5),
                                    value: isPressed)
                     }

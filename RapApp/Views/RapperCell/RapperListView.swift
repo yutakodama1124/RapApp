@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct RapperListView: View {
     @State private var nearbyUsers: [User] = []
     @State private var isLoading = true
@@ -22,25 +21,33 @@ struct RapperListView: View {
                         .listRowSeparator(.hidden)
                     }
                     .listStyle(PlainListStyle())
+                    .refreshable {
+                        await fetchNearbyUsers()
+                    }
                 }
             }
             .navigationTitle("Nearby Users")
             .task {
-                guard viewModel.isAuthenticated else {
-                    print("User not authenticated, skipping fetch")
-                    isLoading = false
-                    return
-                }
-                isLoading = true
-                if let currentUser = await UserGateway().getSelf() {
-                    let filtered = await UserGateway().getNearUser(user: currentUser)
-                    print("Nearby users: \(filtered.map { $0.name })")
-                    self.nearbyUsers = filtered
-                } else {
-                    print("No authenticated user")
-                }
-                isLoading = false
+                await fetchNearbyUsers()
             }
+        }
+    }
+    
+    private func fetchNearbyUsers() async {
+        guard viewModel.isAuthenticated else {
+            print("User not authenticated, skipping fetch")
+            isLoading = false
+            return
+        }
+        isLoading = true
+        defer { isLoading = false }
+        
+        if let currentUser = await UserGateway().getSelf() {
+            let filtered = await UserGateway().getNearUser(user: currentUser)
+            print("Nearby users: \(filtered.map { $0.name })")
+            nearbyUsers = filtered
+        } else {
+            print("No authenticated user")
         }
     }
 }

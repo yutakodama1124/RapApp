@@ -32,21 +32,30 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     private static let COLLECTION = Firestore.firestore().collection("users")
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        func updateUserInfo(user: User) async -> Bool {
-            do {
-                try await AppDelegate.COLLECTION.document(user.id!).setData([
-                    "latitude": 0,
-                    "longitude": 0
-                ], merge: true)
-                print("User information successfully updated: \(user)")
-                return true
-            } catch {
-                print("Error updating user information: \(error.localizedDescription)")
-                return false
-            }
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        Task {
+            await updateUserLocationToZero()
         }
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        Task {
+            await updateUserLocationToZero()
+        }
+    }
+    
+    private func updateUserLocationToZero() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         
+        do {
+            try await AppDelegate.COLLECTION.document(userId).setData([
+                "latitude": 0,
+                "longitude": 0
+            ], merge: true)
+            print("User location successfully reset to (0, 0)")
+        } catch {
+            print("Error updating user location: \(error.localizedDescription)")
+        }
     }
 }
 
@@ -84,7 +93,7 @@ struct RapAppApp: App {
                     }
                 }
                 .fullScreenCover(isPresented: $MatchMapView) {
-                    RapApp.MatchMapView(latitude: matchLatitude, longitude: matchLongitude)
+                    RapApp.MatchMapView(latitude: matchLatitude, longitude: matchLongitude, opponentuser: opponentUser ?? User.Empty())
                 }
                 .onAppear {
                     Task {
@@ -145,7 +154,7 @@ struct AcceptView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 30)
-//                
+//
                 VStack(spacing: 25) {
                     VStack(alignment: .leading, spacing: 20) {
                         Text("対戦相手")
@@ -221,7 +230,7 @@ struct AcceptView: View {
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-//                    
+//
                     VStack(alignment: .leading, spacing: 15) {
                         Text("ビート")
                             .foregroundStyle(.black)
@@ -273,7 +282,7 @@ struct AcceptView: View {
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-//                    
+//
                     HStack(spacing: 15) {
 //                        // Reject Button
                         Button {
@@ -305,7 +314,7 @@ struct AcceptView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 30))
                             .shadow(color: .red.opacity(0.4), radius: 10, x: 0, y: 5)
                         }
-//                        
+//
                         // Accept Button
                         Button {
                             Task {

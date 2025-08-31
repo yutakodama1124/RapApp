@@ -15,7 +15,6 @@ struct Profile: View {
         ScrollView {
             if let user = currentUser {
                 VStack(spacing: 0) {
-                    // --- Banner image / avatar ---
                     ZStack(alignment: .bottom) {
                         KFImage(URL(string: user.imageURL))
                             .placeholder { _ in
@@ -45,8 +44,7 @@ struct Profile: View {
                         )
                         .frame(height: 150)
                     }
-                    
-                    // --- Profile details ---
+
                     VStack(spacing: 25) {
                         Text(user.name)
                             .font(.system(size: 36, weight: .bold, design: .rounded))
@@ -61,8 +59,7 @@ struct Profile: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 40)
                     .padding(.bottom, 30)
-                    
-                    // --- Edit button at bottom ---
+
                     VStack {
                         Button {
                             nextShown = true
@@ -89,7 +86,6 @@ struct Profile: View {
                     .padding(.bottom, 40)
                 }
             } else if isLoading {
-                // --- Loading state ---
                 VStack(spacing: 20) {
                     ProgressView()
                     Text("プロフィールを読み込み中...")
@@ -97,7 +93,6 @@ struct Profile: View {
                 }
                 .padding(.top, 100)
             } else {
-                // --- No user fallback ---
                 VStack(spacing: 20) {
                     Image(systemName: "person.fill.questionmark")
                         .font(.system(size: 60))

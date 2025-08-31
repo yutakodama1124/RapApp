@@ -35,8 +35,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private func updateUserLocation(_ location: CLLocation) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
-        
-        // Create a User object with just the location data
+
         let user = User(
             id: userId,
             imageURL: "",

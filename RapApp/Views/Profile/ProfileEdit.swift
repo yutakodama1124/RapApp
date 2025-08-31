@@ -91,7 +91,7 @@ struct ProfileEdit: View {
                         }
                         
                         await repository.updateUserInfo(user: user)
-                        print("✅ User info saved")
+                        print("User info saved")
                         close = true
                     }
                 }

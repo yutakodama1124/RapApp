@@ -103,8 +103,13 @@ class UserGateway {
     func getNearUser(user: User) async -> [User] {
         let users = await getUsers()
         
+        guard let urid = user.id else {
+            print("no current user id")
+            return []
+        }
+        
         let filteredUsers = users.filter {
-            return $0.hash == user.hash
+            return $0.hash == user.hash && $0.id != urid
         }
         print("fetched users: \(filteredUsers.count)")
         return filteredUsers
@@ -137,4 +142,17 @@ class UserGateway {
             return false
         }
     }
+    
+    func deleteAccount() {
+            guard let user = Auth.auth().currentUser else { return }
+            user.delete { error in
+                if let error = error {
+                    print("アカウント削除エラー: \(error)")
+                } else {
+                    print("アカウント削除成功")
+                }
+            }
+        }
+    
+    
 }

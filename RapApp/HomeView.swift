@@ -39,7 +39,7 @@ struct HomeView: View {
                         
                         Spacer()
                         
-                        Button(action: {}) {
+                        NavigationLink(destination: SettingsView()) {
                             Circle()
                                 .fill(Color.gray.opacity(0.15))
                                 .frame(width: 40, height: 40)

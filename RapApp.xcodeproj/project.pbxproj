@@ -13,9 +13,9 @@
 		108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640112D40EA83004DB57E /* UserGatewayProtocol.swift */; };
 		A608839D2DF04B07006865C7 /* AppleSignInFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = A608839C2DF04B07006865C7 /* AppleSignInFirebase */; };
 		A608839F2DF05087006865C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A608839E2DF05086006865C7 /* GoogleService-Info.plist */; };
-		A60B4BA32E59081E00827CB1 /* BattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B4BA22E59081E00827CB1 /* BattleView.swift */; };
 		A60B4BA52E5C86D300827CB1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B4BA42E5C86D300827CB1 /* HomeView.swift */; };
 		A60B4BA72E5D09F400827CB1 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B4BA62E5D09F400827CB1 /* Profile.swift */; };
+		A60B4BA92E5DB4BC00827CB1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B4BA82E5DB4BC00827CB1 /* SettingsView.swift */; };
 		A61F8B5E2C22E70C00BCE7FF /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5D2C22E70C00BCE7FF /* Battle.swift */; };
 		A61F8B602C22EC9000BCE7FF /* ThankYou.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */; };
 		A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61F8B612C22F45E00BCE7FF /* Detail.swift */; };
@@ -57,9 +57,9 @@
 		1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGatewayProtocol.swift; sourceTree = "<group>"; };
 		108640112D40EA83004DB57E /* UserGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGatewayProtocol.swift; sourceTree = "<group>"; };
 		A608839E2DF05086006865C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A60B4BA22E59081E00827CB1 /* BattleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleView.swift; sourceTree = "<group>"; };
 		A60B4BA42E5C86D300827CB1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A60B4BA62E5D09F400827CB1 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		A60B4BA82E5DB4BC00827CB1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A61F8B5D2C22E70C00BCE7FF /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYou.swift; sourceTree = "<group>"; };
 		A61F8B612C22F45E00BCE7FF /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -164,7 +164,6 @@
 				A61F8B612C22F45E00BCE7FF /* Detail.swift */,
 				A65CE9382E15423B00DA9A35 /* MatchMapView.swift */,
 				A65CE93A2E27BCF700DA9A35 /* OpponentWaitView.swift */,
-				A60B4BA22E59081E00827CB1 /* BattleView.swift */,
 				A61F8B5F2C22EC9000BCE7FF /* ThankYou.swift */,
 				A6DC941F2E30F89E008EB6AD /* mov_1.mp4 */,
 			);
@@ -237,9 +236,10 @@
 		A6EDA3D02C19B07C002A2C23 /* RapApp */ = {
 			isa = PBXGroup;
 			children = (
-				A60B4BA42E5C86D300827CB1 /* HomeView.swift */,
 				A6EDA3D12C19B07C002A2C23 /* RapApp.swift */,
+				A60B4BA42E5C86D300827CB1 /* HomeView.swift */,
 				A6EDA3D32C19B07C002A2C23 /* ContentView.swift */,
+				A60B4BA82E5DB4BC00827CB1 /* SettingsView.swift */,
 				1006E8F52CB7958100E61613 /* Gateway */,
 				1006E8F32CB794E200E61613 /* DataModel */,
 				1006E8F12CB7941200E61613 /* Extension */,
@@ -364,7 +364,6 @@
 				A658BA882C8868D3000D7AA2 /* ProfileEdit.swift in Sources */,
 				A6EDA3D42C19B07C002A2C23 /* ContentView.swift in Sources */,
 				A65AFC872CC910610020A67B /* UserLocation.swift in Sources */,
-				A60B4BA32E59081E00827CB1 /* BattleView.swift in Sources */,
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
 				A664EB172E02CD4C003FF01D /* Match.swift in Sources */,
 				108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */,
@@ -376,6 +375,7 @@
 				A658BA902C8875C4000D7AA2 /* ColorExt.swift in Sources */,
 				A658BA8B2C886BC8000D7AA2 /* LibraryPickerView.swift in Sources */,
 				A658BA7D2C82F11B000D7AA2 /* AuthViewModel.swift in Sources */,
+				A60B4BA92E5DB4BC00827CB1 /* SettingsView.swift in Sources */,
 				A658BA832C8740C1000D7AA2 /* User.swift in Sources */,
 				A658BA562C6C350E000D7AA2 /* RapperDetailView.swift in Sources */,
 				A658BA582C75EDE7000D7AA2 /* SignUp.swift in Sources */,
