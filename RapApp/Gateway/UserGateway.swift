@@ -52,7 +52,8 @@ class UserGateway {
                 "job": user.job,
                 "favrapper": user.favrapper,
                 "latitude": user.latitude,
-                "longitude": user.longitude
+                "longitude": user.longitude,
+                "battleCount": user.battleCount
             ], merge: true)
             print("User information successfully updated: \(user)")
             return true
@@ -90,11 +91,30 @@ class UserGateway {
     func getUsers() async -> [User] {
         let db = Firestore.firestore()
         do {
-            print("Fetching usrs")
-            let json = try await db.collection("users").getDocuments().documents
-            return json.compactMap { try? $0.data(as: User.self) }
+            
+            let querySnapshot = try await db.collection("users").getDocuments()
+            print("Query completed successfully")
+            print("Raw documents returned: \(querySnapshot.documents.count)")
+            
+            let users = querySnapshot.documents.compactMap { document -> User? in
+                
+                do {
+                    let user = try document.data(as: User.self)
+                    print("Successfully decoded user: \(user.name)")
+                    print("Location: \(user.latitude), \(user.longitude)")
+                    return user
+                } catch {
+                    print("Failed to decode document \(document.documentID): \(error)")
+                    return nil
+                }
+            }
+            
+            print("Final users array: \(users.count)")
+            return users
+            
         } catch {
-            print("error getting users \(error.localizedDescription)")
+            print("Error in getUsers(): \(error.localizedDescription)")
+            print("Error details: \(error)")
         }
         return []
     }
@@ -104,14 +124,30 @@ class UserGateway {
         let users = await getUsers()
         
         guard let urid = user.id else {
-            print("no current user id")
+            print("No current user id")
             return []
+        }
+        
+        print("🔍 DEBUGGING getNearUser:")
+        print("   Current user ID: \(urid)")
+        print("   Current user hash: \(user.hash)")
+        print("   Total users fetched: \(users.count)")
+ 
+        for otherUser in users {
+            print("   User: \(otherUser.name)")
+            print("     ID: \(otherUser.id ?? "nil")")
+            print("     Hash: \(otherUser.hash)")
+            print("     Same hash? \(otherUser.hash == user.hash)")
+            print("     Different ID? \(otherUser.id != urid)")
+            print("     Would include? \(otherUser.hash == user.hash && otherUser.id != urid)")
+            print("   ---")
         }
         
         let filteredUsers = users.filter {
             return $0.hash == user.hash && $0.id != urid
         }
-        print("fetched users: \(filteredUsers.count)")
+        
+        print("FINAL RESULT: \(filteredUsers.count) nearby users")
         return filteredUsers
     }
     

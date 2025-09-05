@@ -5,20 +5,48 @@ import Kingfisher
 struct MatchMapView: View {
     let latitude: Double
     let longitude: Double
-    
-    @State var battleview = false
-    
-    @State private var currentUser: User? = nil
-    private let gateway = UserGateway()
     let opponentuser: User
     
+    @State private var currentUser: User? = nil
+    @State private var isLoading = true
+    @State private var errorMessage: String?
+    @State private var battleview = false
+    
+    private let gateway = UserGateway()
+    
     var body: some View {
-        if let user = currentUser {
-            ZStack {
-                
-                Color.white
-                    .ignoresSafeArea()
-                
+        ZStack {
+            Color.white
+                .ignoresSafeArea()
+            
+            if isLoading {
+                VStack(spacing: 20) {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                    Text("ユーザーデータを読み込み中...")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if let errorMessage = errorMessage {
+                VStack(spacing: 20) {
+                    Text("エラー")
+                        .font(.title)
+                        .foregroundColor(.red)
+                    Text(errorMessage)
+                        .font(.body)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                    Button("再試行") {
+                        Task { await loadCurrentUser() }
+                    }
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
+                }
+                .padding()
+            } else if let user = currentUser {
                 VStack(spacing: 0) {
                     VStack(spacing: 8) {
                         Text("バトル")
@@ -38,7 +66,8 @@ struct MatchMapView: View {
                     Map {
                         UserAnnotation()
                         
-                        Annotation(opponentuser.name, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)) {
+                        Annotation(opponentuser.name.isEmpty ? "不明な相手" : opponentuser.name,
+                                 coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)) {
                             ZStack {
                                 Circle()
                                     .fill(
@@ -52,15 +81,15 @@ struct MatchMapView: View {
                                     .shadow(color: .cyan.opacity(0.6), radius: 8, x: 0, y: 0)
                                 
                                 KFImage(URL(string: opponentuser.imageURL))
-                                                          .placeholder {
-                                                              Image(systemName: "person.fill")
-                                                                  .foregroundColor(.white)
-                                                                  .font(.system(size: 24, weight: .bold))
-                                                          }
-                                                          .resizable()
-                                                          .aspectRatio(contentMode: .fill)
-                                                          .frame(width: 50, height: 50)
-                                                          .clipShape(Circle())
+                                    .placeholder {
+                                        Image(systemName: "person.fill")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 24, weight: .bold))
+                                    }
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
                             }
                             .scaleEffect(1.1)
                             .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: true)
@@ -76,10 +105,9 @@ struct MatchMapView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 15)
                     
-                    
                     VStack(spacing: 12) {
                         HStack(spacing: 16) {
-                            Text(user.name)
+                            Text(user.name.isEmpty ? "不明" : user.name)
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(.cyan)
@@ -89,13 +117,12 @@ struct MatchMapView: View {
                                 .fontWeight(.black)
                                 .foregroundColor(.gray)
                             
-                            Text(opponentuser.name)
+                            Text(opponentuser.name.isEmpty ? "不明な相手" : opponentuser.name)
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(.red)
                         }
                         .padding(.horizontal, 32)
-                        
                         
                         Button(action: {
                             battleview = true
@@ -119,19 +146,50 @@ struct MatchMapView: View {
                         .padding(.bottom, 30)
                     }
                 }
-            }
-            .fullScreenCover(isPresented: $battleview) {
-                Battle()
-            }
-            .task {
-                currentUser = await gateway.getSelf()
+                .fullScreenCover(isPresented: $battleview) {
+                    Battle()
+                }
+            } else {
+                VStack {
+                    Text("ユーザーデータが見つかりませんでした")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                    Button("再試行") {
+                        Task { await loadCurrentUser() }
+                    }
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
+                }
             }
         }
+        .task {
+            await loadCurrentUser()
+        }
+    }
+    
+    private func loadCurrentUser() async {
+        isLoading = true
+        errorMessage = nil
+        do {
+            if let user = await gateway.getSelf() {
+                currentUser = user
+            } else {
+                errorMessage = "ユーザーデータが見つかりませんでした。"
+            }
+        } catch {
+            errorMessage = "データの取得に失敗しました: \(error.localizedDescription)"
+            print("Error fetching currentUser: \(error.localizedDescription)")
+        }
+        isLoading = false
     }
 }
+
 #Preview {
     MatchMapView(
         latitude: 35.0,
-        longitude: 135.0, opponentuser: .Empty()
+        longitude: 135.0,
+        opponentuser: .Empty()
     )
 }

@@ -36,7 +36,6 @@ struct SignUp: View {
                         .padding()
                 }
 
-                // After login, show main app
                 if viewModel.isAuthenticated {
                     ContentView(viewModel: viewModel)
                 }
@@ -44,7 +43,6 @@ struct SignUp: View {
         }
     }
 
-    // MARK: - Handle Apple Sign In
     private func handleAppleSignIn(_ authResults: ASAuthorization) {
         guard case let appleIDCredential as ASAuthorizationAppleIDCredential = authResults.credential else {
             loginError = "Invalid Apple ID credential."
@@ -89,7 +87,6 @@ struct SignUp: View {
         }
     }
 
-    // MARK: - Utilities
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         var randomBytes = [UInt8](repeating: 0, count: length)

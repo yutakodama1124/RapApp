@@ -1,80 +1,58 @@
-//
-//  RapAppApp.swift
-//  RapApp
-//
-//  Created by yuta kodama on 2024/06/12.
-//
-
 import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 import AppleSignInFirebase
 import FirebaseStorage
-import Foundation
 import CoreLocation
 import Geohash
 import MapKit
-import UIKit
-import FirebaseAuth
 import Kingfisher
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    private static let COLLECTION = Firestore.firestore().collection("users")
     
-    
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        
-        
         return true
     }
     
-    private static let COLLECTION = Firestore.firestore().collection("users")
-    
     func applicationDidEnterBackground(_ application: UIApplication) {
-        Task {
-            await updateUserLocationToZero()
-        }
+        Task { await resetUserLocation() }
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        Task {
-            await updateUserLocationToZero()
-        }
+        Task { await resetUserLocation() }
     }
     
-    private func updateUserLocationToZero() async {
+    private func resetUserLocation() async {
         guard let userId = Auth.auth().currentUser?.uid else { return }
-        
         do {
             try await AppDelegate.COLLECTION.document(userId).setData([
                 "latitude": 0,
                 "longitude": 0
             ], merge: true)
-            print("User location successfully reset to (0, 0)")
+            print("User location reset to (0, 0)")
         } catch {
-            print("Error updating user location: \(error.localizedDescription)")
+            print("Error resetting user location: \(error.localizedDescription)")
         }
     }
 }
 
-
 @main
 struct RapAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var viewModel = AuthViewModel()
-    @State var showAcceptView = false
-    @State var MatchMapView = false
+    @StateObject private var viewModel = AuthViewModel()
+    @State private var showAcceptView = false
+    @State private var showMatchMapView = false
+    @State private var matchLatitude: Double = 0.0
+    @State private var matchLongitude: Double = 0.0
+    @State private var opponentId: String = ""
+    @State private var isPlaying = false
+    @State private var isLoadingOpponent = false
+    @State private var opponentUser: User?
     
-    @State var matchLatitude: Double = 0.0
-    @State var matchLongitude: Double = 0.0
-    @State var opponentId: String = ""
-    @State var isPlaying = false
-    
-    let musicplayer = SoundPlayer()
-    
-    @State var opponentUser: User?
+    private let musicPlayer = SoundPlayer()
     
     var body: some Scene {
         WindowGroup {
@@ -82,48 +60,80 @@ struct RapAppApp: App {
                 Group {
                     if showAcceptView {
                         if let opponentUser {
-                            AcceptView (user: opponentUser, musicplayer: musicplayer, showAcceptView: $showAcceptView, MatchMapView: $MatchMapView, isPlaying: $isPlaying)
+                            AcceptView(
+                                user: opponentUser,
+                                musicPlayer: musicPlayer,
+                                showAcceptView: $showAcceptView,
+                                showMatchMapView: $showMatchMapView,
+                                isPlaying: $isPlaying
+                            )
+                        } else {
+                            VStack(spacing: 20) {
+                                ProgressView()
+                                    .scaleEffect(1.5)
+                                Text("対戦相手の情報を取得中...")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color.white)
                         }
                     } else {
                         ContentView(viewModel: viewModel)
                             .environment(AuthManager.shared)
-                            .onDisappear {
-                                
-                            }
                     }
                 }
-                .fullScreenCover(isPresented: $MatchMapView) {
-                    RapApp.MatchMapView(latitude: matchLatitude, longitude: matchLongitude, opponentuser: opponentUser ?? User.Empty())
+                .fullScreenCover(isPresented: $showMatchMapView) {
+                    if let opponentUser {
+                        MatchMapView(
+                            latitude: matchLatitude,
+                            longitude: matchLongitude,
+                            opponentuser: opponentUser
+                        )
+                        .onAppear {
+                            print("MatchMapView appeared with Latitude: \(matchLatitude), Longitude: \(matchLongitude), Opponent: \(opponentUser.name)")
+                        }
+                    } else {
+                        VStack {
+                            ProgressView("Loading opponent...")
+                                .font(.title2)
+                            Text("Debug: opponentUser is nil")
+                                .foregroundColor(.red)
+                        }
+                    }
                 }
-                .onAppear {
-                    Task {
-                        while true {
-                            try? await Task.sleep(for: .seconds(5))
+                .task {
+                    while true {
+                        do {
+                            try await Task.sleep(for: .seconds(5))
+                            guard let userId = Auth.auth().currentUser?.uid, !isLoadingOpponent else { continue }
                             
-                            let db = Firestore.firestore()
-                            guard let userId = Auth.auth().currentUser?.uid else { return }
-                            
-                            print(userId)
-                            let a = try! await db.collection("matches").document(userId).getDocument().data()
-                            if let match = try? await db.collection("matches").document(userId).getDocument().data(as: Match.self) {
-                                print("found match requests")
+                            isLoadingOpponent = true
+
+                            do {
+                                let document = try await Firestore.firestore().collection("matches").document(userId).getDocument()
+                                let match = try document.data(as: Match.self)
+                                print("Found match request")
+
+                                matchLatitude = match.latitude
+                                matchLongitude = match.longitude
+                                opponentId = match.userAId
                                 
-                                showAcceptView = true
-                                
-                                if let data = try? await db.collection("matches").document(userId).getDocument() {
-                                    matchLatitude = data["latitude"] as? Double ?? 0.0
-                                    matchLongitude = data["longitude"] as? Double ?? 0.0
-                                    opponentId = data["userAId"] as? String ?? ""
+                                if let fetchedOpponent = await UserGateway().fetchUser(userId: opponentId) {
+                                    await MainActor.run {
+                                        opponentUser = fetchedOpponent
+                                        showAcceptView = true
+                                    }
                                 }
-                                
-                                Task {
-                                    opponentUser = await UserGateway().fetchUser(userId: opponentId)
-                                }
-                                
-                                
-                            } else {
-                                print("no match requests")
+                            } catch {
+                                print("No match requests or error: \(error.localizedDescription)")
                             }
+                            
+                            isLoadingOpponent = false
+                        } catch {
+                            print("Task sleep error: \(error.localizedDescription)")
+                            isLoadingOpponent = false
+                            break
                         }
                     }
                 }
@@ -136,42 +146,35 @@ struct RapAppApp: App {
 }
 
 struct AcceptView: View {
-    
     let user: User
-    let musicplayer: SoundPlayer
+    let musicPlayer: SoundPlayer
     @Binding var showAcceptView: Bool
-    @Binding var MatchMapView: Bool
+    @Binding var showMatchMapView: Bool
     @Binding var isPlaying: Bool
-//
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 VStack(spacing: 20) {
                     Text("バトルの招待が来ました")
-                        .foregroundStyle(.black)
                         .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundStyle(.black)
                         .padding(.top, 60)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 30)
-//
+                
                 VStack(spacing: 25) {
                     VStack(alignment: .leading, spacing: 20) {
                         Text("対戦相手")
-                            .foregroundStyle(.black)
                             .font(.system(size: 24, weight: .bold, design: .rounded))
+                            .foregroundStyle(.black)
                         
                         HStack(spacing: 15) {
                             KFImage(URL(string: user.imageURL))
-                                .placeholder { _ in
+                                .placeholder {
                                     Circle()
-                                        .fill(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]),
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            )
-                                        )
+                                        .fill(LinearGradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)], startPoint: .topLeading, endPoint: .bottomTrailing))
                                         .overlay(
                                             Image(systemName: "person.fill")
                                                 .font(.system(size: 35))
@@ -182,29 +185,29 @@ struct AcceptView: View {
                                 .scaledToFill()
                                 .frame(width: 80, height: 80)
                                 .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
+                                .shadow(color: .black.opacity(0.2), radius: 5)
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(user.name)
-                                    .foregroundStyle(.black)
                                     .font(.system(size: 22, weight: .bold, design: .rounded))
+                                    .foregroundStyle(.black)
                                 
                                 HStack(spacing: 5) {
                                     Text("職業:")
-                                        .foregroundStyle(.gray)
                                         .font(.system(size: 16, weight: .medium))
+                                        .foregroundStyle(.gray)
                                     Text(user.job)
-                                        .foregroundStyle(.black)
                                         .font(.system(size: 16, weight: .semibold))
+                                        .foregroundStyle(.black)
                                 }
                                 
                                 HStack(spacing: 5) {
                                     Text("趣味:")
-                                        .foregroundStyle(.gray)
                                         .font(.system(size: 16, weight: .medium))
+                                        .foregroundStyle(.gray)
                                     Text(user.hobby)
-                                        .foregroundStyle(.black)
                                         .font(.system(size: 16, weight: .semibold))
+                                        .foregroundStyle(.black)
                                 }
                             }
                             Spacer()
@@ -213,37 +216,36 @@ struct AcceptView: View {
                     .padding(20)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    .frame(maxWidth: .infinity, minHeight: 100)
+                    .shadow(color: .black.opacity(0.1), radius: 8)
                     
-                    VStack(spacing: 15) {
+                    VStack(alignment: .leading, spacing: 15) {
                         Text("バトル詳細")
-                            .foregroundStyle(.black)
                             .font(.system(size: 24, weight: .bold, design: .rounded))
-                        
-                        Text("８小節　２本")
                             .foregroundStyle(.black)
+                        
+                        Text("８小節　4本")
                             .font(.system(size: 20, weight: .bold, design: .rounded))
+                            .foregroundStyle(.black)
                     }
                     .padding(20)
-                    .frame(maxWidth: .infinity, minHeight: 100, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-//
+                    .shadow(color: .black.opacity(0.1), radius: 8)
+                    
                     VStack(alignment: .leading, spacing: 15) {
                         Text("ビート")
-                            .foregroundStyle(.black)
                             .font(.system(size: 24, weight: .bold, design: .rounded))
+                            .foregroundStyle(.black)
                         
                         HStack(spacing: 15) {
                             VStack(alignment: .leading, spacing: 5) {
                                 Text("バトルビートを再生")
-                                    .foregroundStyle(.black)
                                     .font(.system(size: 18, weight: .semibold, design: .rounded))
+                                    .foregroundStyle(.black)
                                 Text(isPlaying ? "再生中..." : "タップして再生")
-                                    .foregroundStyle(.gray)
                                     .font(.system(size: 14))
+                                    .foregroundStyle(.gray)
                             }
                             
                             Spacer()
@@ -251,29 +253,27 @@ struct AcceptView: View {
                             Button {
                                 withAnimation(.easeInOut(duration: 0.2)) {
                                     if isPlaying {
-                                        Task { musicplayer.stopAllMusic() }
+                                        Task { musicPlayer.stopAllMusic() }
                                         isPlaying = false
                                     } else {
-                                        Task { musicplayer.musicPlayer() }
+                                        Task { musicPlayer.musicPlayer() }
                                         isPlaying = true
                                     }
                                 }
                             } label: {
                                 Circle()
-                                    .fill(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: isPlaying ? [Color.red, Color.orange] : [Color.black, Color.gray.opacity(0.8)]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
+                                    .fill(LinearGradient(
+                                        colors: isPlaying ? [Color.red, Color.orange] : [Color.black, Color.gray.opacity(0.8)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ))
                                     .frame(width: 60, height: 60)
                                     .overlay(
                                         Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                                             .font(.system(size: 24, weight: .bold))
                                             .foregroundColor(.white)
                                     )
-                                    .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 2)
+                                    .shadow(color: .black.opacity(0.3), radius: 5)
                                     .scaleEffect(isPlaying ? 1.1 : 1.0)
                             }
                         }
@@ -281,17 +281,13 @@ struct AcceptView: View {
                     .padding(20)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-//
+                    .shadow(color: .black.opacity(0.1), radius: 8)
+                    
                     HStack(spacing: 15) {
-//                        // Reject Button
                         Button {
                             Task {
-                                let db = Firestore.firestore()
                                 guard let userId = Auth.auth().currentUser?.uid else { return }
-
-                                try? db.collection("matches").document(userId).delete()
-                                
+                                try? await Firestore.firestore().collection("matches").document(userId).delete()
                                 showAcceptView = false
                             }
                         } label: {
@@ -303,28 +299,19 @@ struct AcceptView: View {
                             }
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.red, Color.red.opacity(0.8)]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
+                            .background(LinearGradient(colors: [Color.red, Color.red.opacity(0.8)], startPoint: .leading, endPoint: .trailing))
                             .clipShape(RoundedRectangle(cornerRadius: 30))
-                            .shadow(color: .red.opacity(0.4), radius: 10, x: 0, y: 5)
+                            .shadow(color: .red.opacity(0.4), radius: 10)
                         }
-//
-                        // Accept Button
+                        
                         Button {
                             Task {
-                                let db = Firestore.firestore()
                                 guard let userId = Auth.auth().currentUser?.uid else { return }
-                                
-                                try? db.collection("matches").document(userId).setData([
-                                    "accepted": true], merge: true)
-
-                                MatchMapView = true
+                                try? await Firestore.firestore().collection("matches").document(userId).setData(["accepted": true], merge: true)
+                                await MainActor.run {
+                                    showAcceptView = false
+                                    showMatchMapView = true
+                                }
                             }
                         } label: {
                             HStack(spacing: 10) {
@@ -335,22 +322,12 @@ struct AcceptView: View {
                             }
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .background(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.green, Color.green.opacity(0.8)]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
+                            .background(LinearGradient(colors: [Color.green, Color.green.opacity(0.8)], startPoint: .leading, endPoint: .trailing))
                             .clipShape(RoundedRectangle(cornerRadius: 30))
-                            .shadow(color: .green.opacity(0.4), radius: 10, x: 0, y: 5)
+                            .shadow(color: .green.opacity(0.4), radius: 10)
                         }
-                        
                     }
                     .padding(.top, 10)
-                    
-                    Spacer(minLength: 30)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)

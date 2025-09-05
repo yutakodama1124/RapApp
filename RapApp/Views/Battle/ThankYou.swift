@@ -13,44 +13,48 @@ import FirebaseAuth
 struct ThankYou: View {
     
     @State var homeView = false
+    @State var currentUser: User? = nil
     private let gateway = UserGateway()
     
     var body: some View {
         
         VStack(spacing: 60) {
-            Text("バトル終了")
-                .foregroundStyle(.black)
-                .font(.system(size: 30, weight: .black, design: .rounded))
-            
-            Text("23回目のバトル終了おめでとうございます！！")
-                .frame(width: 300)
-                .foregroundStyle(.black)
-                .font(.system(size: 20, weight: .black, design: .rounded))
-            
-            Button(action: {
-                Task {
-                    let success = await gateway.incrementBattleCount()
-                    if success {
-                        print("Battle count updated!")
-                    } else {
-                        print("Failed to update battle count")
-                    }
+            if let user = currentUser {
+                Text("バトル終了")
+                    .foregroundStyle(.black)
+                    .font(.system(size: 30, weight: .black, design: .rounded))
+                HStack {
+                    Text("\(user.battleCount + 1)" + "回目のバトル終了おめでとうございます！")
+                        .frame(width: 300)
+                        .foregroundStyle(.black)
+                        .font(.system(size: 20, weight: .black, design: .rounded))
                 }
-
-                
-                homeView = true
-                
-            }) {
-                Text("ホーム")
-                    .frame(width: 150, height: 60)
-            }
-            .accentColor(Color.white)
-            .background(Color.black)
-            .cornerRadius(60)
-            .fullScreenCover(isPresented: $homeView) {
-                ContentView(viewModel: AuthViewModel())
+                Button(action: {
+                    Task {
+                        let success = await gateway.incrementBattleCount()
+                        if success {
+                            print("Battle count updated!")
+                        } else {
+                            print("Failed to update battle count")
+                        }
+                    }
+                    
+                    
+                    homeView = true
+                    
+                }) {
+                    Text("ホーム")
+                        .frame(width: 150, height: 60)
+                }
+                .accentColor(Color.white)
+                .background(Color.black)
+                .cornerRadius(60)
+                .fullScreenCover(isPresented: $homeView) {
+                    ContentView(viewModel: AuthViewModel())
+                }
             }
         }
+        .task { currentUser = await gateway.getSelf()}
     }
 }
 #Preview {
