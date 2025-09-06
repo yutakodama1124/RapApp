@@ -36,6 +36,9 @@ struct Battle: View {
             }
         }
         .onAppear {
+            
+            UIApplication.shared.isIdleTimerDisabled = true
+            
             startCountdown()
 
             Task {
@@ -47,6 +50,9 @@ struct Battle: View {
                 try? await Task.sleep(for: .seconds(140))
                 nextview = true
             }
+        }
+        .onDisappear {
+            UIApplication.shared.isIdleTimerDisabled = false
         }
         .onReceive(timer) { _ in
             if !showCountdown && isPlaying {

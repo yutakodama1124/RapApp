@@ -39,6 +39,12 @@ struct ThankYou: View {
                         }
                     }
                     
+                    Task {
+                        guard let userId = Auth.auth().currentUser?.uid else { return }
+                        try? await Firestore.firestore().collection("matches").document(userId).delete()
+                    }
+
+                    
                     
                     homeView = true
                     

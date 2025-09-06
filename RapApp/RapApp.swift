@@ -299,6 +299,7 @@ struct AcceptView: View {
                             }
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
+                            .frame(height: 60)
                             .background(LinearGradient(colors: [Color.red, Color.red.opacity(0.8)], startPoint: .leading, endPoint: .trailing))
                             .clipShape(RoundedRectangle(cornerRadius: 30))
                             .shadow(color: .red.opacity(0.4), radius: 10)
@@ -322,6 +323,7 @@ struct AcceptView: View {
                             }
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
+                            .frame(height: 60)
                             .background(LinearGradient(colors: [Color.green, Color.green.opacity(0.8)], startPoint: .leading, endPoint: .trailing))
                             .clipShape(RoundedRectangle(cornerRadius: 30))
                             .shadow(color: .green.opacity(0.4), radius: 10)
