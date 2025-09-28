@@ -18,10 +18,15 @@ struct ContentView: View {
                     .tabItem {
                         Label("ホーム", systemImage: "house.fill")
                     }
+                
+                RapEvaluationList()
+                    .tabItem{
+                        Label("評価", systemImage: "list.bullet")
+                    }
 
                 Profile()
                     .tabItem {
-                        Label("Profile", systemImage: "person.circle")
+                        Label("プロフィール", systemImage: "person.circle")
                     }
             }
             .environmentObject(viewModel)

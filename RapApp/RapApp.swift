@@ -47,12 +47,12 @@ struct RapAppApp: App {
     @State private var showMatchMapView = false
     @State private var matchLatitude: Double = 0.0
     @State private var matchLongitude: Double = 0.0
+    @State private var beatindex: Int = 0
     @State private var opponentId: String = ""
     @State private var isPlaying = false
     @State private var isLoadingOpponent = false
     @State private var opponentUser: User?
-    
-    private let musicPlayer = SoundPlayer()
+
     
     var body: some Scene {
         WindowGroup {
@@ -62,7 +62,7 @@ struct RapAppApp: App {
                         if let opponentUser {
                             AcceptView(
                                 user: opponentUser,
-                                musicPlayer: musicPlayer,
+                                beatindex: beatindex,
                                 showAcceptView: $showAcceptView,
                                 showMatchMapView: $showMatchMapView,
                                 isPlaying: $isPlaying
@@ -88,7 +88,8 @@ struct RapAppApp: App {
                         MatchMapView(
                             latitude: matchLatitude,
                             longitude: matchLongitude,
-                            opponentuser: opponentUser
+                            opponentuser: opponentUser,
+                            beatindex: beatindex
                         )
                         .onAppear {
                             print("MatchMapView appeared with Latitude: \(matchLatitude), Longitude: \(matchLongitude), Opponent: \(opponentUser.name)")
@@ -118,6 +119,7 @@ struct RapAppApp: App {
                                 matchLatitude = match.latitude
                                 matchLongitude = match.longitude
                                 opponentId = match.userAId
+                                beatindex = match.selectedBeatIndex
                                 
                                 if let fetchedOpponent = await UserGateway().fetchUser(userId: opponentId) {
                                     await MainActor.run {
@@ -147,7 +149,7 @@ struct RapAppApp: App {
 
 struct AcceptView: View {
     let user: User
-    let musicPlayer: SoundPlayer
+    let beatindex: Int
     @Binding var showAcceptView: Bool
     @Binding var showMatchMapView: Bool
     @Binding var isPlaying: Bool
@@ -252,11 +254,11 @@ struct AcceptView: View {
                             
                             Button {
                                 withAnimation(.easeInOut(duration: 0.2)) {
-                                    if isPlaying {
-                                        Task { musicPlayer.stopAllMusic() }
+                                    if BeatsGateway.isPlaying() {
+                                        BeatsGateway.stopBeat()
                                         isPlaying = false
                                     } else {
-                                        Task { musicPlayer.musicPlayer() }
+                                        BeatsGateway.playBeat(at: beatindex)
                                         isPlaying = true
                                     }
                                 }
@@ -277,6 +279,7 @@ struct AcceptView: View {
                                     .scaleEffect(isPlaying ? 1.1 : 1.0)
                             }
                         }
+                        
                     }
                     .padding(20)
                     .background(Color.white)
@@ -338,4 +341,5 @@ struct AcceptView: View {
         .background(Color.white)
         .ignoresSafeArea(.all, edges: .top)
     }
+    
 }

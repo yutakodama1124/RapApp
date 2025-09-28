@@ -16,4 +16,5 @@ struct Match: Codable, Identifiable {
     let latitude: Double
     let longitude: Double
     let accepted: Bool
+    let selectedBeatIndex: Int
 }

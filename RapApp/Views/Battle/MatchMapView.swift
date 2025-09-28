@@ -6,6 +6,7 @@ struct MatchMapView: View {
     let latitude: Double
     let longitude: Double
     let opponentuser: User
+    let beatindex: Int
     
     @State private var currentUser: User? = nil
     @State private var isLoading = true
@@ -147,7 +148,7 @@ struct MatchMapView: View {
                     }
                 }
                 .fullScreenCover(isPresented: $battleview) {
-                    Battle()
+                    Battle(opponent: opponentuser, beatindex: beatindex)
                 }
             } else {
                 VStack {
@@ -190,6 +191,7 @@ struct MatchMapView: View {
     MatchMapView(
         latitude: 35.0,
         longitude: 135.0,
-        opponentuser: .Empty()
+        opponentuser: .Empty(),
+        beatindex: 0
     )
 }

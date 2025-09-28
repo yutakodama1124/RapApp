@@ -12,9 +12,8 @@ struct Detail: View {
     @State var nextView = false
     @State var isPlaying = false
     @State private var isPressed = false
-    
-    let musicplayer = SoundPlayer()
-    
+
+    let beatindex: Int
     let opponentUser: User
     
     var body: some View {
@@ -126,10 +125,10 @@ struct Detail: View {
                             Button {
                                 withAnimation(.easeInOut(duration: 0.2)) {
                                     if isPlaying {
-                                        Task { musicplayer.stopAllMusic() }
+                                        BeatsGateway.stopBeat()
                                         isPlaying = false
                                     } else {
-                                        Task { musicplayer.musicPlayer() }
+                                        BeatsGateway.playBeat(at: beatindex)
                                         isPlaying = true
                                     }
                                 }
@@ -159,6 +158,9 @@ struct Detail: View {
                     .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                     
                     Button {
+                        BeatsGateway.stopBeat()
+                        isPlaying = false
+                        
                         withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) {
                             nextView = true
                         }
@@ -197,8 +199,11 @@ struct Detail: View {
         }
         .background(Color.white)
         .ignoresSafeArea(.all, edges: .top)
+        .onDisappear {
+            BeatsGateway.stopBeat()
+        }
         .fullScreenCover(isPresented: $nextView) {
-            Battle()
+            Battle(opponent: opponentUser, beatindex: beatindex)
         }
     }
 }

@@ -21,9 +21,11 @@ struct Battle: View {
     @State private var intensity: CGFloat = 0.3
     @State private var beatPulse: Bool = false
     
-    let timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
+    let opponent: User
     
-    let musicplayer = SoundPlayer()
+    let timer = Timer.publish(every: 0.08, on: .main, in: .common).autoconnect()
+
+    let beatindex: Int
     
     var body: some View {
         ZStack {
@@ -36,23 +38,21 @@ struct Battle: View {
             }
         }
         .onAppear {
-            
             UIApplication.shared.isIdleTimerDisabled = true
-            
             startCountdown()
-
+            
             Task {
                 try? await Task.sleep(for: .seconds(4))
-                await musicplayer.musicPlayer()
+                BeatsGateway.playBeat(at: beatindex)
                 isplaying = true
-            }
-            Task {
-                try? await Task.sleep(for: .seconds(140))
+
+                while BeatsGateway.isPlaying() {
+                    try? await Task.sleep(for: .seconds(0.5))
+                }
+
+                try? await Task.sleep(for: .seconds(5))
                 nextview = true
             }
-        }
-        .onDisappear {
-            UIApplication.shared.isIdleTimerDisabled = false
         }
         .onReceive(timer) { _ in
             if !showCountdown && isPlaying {
@@ -61,7 +61,7 @@ struct Battle: View {
             }
         }
         .fullScreenCover(isPresented: $nextview) {
-            ThankYou()
+            InputView(opponentUser: opponent)
         }
     }
     
@@ -198,5 +198,5 @@ struct Battle: View {
 }
 
 #Preview {
-    Battle()
+    Battle(opponent: .Empty(), beatindex: 0)
 }

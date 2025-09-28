@@ -8,7 +8,9 @@ struct OpponentWaitView: View {
     @State var DetailView = false
     
     
+    
     let opponentUser: User
+    let beatindex: Int
     
     var body: some View {
         VStack(spacing: 30) {
@@ -41,7 +43,7 @@ struct OpponentWaitView: View {
             ContentView()
         }
         .fullScreenCover(isPresented: $DetailView) {
-            Detail(opponentUser: opponentUser)
+            Detail(beatindex: beatindex, opponentUser: opponentUser)
         }
         .onAppear {
             startMatchPolling()

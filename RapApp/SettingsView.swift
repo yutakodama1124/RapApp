@@ -35,8 +35,7 @@ struct SettingsView: View {
                 Text("ログアウト")
                     .foregroundColor(.blue)
             }
-            
-            // アカウント削除
+
             Button(action: {
                 showingDeleteAlert = true
             }) {

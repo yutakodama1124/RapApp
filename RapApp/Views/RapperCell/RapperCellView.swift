@@ -45,7 +45,8 @@ struct RapperCellView: View {
                             userAId: userId,
                             latitude: location?.coordinate.latitude ?? 0,
                             longitude: location?.coordinate.longitude ?? 0,
-                            accepted: false
+                            accepted: false,
+                            selectedBeatIndex: BeatsGateway.generateRandomBeatIndex()
                         )
                         
                         try? db.collection("matches").document(user.id ?? "").setData(from: m)

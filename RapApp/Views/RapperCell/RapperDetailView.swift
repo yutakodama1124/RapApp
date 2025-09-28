@@ -9,6 +9,7 @@ struct RapperDetailView: View {
     let user: User
     @State var NextShown = false
     @State private var isPressed = false
+    @State private var selectedBeatIndex = 0
     
     var body: some View {
         ScrollView {
@@ -63,6 +64,9 @@ struct RapperDetailView: View {
 
                 VStack(spacing: 0) {
                     Button {
+                        let beatindex = BeatsGateway.generateRandomBeatIndex()
+                              selectedBeatIndex = beatindex
+                        
                         Task {
                             guard let userId = Auth.auth().currentUser?.uid else { return }
                             
@@ -74,7 +78,8 @@ struct RapperDetailView: View {
                                 userAId: userId,
                                 latitude: location?.coordinate.latitude ?? 0,
                                 longitude: location?.coordinate.longitude ?? 0,
-                                accepted: false
+                                accepted: false,
+                                selectedBeatIndex: beatindex
                             )
                             
                             try? db.collection("matches").document(user.id ?? "").setData(from: m)
@@ -90,8 +95,8 @@ struct RapperDetailView: View {
                             .background(Color.black)
                             .clipShape(RoundedRectangle(cornerRadius: 32))
                             .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
-                            .scaleEffect(isPressed ? 0.95 : 1.0)   // bounce effect
-                            .opacity(isPressed ? 0.7 : 1.0)        // fade effect
+                            .scaleEffect(isPressed ? 0.95 : 1.0)
+                            .opacity(isPressed ? 0.7 : 1.0)
                             .animation(.spring(response: 0.2, dampingFraction: 0.5), value: isPressed)
                     }
                     .padding(.horizontal, 20)
@@ -108,7 +113,7 @@ struct RapperDetailView: View {
         .ignoresSafeArea(.all, edges: .top)
         .navigationTitle("")
             .fullScreenCover(isPresented: $NextShown) {
-               OpponentWaitView(opponentUser: user)
+                OpponentWaitView(opponentUser: user, beatindex: selectedBeatIndex)
             }
     }
     

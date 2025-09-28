@@ -128,21 +128,6 @@ class UserGateway {
             return []
         }
         
-        print("🔍 DEBUGGING getNearUser:")
-        print("   Current user ID: \(urid)")
-        print("   Current user hash: \(user.hash)")
-        print("   Total users fetched: \(users.count)")
- 
-        for otherUser in users {
-            print("   User: \(otherUser.name)")
-            print("     ID: \(otherUser.id ?? "nil")")
-            print("     Hash: \(otherUser.hash)")
-            print("     Same hash? \(otherUser.hash == user.hash)")
-            print("     Different ID? \(otherUser.id != urid)")
-            print("     Would include? \(otherUser.hash == user.hash && otherUser.id != urid)")
-            print("   ---")
-        }
-        
         let filteredUsers = users.filter {
             return $0.hash == user.hash && $0.id != urid
         }
