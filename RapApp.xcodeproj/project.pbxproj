@@ -11,6 +11,9 @@
 		101A45FE2D6F1FFC00D1F3AE /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */; };
 		108640102D40EA61004DB57E /* LocationGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */; };
 		108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108640112D40EA83004DB57E /* UserGatewayProtocol.swift */; };
+		A60713682E8F20940060435E /* AudioGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60713672E8F20940060435E /* AudioGateway.swift */; };
+		A607136A2E8F31440060435E /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60713692E8F31440060435E /* Audio.swift */; };
+		A607136C2E8FD32D0060435E /* AudioMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = A607136B2E8FD32D0060435E /* AudioMap.swift */; };
 		A608839D2DF04B07006865C7 /* AppleSignInFirebase in Frameworks */ = {isa = PBXBuildFile; productRef = A608839C2DF04B07006865C7 /* AppleSignInFirebase */; };
 		A608839F2DF05087006865C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A608839E2DF05086006865C7 /* GoogleService-Info.plist */; };
 		A60B4BA52E5C86D300827CB1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B4BA42E5C86D300827CB1 /* HomeView.swift */; };
@@ -66,6 +69,9 @@
 		101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1086400F2D40EA56004DB57E /* LocationGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGatewayProtocol.swift; sourceTree = "<group>"; };
 		108640112D40EA83004DB57E /* UserGatewayProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGatewayProtocol.swift; sourceTree = "<group>"; };
+		A60713672E8F20940060435E /* AudioGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGateway.swift; sourceTree = "<group>"; };
+		A60713692E8F31440060435E /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		A607136B2E8FD32D0060435E /* AudioMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMap.swift; sourceTree = "<group>"; };
 		A608839E2DF05086006865C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A60B4BA42E5C86D300827CB1 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A60B4BA62E5D09F400827CB1 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -145,6 +151,7 @@
 				A65AFC862CC910610020A67B /* UserLocation.swift */,
 				A664EB162E02CD4C003FF01D /* Match.swift */,
 				A6F59F752E7AE615001915CB /* Rate.swift */,
+				A60713692E8F31440060435E /* Audio.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -158,6 +165,7 @@
 				101A45FD2D6F1FF800D1F3AE /* LocationManager.swift */,
 				A60B4BB02E71FDB900827CB1 /* BeatsGateway.swift */,
 				A6F59F822E87F1F1001915CB /* EvaluationGateway.swift */,
+				A60713672E8F20940060435E /* AudioGateway.swift */,
 			);
 			path = Gateway;
 			sourceTree = "<group>";
@@ -221,6 +229,7 @@
 				A66C96272DD4A1A00082C138 /* RapperCell */,
 				1086401A2D40EDC0004DB57E /* Battle */,
 				1006E8F82CB79BA200E61613 /* Profile */,
+				A607136B2E8FD32D0060435E /* AudioMap.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -395,6 +404,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A607136A2E8F31440060435E /* Audio.swift in Sources */,
+				A607136C2E8FD32D0060435E /* AudioMap.swift in Sources */,
 				A60B4BA52E5C86D300827CB1 /* HomeView.swift in Sources */,
 				A66C962D2DD4B0950082C138 /* RapperListView.swift in Sources */,
 				A65CE9392E15423C00DA9A35 /* MatchMapView.swift in Sources */,
@@ -413,6 +424,7 @@
 				A61F8B622C22F45E00BCE7FF /* Detail.swift in Sources */,
 				A664EB172E02CD4C003FF01D /* Match.swift in Sources */,
 				108640122D40EA89004DB57E /* UserGatewayProtocol.swift in Sources */,
+				A60713682E8F20940060435E /* AudioGateway.swift in Sources */,
 				1006E8F72CB7958C00E61613 /* UserGateway.swift in Sources */,
 				A65AFC852CC90ECF0020A67B /* LocationGateway.swift in Sources */,
 				A66C96292DD4A1BA0082C138 /* RapperCellView.swift in Sources */,
@@ -570,9 +582,11 @@
 				INFOPLIST_FILE = RapApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Need location to run app";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "use it";
 				INFOPLIST_KEY_NSLocationUsageDescription = "need it";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "using location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location to run app";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to use location to run app";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -612,9 +626,11 @@
 				INFOPLIST_FILE = RapApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Need location to run app";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "use it";
 				INFOPLIST_KEY_NSLocationUsageDescription = "need it";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "using location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need location to run app";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need to use location to run app";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

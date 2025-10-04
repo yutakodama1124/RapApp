@@ -8,6 +8,9 @@
 import SwiftUI
 import AVKit
 import AVFoundation
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
 
 struct Battle: View {
     
@@ -20,6 +23,16 @@ struct Battle: View {
     @State private var isPlaying = false
     @State private var intensity: CGFloat = 0.3
     @State private var beatPulse: Bool = false
+    
+    
+    private let gateway = UserGateway()
+    @State var currentUser: User? = nil
+    
+    
+    @StateObject private var audioManager = AudioGateway()
+    @State private var isRecordingSetup = false
+    @State private var showError = false
+    @State private var errorMessage = ""
     
     let opponent: User
     
@@ -38,16 +51,53 @@ struct Battle: View {
             }
         }
         .onAppear {
+            
+            Task {
+                
+                currentUser = await gateway.getSelf()
+                
+                let db = Firestore.firestore()
+                
+                let document = try await db.collection("matches").document(opponent.id!).getDocument()
+                
+                if let match = try? document.data(as: Match.self) {
+                    if match.userAId == currentUser?.id {
+                        
+                        do {
+                            try await audioManager.setupRecorder()
+                            isRecordingSetup = true
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showError = true
+                        }
+                    }
+                        
+                    }
+
+            }
+            
+            
+            
             UIApplication.shared.isIdleTimerDisabled = true
             startCountdown()
             
             Task {
                 try? await Task.sleep(for: .seconds(4))
+                
+                if isRecordingSetup {
+                    try? audioManager.startRecording()
+                }
+                
                 BeatsGateway.playBeat(at: beatindex)
                 isplaying = true
 
                 while BeatsGateway.isPlaying() {
                     try? await Task.sleep(for: .seconds(0.5))
+                }
+                
+                if audioManager.isRecording {
+                    audioManager.stopRecording()
+                    await uploadRecording()
                 }
 
                 try? await Task.sleep(for: .seconds(5))
@@ -195,6 +245,36 @@ struct Battle: View {
             }
         }
     }
+    
+    private func uploadRecording() async {
+        guard let opponentId = opponent.id,
+              let userId = currentUser?.id else { return }
+        
+        do {
+            let downloadURL = try await audioManager.uploadRecordingToFirebase(opponentId: opponentId)
+            
+            let db = Firestore.firestore()
+
+            let matchDoc = try await db.collection("matches").document(opponentId).getDocument()
+            guard let match = try? matchDoc.data(as: Match.self) else { return }
+
+            let audio = Audio(
+                id: nil,
+                myId: userId,
+                audioRecordingURL: downloadURL,
+                latitude: match.latitude,
+                longitude: match.longitude
+            )
+            
+            try db.collection("Audio").document(opponentId).setData(from: audio)
+            
+            audioManager.deleteLocalRecording()
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
+        }
+    }
+    
 }
 
 #Preview {

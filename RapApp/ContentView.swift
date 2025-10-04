@@ -23,6 +23,11 @@ struct ContentView: View {
                     .tabItem{
                         Label("評価", systemImage: "list.bullet")
                     }
+                
+                AudioMap()
+                    .tabItem{
+                        Label("マップ", systemImage: "map.circle")
+                    }
 
                 Profile()
                     .tabItem {
