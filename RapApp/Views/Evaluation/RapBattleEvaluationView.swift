@@ -160,24 +160,17 @@ struct RapBattleEvaluationView: View {
                         Spacer()
                     }
                     
-                    HStack(alignment: .top, spacing: 0) {
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(width: 4)
-                        
-                        Text(rate.comment)
-                            .font(.body)
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 16)
-                            .padding(.vertical, 20)
-                    }
-                    .background(Color.gray.opacity(0.05))
-                    .cornerRadius(12)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                    )
+                    Text(rate.comment)
+                        .font(.body)
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(20)
+                        .background(Color.gray.opacity(0.05))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                        )
                 }
                 .padding(24)
                 .background(Color.white)

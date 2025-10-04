@@ -229,7 +229,6 @@
 				A66C96272DD4A1A00082C138 /* RapperCell */,
 				1086401A2D40EDC0004DB57E /* Battle */,
 				1006E8F82CB79BA200E61613 /* Profile */,
-				A607136B2E8FD32D0060435E /* AudioMap.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -276,6 +275,7 @@
 				A60B4BA42E5C86D300827CB1 /* HomeView.swift */,
 				A6EDA3D32C19B07C002A2C23 /* ContentView.swift */,
 				A60B4BA82E5DB4BC00827CB1 /* SettingsView.swift */,
+				A607136B2E8FD32D0060435E /* AudioMap.swift */,
 				1006E8F52CB7958100E61613 /* Gateway */,
 				1006E8F32CB794E200E61613 /* DataModel */,
 				1006E8F12CB7941200E61613 /* Extension */,

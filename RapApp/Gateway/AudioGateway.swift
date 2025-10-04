@@ -123,7 +123,7 @@ class AudioGateway: NSObject, ObservableObject {
     
     func fetchAllAudioLocations() async throws {
         let db = Firestore.firestore()
-        let snapshot = try await db.collection("audios").getDocuments()
+        let snapshot = try await db.collection("Audio").getDocuments()
         
         audioLocations = snapshot.documents.compactMap { document in
             try? document.data(as: Audio.self)

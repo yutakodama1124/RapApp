@@ -41,26 +41,7 @@ struct AudioMap: View {
             }
             .mapStyle(.standard)
             
-            // Debug overlay
             VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Debug Info")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                        Text("Audios: \(audioGateway.audioLocations.count)")
-                            .font(.caption2)
-                        Text("Location: \(locationManager.lastLocation != nil ? "✓" : "✗")")
-                            .font(.caption2)
-                    }
-                    .padding(8)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(8)
-                    
-                    Spacer()
-                }
-                .padding()
-                
                 Spacer()
                 
                 if let audio = selectedAudio {
@@ -122,28 +103,21 @@ struct AudioMap: View {
     }
     
     private func loadAudioLocations() async {
-        print("🗺️ Starting to load audio locations...")
-        
         do {
             if let userLocation = locationManager.lastLocation {
-                print("📍 User location found: \(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)")
-                
                 try await audioGateway.fetchAudioLocationsNearby(
                     latitude: userLocation.coordinate.latitude,
                     longitude: userLocation.coordinate.longitude,
                     radiusInKm: 50
                 )
                 
-                // Center map on user location
                 cameraPosition = .region(MKCoordinateRegion(
                     center: userLocation.coordinate,
                     span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
                 ))
             } else {
-                print("⚠️ No user location, fetching all audio locations...")
                 try await audioGateway.fetchAllAudioLocations()
                 
-                // If we have audio locations, center on the first one
                 if let firstAudio = audioGateway.audioLocations.first {
                     cameraPosition = .region(MKCoordinateRegion(
                         center: CLLocationCoordinate2D(latitude: firstAudio.latitude, longitude: firstAudio.longitude),
@@ -151,16 +125,7 @@ struct AudioMap: View {
                     ))
                 }
             }
-            
-            print("✅ Loaded \(audioGateway.audioLocations.count) audio locations")
-            
-            // Log each audio location
-            for (index, audio) in audioGateway.audioLocations.enumerated() {
-                print("🎵 Audio \(index + 1): ID=\(audio.id ?? "nil"), Lat=\(audio.latitude), Lon=\(audio.longitude)")
-            }
-            
         } catch {
-            print("❌ Error loading audio locations: \(error.localizedDescription)")
             errorMessage = error.localizedDescription
             showError = true
         }
