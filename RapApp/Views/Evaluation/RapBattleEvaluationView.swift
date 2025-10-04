@@ -5,22 +5,17 @@ import FirebaseFirestore
 import FirebaseStorage
 import Kingfisher
 
-
-
 struct RapBattleEvaluationView: View {
-
-    
     let user: User
     let rate: Rate
     
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                    Text("バトル評価")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-
+                Text("バトル評価")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
 
                 VStack(spacing: 0) {
                     HStack(spacing: 16) {
@@ -132,7 +127,8 @@ struct RapBattleEvaluationView: View {
                             .foregroundColor(.gray)
                         
                         HStack(alignment: .firstTextBaseline, spacing: 4) {
-                            Text("\(Double(rate.rhyme + rate.flow + rate.verse) / 3.0)")
+                            let averageScore = Double(rate.rhyme + rate.flow + rate.verse) / 3.0
+                            Text("\(averageScore, specifier: "%.1f")")
                                 .font(.system(size: 48, weight: .bold))
                                 .foregroundColor(.black)
                             
@@ -164,27 +160,23 @@ struct RapBattleEvaluationView: View {
                         Spacer()
                     }
                     
-                    VStack(alignment: .leading, spacing: 0) {
+                    HStack(alignment: .top, spacing: 0) {
                         Rectangle()
                             .fill(Color.blue)
                             .frame(width: 4)
-                            .frame(maxHeight: .infinity)
                         
-                        Spacer()
-                    }
-                    .frame(width: 4)
-                    .overlay(
                         Text(rate.comment)
                             .font(.body)
                             .foregroundColor(.black)
-                            .padding(.leading, 20)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 16)
                             .padding(.vertical, 20)
-                            .background(Color.white)
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                            )
+                    }
+                    .background(Color.gray.opacity(0.05))
+                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                     )
                 }
                 .padding(24)
@@ -196,11 +188,11 @@ struct RapBattleEvaluationView: View {
                 )
             }
             .padding(.horizontal, 16)
+            .padding(.bottom, 24)
         }
-        .background(Color.white)
+        .background(Color.gray.opacity(0.05))
     }
 }
-
 
 struct RapBattleEvaluationView_Previews: PreviewProvider {
     static var previews: some View {

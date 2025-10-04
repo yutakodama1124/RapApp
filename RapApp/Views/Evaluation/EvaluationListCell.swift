@@ -52,7 +52,8 @@ struct EvaluationListCell: View {
                 Spacer()
 
                 HStack(spacing: 2) {
-                    Text("\(Double(rate.rhyme + rate.flow + rate.verse) / 3.0)")
+                    let averageScore = Double(rate.rhyme + rate.flow + rate.verse) / 3.0
+                    Text("\(averageScore, specifier: "%.1f")")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.black)

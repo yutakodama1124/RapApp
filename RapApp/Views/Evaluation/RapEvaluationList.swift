@@ -1,10 +1,3 @@
-//
-//  RapEvaluationList.swift
-//  RapApp
-//
-//  Created by yuta kodama on 2025/09/22.
-//
-
 import SwiftUI
 
 struct RapEvaluationList: View {
@@ -94,15 +87,15 @@ struct RapEvaluationList: View {
                                 .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                         )
                     } else {
-                        List(evaluationData, id: \.rate.id) { data in
-                            NavigationLink(destination: RapBattleEvaluationView(user: data.user, rate: data.rate)) {
-                                EvaluationListCell(user: data.user, rate: data.rate)
+                        // Changed from List to LazyVStack
+                        LazyVStack(spacing: 12) {
+                            ForEach(evaluationData, id: \.rate.id) { data in
+                                NavigationLink(destination: RapBattleEvaluationView(user: data.user, rate: data.rate)) {
+                                    EvaluationListCell(user: data.user, rate: data.rate)
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.clear)
                         }
-                        .listStyle(PlainListStyle())
-                        .scrollContentBackground(.hidden)
                     }
                 }
                 .padding(.horizontal, 16)
