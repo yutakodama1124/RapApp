@@ -43,6 +43,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct RapAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var viewModel = AuthViewModel()
+    @StateObject private var onboardingManager = OnboardingManager()
     @State private var showAcceptView = false
     @State private var showMatchMapView = false
     @State private var matchLatitude: Double = 0.0
@@ -53,94 +54,100 @@ struct RapAppApp: App {
     @State private var isLoadingOpponent = false
     @State private var opponentUser: User?
 
-    
     var body: some Scene {
         WindowGroup {
             if viewModel.isAuthenticated {
                 Group {
-                    if showAcceptView {
-                        if let opponentUser {
-                            AcceptView(
-                                user: opponentUser,
-                                beatindex: beatindex,
-                                showAcceptView: $showAcceptView,
-                                showMatchMapView: $showMatchMapView,
-                                isPlaying: $isPlaying
-                            )
-                        } else {
-                            VStack(spacing: 20) {
-                                ProgressView()
-                                    .scaleEffect(1.5)
-                                Text("対戦相手の情報を取得中...")
-                                    .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.white)
+                    if onboardingManager.isCheckingStatus {
+                        VStack(spacing: 20) {
+                            ProgressView()
+                                .scaleEffect(1.5)
+                            Text("読み込み中...")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.gray)
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .task {
+                            await onboardingManager.checkOnboardingStatus()
+                        }
+                    } else if onboardingManager.needsOnboarding {
+                        OnboardingFlowView(onboardingManager: onboardingManager)
                     } else {
-                        ContentView(viewModel: viewModel)
-                            .environment(AuthManager.shared)
-                    }
-                }
-                .fullScreenCover(isPresented: $showMatchMapView) {
-                    if let opponentUser {
-                        MatchMapView(
-                            latitude: matchLatitude,
-                            longitude: matchLongitude,
-                            opponentuser: opponentUser,
-                            beatindex: beatindex
-                        )
-                        .onAppear {
-                            print("MatchMapView appeared with Latitude: \(matchLatitude), Longitude: \(matchLongitude), Opponent: \(opponentUser.name)")
-                        }
-                    } else {
-                        VStack {
-                            ProgressView("Loading opponent...")
-                                .font(.title2)
-                            Text("Debug: opponentUser is nil")
-                                .foregroundColor(.red)
-                        }
-                    }
-                }
-                .task {
-                    while true {
-                        do {
-                            try await Task.sleep(for: .seconds(5))
-                            guard let userId = Auth.auth().currentUser?.uid, !isLoadingOpponent else { continue }
-                            
-                            isLoadingOpponent = true
-
-                            do {
-                                let document = try await Firestore.firestore().collection("matches").document(userId).getDocument()
-                                let match = try document.data(as: Match.self)
-                                print("Found match request")
-
-                                matchLatitude = match.latitude
-                                matchLongitude = match.longitude
-                                opponentId = match.userAId
-                                beatindex = match.selectedBeatIndex
-                                
-                                if let fetchedOpponent = await UserGateway().fetchUser(userId: opponentId) {
-                                    await MainActor.run {
-                                        opponentUser = fetchedOpponent
-                                        showAcceptView = true
+                        Group {
+                            if showAcceptView {
+                                if let opponentUser {
+                                    AcceptView(
+                                        user: opponentUser,
+                                        beatindex: beatindex,
+                                        showAcceptView: $showAcceptView,
+                                        showMatchMapView: $showMatchMapView,
+                                        isPlaying: $isPlaying
+                                    )
+                                } else {
+                                    VStack(spacing: 20) {
+                                        ProgressView()
+                                            .scaleEffect(1.5)
+                                        Text("対戦相手の情報を取得中...")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(.gray)
                                     }
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .background(Color.white)
                                 }
-                            } catch {
-                                print("No match requests or error: \(error.localizedDescription)")
+                            } else {
+                                ContentView(viewModel: viewModel)
+                                    .environment(AuthManager.shared)
                             }
-                            
-                            isLoadingOpponent = false
-                        } catch {
-                            print("Task sleep error: \(error.localizedDescription)")
-                            isLoadingOpponent = false
-                            break
+                        }
+                        .fullScreenCover(isPresented: $showMatchMapView) {
+                            if let opponentUser {
+                                MatchMapView(
+                                    latitude: matchLatitude,
+                                    longitude: matchLongitude,
+                                    opponentuser: opponentUser,
+                                    beatindex: beatindex
+                                )
+                            }
+                        }
+                        .task {
+                            while true {
+                                do {
+                                    try await Task.sleep(for: .seconds(5))
+                                    guard let userId = Auth.auth().currentUser?.uid, !isLoadingOpponent else { continue }
+                                    
+                                    isLoadingOpponent = true
+
+                                    do {
+                                        let document = try await Firestore.firestore().collection("matches").document(userId).getDocument()
+                                        let match = try document.data(as: Match.self)
+                                        
+                                        matchLatitude = match.latitude
+                                        matchLongitude = match.longitude
+                                        opponentId = match.userAId
+                                        beatindex = match.selectedBeatIndex
+                                        
+                                        if let fetchedOpponent = await UserGateway().fetchUser(userId: opponentId) {
+                                            await MainActor.run {
+                                                opponentUser = fetchedOpponent
+                                                showAcceptView = true
+                                            }
+                                        }
+                                    } catch {
+                                        print("No match requests or error: \(error.localizedDescription)")
+                                    }
+                                    
+                                    isLoadingOpponent = false
+                                } catch {
+                                    print("Task sleep error: \(error.localizedDescription)")
+                                    isLoadingOpponent = false
+                                    break
+                                }
+                            }
                         }
                     }
                 }
             } else {
-                SignUp(viewModel: viewModel)
+                SignUp(viewModel: viewModel, onboardingManager: onboardingManager)
                     .environment(AuthManager.shared)
             }
         }

@@ -36,7 +36,7 @@ struct ContentView: View {
             }
             .environmentObject(viewModel)
         } else {
-            SignUp(viewModel: viewModel)
+            SignUp(viewModel: viewModel, onboardingManager: OnboardingManager())
         }
     }
 }

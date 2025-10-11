@@ -34,6 +34,7 @@ struct Profile: View {
                             }
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: .infinity)
                             .frame(height: 350)
                             .clipped()
                         

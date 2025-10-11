@@ -2,18 +2,33 @@ import SwiftUI
 import FirebaseAuth
 import AuthenticationServices
 import CryptoKit
-import AppleSignInFirebase
 
 struct SignUp: View {
-    
     @State private var currentNonce: String?
     @State private var loginError = ""
     @ObservedObject var viewModel: AuthViewModel
+    @ObservedObject var onboardingManager: OnboardingManager
     private let userGateway = UserGateway()
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 30) {
+                Spacer()
+                
+                Image(systemName: "music.mic")
+                    .font(.system(size: 100))
+                    .foregroundColor(.black)
+                
+                Text("RapApp")
+                    .font(.system(size: 48, weight: .bold, design: .rounded))
+                    .foregroundColor(.black)
+                
+                Text("バトルを始めよう")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(.gray)
+                
+                Spacer()
+                
                 SignInWithAppleButton(.signUp) { request in
                     let nonce = randomNonceString()
                     currentNonce = nonce
@@ -28,16 +43,13 @@ struct SignUp: View {
                     }
                 }
                 .frame(height: 50)
-                .padding()
+                .padding(.horizontal, 40)
+                .padding(.bottom, 50)
 
                 if !loginError.isEmpty {
                     Text(loginError)
                         .foregroundColor(.red)
                         .padding()
-                }
-
-                if viewModel.isAuthenticated {
-                    ContentView(viewModel: viewModel)
                 }
             }
         }
@@ -73,14 +85,14 @@ struct SignUp: View {
                 return
             }
 
-
             viewModel.isAuthenticated = true
-
 
             var newUser = User.Empty()
             newUser.id = user.uid
+            
             Task {
                 _ = await userGateway.updateUserInfo(user: newUser)
+                await onboardingManager.checkOnboardingStatus()
             }
 
             print("Signed in as: \(user.uid)")
@@ -105,7 +117,6 @@ struct SignUp: View {
         return hashed.compactMap { String(format: "%02x", $0) }.joined()
     }
 }
-
 #Preview {
-    SignUp(viewModel: AuthViewModel())
+    SignUp(viewModel: AuthViewModel(), onboardingManager: OnboardingManager())
 }

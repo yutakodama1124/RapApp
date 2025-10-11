@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -113,6 +113,10 @@
 		A6F59F7E2E847E4E001915CB /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		A6F59F822E87F1F1001915CB /* EvaluationGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationGateway.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A631B7E02E9B10CF00BF4EE9 /* Onboarding */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Onboarding; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A6EDA3CB2C19B07C002A2C23 /* Frameworks */ = {
@@ -282,6 +286,7 @@
 				A6097C5D2CB6980F0096CBEB /* Util */,
 				A658BA542C674538000D7AA2 /* RapApp.entitlements */,
 				A65ADD662C4263AD003FBE1D /* Info.plist */,
+				A631B7E02E9B10CF00BF4EE9 /* Onboarding */,
 				A658BA7E2C82F3AD000D7AA2 /* Auth */,
 				A658BA802C82F3D7000D7AA2 /* Views */,
 				A6EDA3D52C19B07D002A2C23 /* Assets.xcassets */,
@@ -323,6 +328,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A631B7E02E9B10CF00BF4EE9 /* Onboarding */,
 			);
 			name = RapApp;
 			packageProductDependencies = (

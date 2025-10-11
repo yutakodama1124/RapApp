@@ -16,6 +16,7 @@ struct ProfileEdit: View {
     @State private var favrapper = ""
     
     @State private var isPressed = false
+    @State private var isSaving = false
     @State var close = false
     
     private let repository: UserGateway = UserGateway()
@@ -45,7 +46,7 @@ struct ProfileEdit: View {
                             .fill(Color.black.opacity(0.1))
                             .frame(width: 290, height: 350)
                             .cornerRadius(25)
-                            .overlay(Text("Choose Photo").foregroundColor(.black))
+                            .overlay(Text("写真を選択").foregroundColor(.black))
                             .onTapGesture { isShowingImagePicker = true }
                     }
 
@@ -70,35 +71,18 @@ struct ProfileEdit: View {
                 profileField(title: "趣味", text: $hobby)
                 profileField(title: "好きなラッパー", text: $favrapper)
 
-                Button("保存") {
-                    Task {
-                        guard let userId = Auth.auth().currentUser?.uid else { return }
-                        
-                        user.id = userId
-                        user.name = name
-                        user.hobby = hobby
-                        user.school = school
-                        user.job = job
-                        user.favrapper = favrapper
-
-                        if let newImage = selectedImage {
-                            let uploadResult = await repository.uploadImage(user: user, image: newImage)
-                            if uploadResult.success, let newURL = uploadResult.url {
-                                user.imageURL = newURL
-                            }
-                        } else {
-                            user.imageURL = imageURL
-                        }
-                        
-                        await repository.updateUserInfo(user: user)
-                        print("User info saved")
-                        close = true
+                Button(action: saveProfile) {
+                    if isSaving {
+                        ProgressView()
+                            .frame(width: 120, height: 60)
+                    } else {
+                        Text("保存")
+                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                            .frame(width: 120, height: 60)
                     }
                 }
-                .font(.system(size: 20, weight: .bold, design: .rounded))
-                .frame(width: 120, height: 60)
                 .foregroundColor(.white)
-                .background(.black)
+                .background(isSaving ? Color.gray : Color.black)
                 .cornerRadius(25)
                 .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                 .scaleEffect(isPressed ? 0.95 : 1.0)
@@ -106,6 +90,7 @@ struct ProfileEdit: View {
                 .animation(.spring(response: 0.2, dampingFraction: 0.5),
                            value: isPressed)
                 .padding()
+                .disabled(isSaving)
                 .simultaneousGesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { _ in isPressed = true }
@@ -136,6 +121,47 @@ struct ProfileEdit: View {
             ContentView()
         }
     }
+    
+    func saveProfile() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        isSaving = true
+        
+        Task {
+            user.id = userId
+            user.name = name
+            user.hobby = hobby
+            user.school = school
+            user.job = job
+            user.favrapper = favrapper
+            
+            print("Saving user info...")
+            let success = await repository.updateUserInfo(user: user)
+            
+            await MainActor.run {
+                isSaving = false
+                if success {
+                    print("User info saved!")
+                    close = true
+                } else {
+                    print("Failed to save user info")
+                    return
+                }
+            }
+            
+            if let newImage = selectedImage {
+                print("Uploading image in background...")
+                Task.detached {
+                    let result = await self.repository.uploadImage(user: self.user, image: newImage)
+                    if result.success {
+                        print("Image uploaded successfully!")
+                    } else {
+                        print("Image upload failed, but user info is already saved")
+                    }
+                }
+            }
+        }
+    }
 
     private func profileField(title: String, text: Binding<String>) -> some View {
         VStack {
@@ -156,6 +182,9 @@ struct ProfileEdit: View {
     }
 }
 
+#Preview {
+    ProfileEdit()
+}
 #Preview {
     ProfileEdit()
 }
