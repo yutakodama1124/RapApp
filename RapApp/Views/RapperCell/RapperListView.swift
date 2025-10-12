@@ -43,11 +43,20 @@ struct RapperListView: View {
         defer { isLoading = false }
         
         if let currentUser = await UserGateway().getSelf() {
-            let filtered = await UserGateway().getNearUser(user: currentUser)
-            print("Nearby users: \(filtered.map { $0.name })")
-            nearbyUsers = filtered
+            let nearby = await UserGateway().getNearUser(user: currentUser)
+            let available = await filterAvailableUsers(nearby)
+            print("Available nearby users: \(available.map { $0.name })")
+            nearbyUsers = available
         } else {
             print("No authenticated user")
+        }
+    }
+    
+    private func filterAvailableUsers(_ users: [User]) async -> [User] {
+        let usersInMatch = await UserGateway().getUsersInActiveMatches()
+        return users.filter { user in
+            guard let userId = user.id else { return false }
+            return !usersInMatch.contains(userId)
         }
     }
 }

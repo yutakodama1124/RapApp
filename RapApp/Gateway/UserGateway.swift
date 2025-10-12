@@ -17,6 +17,7 @@ import FirebaseAuth
 
 class UserGateway {
     private let COLLECTION = Firestore.firestore().collection("users")
+    private let db = Firestore.firestore()
     
     func fetchUser(userId: String) async -> User? {
         do {
@@ -174,6 +175,53 @@ class UserGateway {
                 }
             }
         }
+    
+    func getUsersInActiveMatches() async -> Set<String> {
+        do {
+            let snapshot = try await db.collection("matches")
+                .whereField("accepted", isEqualTo: true)
+                .getDocuments()
+            
+            var userIds = Set<String>()
+            for document in snapshot.documents {
+                userIds.insert(document.documentID)
+
+                if let userAId = document.data()["userAId"] as? String {
+                    userIds.insert(userAId)
+                }
+            }
+            return userIds
+        } catch {
+            print("Error fetching active matches: \(error)")
+            return Set<String>()
+        }
+    }
+    
+
+    func isUserInMatch(userId: String) async -> Bool {
+        do {
+            let docSnapshot = try await db.collection("matches")
+                .document(userId)
+                .getDocument()
+            
+            if docSnapshot.exists,
+               let accepted = docSnapshot.data()?["accepted"] as? Bool,
+               accepted {
+                return true
+            }
+
+            let querySnapshot = try await db.collection("matches")
+                .whereField("accepted", isEqualTo: true)
+                .whereField("userAId", isEqualTo: userId)
+                .limit(to: 1)
+                .getDocuments()
+            
+            return !querySnapshot.isEmpty
+        } catch {
+            print("Error checking user match status: \(error)")
+            return false
+        }
+    }
     
     
 }
