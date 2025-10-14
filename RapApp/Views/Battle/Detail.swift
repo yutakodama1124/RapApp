@@ -64,10 +64,10 @@ struct Detail: View {
                                     .font(.system(size: 22, weight: .bold, design: .rounded))
                                 
                                 HStack(spacing: 5) {
-                                    Text("職業:")
+                                    Text("好きなラッパー:")
                                         .foregroundStyle(.gray)
                                         .font(.system(size: 16, weight: .medium))
-                                    Text(opponentUser.job)
+                                    Text(opponentUser.favrapper)
                                         .foregroundStyle(.black)
                                         .font(.system(size: 16, weight: .semibold))
                                 }

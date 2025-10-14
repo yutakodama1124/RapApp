@@ -202,10 +202,10 @@ struct AcceptView: View {
                                     .foregroundStyle(.black)
                                 
                                 HStack(spacing: 5) {
-                                    Text("職業:")
+                                    Text("好きなラッパー:")
                                         .font(.system(size: 16, weight: .medium))
                                         .foregroundStyle(.gray)
-                                    Text(user.job)
+                                    Text(user.favrapper)
                                         .font(.system(size: 16, weight: .semibold))
                                         .foregroundStyle(.black)
                                 }

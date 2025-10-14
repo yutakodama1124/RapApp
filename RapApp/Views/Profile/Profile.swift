@@ -52,8 +52,6 @@ struct Profile: View {
                             .foregroundColor(.black)
                             .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 1)
                         
-                        profileDetailCard(title: "学校", value: user.school, icon: "graduationcap.fill")
-                        profileDetailCard(title: "職業", value: user.job, icon: "briefcase.fill")
                         profileDetailCard(title: "趣味", value: user.hobby, icon: "heart.fill")
                         profileDetailCard(title: "好きなラッパー", value: user.favrapper, icon: "music.note")
                     }

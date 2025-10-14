@@ -5,8 +5,6 @@ struct OnboardingFlowView: View {
     @ObservedObject var onboardingManager: OnboardingManager
     @State private var currentStep = 0
     @State private var name = ""
-    @State private var school = ""
-    @State private var job = ""
     @State private var hobby = ""
     @State private var favrapper = ""
     @State private var selectedImage: UIImage?
@@ -26,8 +24,6 @@ struct OnboardingFlowView: View {
             TabView(selection: $currentStep) {
                 BasicInfoStepView(
                     name: $name,
-                    school: $school,
-                    job: $job,
                     selectedImage: $selectedImage,
                     showImagePicker: $showImagePicker
                 )
@@ -90,7 +86,7 @@ struct OnboardingFlowView: View {
     
     var canProceed: Bool {
         switch currentStep {
-        case 0: return !name.isEmpty && !job.isEmpty
+        case 0: return !name.isEmpty
         case 1: return !hobby.isEmpty && !favrapper.isEmpty
         case 2: return true
         default: return false
@@ -115,9 +111,7 @@ struct OnboardingFlowView: View {
                 id: userId,
                 imageURL: "https://example.com/default-profile.png",
                 name: name,
-                school: school,
                 hobby: hobby,
-                job: job,
                 favrapper: favrapper,
                 latitude: 0,
                 longitude: 0,

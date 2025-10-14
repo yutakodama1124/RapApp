@@ -14,9 +14,7 @@ struct User: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var imageURL: String
     var name: String
-    var school: String
     var hobby: String
-    var job: String
     var favrapper: String
     let latitude: Double
     let longitude: Double
@@ -26,6 +24,6 @@ struct User: Codable, Identifiable, Hashable {
     var battleCount: Int
     
     static func Empty() -> User {
-        return User(id: "", imageURL: "", name: "", school: "", hobby: "", job: "", favrapper: "", latitude: 0, longitude: 0, battleCount: 0)
+        return User(id: "", imageURL: "", name: "", hobby: "", favrapper: "", latitude: 0, longitude: 0, battleCount: 0)
     }
 }

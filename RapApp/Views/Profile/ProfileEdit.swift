@@ -10,9 +10,7 @@ struct ProfileEdit: View {
     @State private var isShowingImagePicker = false
     @State private var imageURL = ""
     @State private var name = ""
-    @State private var school = ""
     @State private var hobby = ""
-    @State private var job = ""
     @State private var favrapper = ""
     
     @State private var isPressed = false
@@ -65,9 +63,7 @@ struct ProfileEdit: View {
                     LibraryPickerView(sourceType: .photoLibrary, selectedImage: $selectedImage)
                 }
 
-                profileField(title: "名前", text: $name)
-                profileField(title: "学校", text: $school)
-                profileField(title: "仕事", text: $job)
+                profileField(title: "ユーザーネーム", text: $name)
                 profileField(title: "趣味", text: $hobby)
                 profileField(title: "好きなラッパー", text: $favrapper)
 
@@ -112,10 +108,8 @@ struct ProfileEdit: View {
             self.user = user
             self.name = user.name
             self.imageURL = user.imageURL
-            self.school = user.school
             self.hobby = user.hobby
             self.favrapper = user.favrapper
-            self.job = user.job
         }
         .fullScreenCover(isPresented: $close) {
             ContentView()
@@ -131,8 +125,6 @@ struct ProfileEdit: View {
             user.id = userId
             user.name = name
             user.hobby = hobby
-            user.school = school
-            user.job = job
             user.favrapper = favrapper
             
             print("Saving user info...")
@@ -182,9 +174,6 @@ struct ProfileEdit: View {
     }
 }
 
-#Preview {
-    ProfileEdit()
-}
 #Preview {
     ProfileEdit()
 }

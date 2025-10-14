@@ -44,77 +44,71 @@ struct RapperDetailView: View {
                     .frame(height: 150)
                 }
 
-
-                    VStack(spacing: 25) {
-
-                            Text(user.name)
-                                .font(.system(size: 36, weight: .bold, design: .rounded))
-                                .foregroundColor(.black)
-                                .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 1)
-                        
-                        profileDetailCard(title: "学校", value: user.school, icon: "graduationcap.fill")
-                        profileDetailCard(title: "職業", value: user.job, icon: "briefcase.fill")
-                        profileDetailCard(title: "趣味", value: user.hobby, icon: "heart.fill")
-                        profileDetailCard(title: "好きなラッパー", value: user.favrapper, icon: "music.note")
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 40)
-                    .padding(.bottom, 30)
-                }
-
-                VStack(spacing: 0) {
-                    Button {
-                        let beatindex = BeatsGateway.generateRandomBeatIndex()
-                              selectedBeatIndex = beatindex
-                        
-                        Task {
-                            guard let userId = Auth.auth().currentUser?.uid else { return }
-                            
-                            let db = Firestore.firestore()
-                            let location = locationManager.lastLocation
-                            
-                            let m = Match(
-                                id: user.id,
-                                userAId: userId,
-                                latitude: location?.coordinate.latitude ?? 0,
-                                longitude: location?.coordinate.longitude ?? 0,
-                                accepted: false,
-                                selectedBeatIndex: beatindex
-                            )
-                            
-                            try? db.collection("matches").document(user.id ?? "").setData(from: m)
-                            
-                        }
-                        NextShown = true
-                    } label: {
-                        Text("マッチ！")
-                            .font(.system(size: 24, weight: .bold, design: .rounded))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 65)
-                            .background(Color.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 32))
-                            .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
-                            .scaleEffect(isPressed ? 0.95 : 1.0)
-                            .opacity(isPressed ? 0.7 : 1.0)
-                            .animation(.spring(response: 0.2, dampingFraction: 0.5), value: isPressed)
-                    }
-                    .padding(.horizontal, 20)
-                    .simultaneousGesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { _ in isPressed = true }
-                            .onEnded { _ in isPressed = false }
-                    )
-
+                VStack(spacing: 25) {
+                    Text(user.name)
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
+                        .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 1)
                     
+                    profileDetailCard(title: "趣味", value: user.hobby, icon: "heart.fill")
+                    profileDetailCard(title: "好きなラッパー", value: user.favrapper, icon: "music.note")
                 }
-                .background(Color.gray.opacity(0.05))
+                .padding(.horizontal, 20)
+                .padding(.top, 40)
+                .padding(.bottom, 30)
+            }
+
+            VStack(spacing: 0) {
+                Button {
+                    let beatindex = BeatsGateway.generateRandomBeatIndex()
+                    selectedBeatIndex = beatindex
+                    
+                    Task {
+                        guard let userId = Auth.auth().currentUser?.uid else { return }
+                        
+                        let db = Firestore.firestore()
+                        let location = locationManager.lastLocation
+                        
+                        let m = Match(
+                            id: user.id,
+                            userAId: userId,
+                            latitude: location?.coordinate.latitude ?? 0,
+                            longitude: location?.coordinate.longitude ?? 0,
+                            accepted: false,
+                            selectedBeatIndex: beatindex
+                        )
+                        
+                        try? db.collection("matches").document(user.id ?? "").setData(from: m)
+                        
+                    }
+                    NextShown = true
+                } label: {
+                    Text("マッチ！")
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 65)
+                        .background(Color.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 32))
+                        .shadow(color: .black.opacity(0.4), radius: 15, x: 0, y: 8)
+                        .scaleEffect(isPressed ? 0.95 : 1.0)
+                        .opacity(isPressed ? 0.7 : 1.0)
+                        .animation(.spring(response: 0.2, dampingFraction: 0.5), value: isPressed)
+                }
+                .padding(.horizontal, 20)
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in isPressed = true }
+                        .onEnded { _ in isPressed = false }
+                )
+            }
+            .background(Color.gray.opacity(0.05))
         }
         .ignoresSafeArea(.all, edges: .top)
         .navigationTitle("")
-            .fullScreenCover(isPresented: $NextShown) {
-                OpponentWaitView(opponentUser: user, beatindex: selectedBeatIndex)
-            }
+        .fullScreenCover(isPresented: $NextShown) {
+            OpponentWaitView(opponentUser: user, beatindex: selectedBeatIndex)
+        }
     }
     
     private func profileDetailCard(title: String, value: String, icon: String) -> some View {

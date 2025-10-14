@@ -2,8 +2,6 @@ import SwiftUI
 
 struct BasicInfoStepView: View {
     @Binding var name: String
-    @Binding var school: String
-    @Binding var job: String
     @Binding var selectedImage: UIImage?
     @Binding var showImagePicker: Bool
     
@@ -49,9 +47,7 @@ struct BasicInfoStepView: View {
                 }
                 .padding()
 
-                profileField(title: "名前 *", text: $name)
-                profileField(title: "学校 *", text: $school)
-                profileField(title: "仕事 *", text: $job)
+                profileField(title: "ユーザーネーム *", text: $name)
                 
                 Spacer()
             }
