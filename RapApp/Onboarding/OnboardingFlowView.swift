@@ -16,71 +16,76 @@ struct OnboardingFlowView: View {
     private let userGateway = UserGateway()
     
     var body: some View {
-        VStack {
-            ProgressView(value: Double(currentStep + 1), total: 3)
-                .padding()
-                .tint(.black)
+        ZStack {
+            Color(red: 0.97, green: 0.97, blue: 0.97)
+                .ignoresSafeArea()
             
-            TabView(selection: $currentStep) {
-                BasicInfoStepView(
-                    name: $name,
-                    selectedImage: $selectedImage,
-                    showImagePicker: $showImagePicker
-                )
-                .tag(0)
-
-                InterestsStepView(
-                    hobby: $hobby,
-                    favrapper: $favrapper
-                )
-                .tag(1)
-
-                CompleteStepView()
-                .tag(2)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-
-            HStack(spacing: 20) {
-                if currentStep > 0 {
-                    Button(action: { currentStep -= 1 }) {
-                        Text("戻る")
-                            .font(.system(size: 20, weight: .bold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .foregroundColor(.black)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(25)
-                    }
-                }
+            VStack {
+                ProgressView(value: Double(currentStep + 1), total: 3)
+                    .padding()
+                    .tint(.black)
                 
-                Button(action: handleNext) {
-                    if isSaving {
-                        ProgressView()
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                    } else {
-                        Text(currentStep < 2 ? "次へ" : "完了")
-                            .font(.system(size: 20, weight: .bold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                    }
+                TabView(selection: $currentStep) {
+                    BasicInfoStepView(
+                        name: $name,
+                        selectedImage: $selectedImage,
+                        showImagePicker: $showImagePicker
+                    )
+                    .tag(0)
+                    
+                    InterestsStepView(
+                        hobby: $hobby,
+                        favrapper: $favrapper
+                    )
+                    .tag(1)
+                    
+                    CompleteStepView()
+                        .tag(2)
                 }
-                .foregroundColor(.white)
-                .background(canProceed ? Color.black : Color.gray)
-                .cornerRadius(25)
-                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
-                .disabled(!canProceed || isSaving)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                
+                HStack(spacing: 20) {
+                    if currentStep > 0 {
+                        Button(action: { currentStep -= 1 }) {
+                            Text("戻る")
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                                .foregroundColor(.black)
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(25)
+                        }
+                    }
+                    
+                    Button(action: handleNext) {
+                        if isSaving {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                        } else {
+                            Text(currentStep < 2 ? "次へ" : "完了")
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                        }
+                    }
+                    .foregroundColor(.white)
+                    .background(canProceed ? Color.black : Color.gray)
+                    .cornerRadius(25)
+                    .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                    .disabled(!canProceed || isSaving)
+                }
+                .padding(.horizontal, 40)
+                .padding(.bottom, 30)
             }
-            .padding(.horizontal, 40)
-            .padding(.bottom, 30)
-        }
-        .sheet(isPresented: $showImagePicker) {
-            LibraryPickerView(selectedImage: $selectedImage)
-        }
-        .alert("エラー", isPresented: $showError) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(errorMessage)
+            .sheet(isPresented: $showImagePicker) {
+                LibraryPickerView(selectedImage: $selectedImage)
+            }
+            .alert("エラー", isPresented: $showError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(errorMessage)
+            }
         }
     }
     
@@ -117,7 +122,7 @@ struct OnboardingFlowView: View {
                 longitude: 0,
                 battleCount: 0
             )
-
+            
             print("Saving user info...")
             let success = await userGateway.updateUserInfo(user: user)
             
@@ -132,7 +137,7 @@ struct OnboardingFlowView: View {
                     return
                 }
             }
-
+            
             if let image = selectedImage {
                 print("Uploading image in background...")
                 Task.detached {

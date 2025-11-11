@@ -100,7 +100,7 @@ struct RapEvaluationList: View {
                 }
                 .padding(.horizontal, 16)
             }
-            .background(Color.gray.opacity(0.05))
+            .background(Color(red: 0.97, green: 0.97, blue: 0.97))
             .refreshable {
                 await loadEvaluationData()
             }

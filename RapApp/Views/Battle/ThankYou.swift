@@ -18,51 +18,57 @@ struct ThankYou: View {
     
     var body: some View {
         
-        VStack(spacing: 60) {
-            if let user = currentUser {
-                Text("バトル終了")
-                    .foregroundStyle(.black)
-                    .font(.system(size: 30, weight: .black, design: .rounded))
-                HStack {
-                    Text("\(user.battleCount + 1)" + "回目のバトル終了おめでとうございます！")
-                        .frame(width: 300)
+        ZStack {
+            Color(red: 0.97, green: 0.97, blue: 0.97)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 60) {
+                if let user = currentUser {
+                    Text("バトル終了")
                         .foregroundStyle(.black)
-                        .font(.system(size: 20, weight: .black, design: .rounded))
-                }
-                Button(action: {
-                    Task {
-                        let success = await gateway.incrementBattleCount()
-                        if success {
-                            print("Battle count updated!")
-                        } else {
-                            print("Failed to update battle count")
+                        .font(.system(size: 30, weight: .black, design: .rounded))
+                    HStack {
+                        Text("\(user.battleCount + 1)" + "回目のバトル終了おめでとうございます！")
+                            .frame(width: 300)
+                            .foregroundStyle(.black)
+                            .font(.system(size: 20, weight: .black, design: .rounded))
+                    }
+                    Button(action: {
+                        Task {
+                            let success = await gateway.incrementBattleCount()
+                            if success {
+                                print("Battle count updated!")
+                            } else {
+                                print("Failed to update battle count")
+                            }
                         }
+                        
+                        Task {
+                            guard let userId = Auth.auth().currentUser?.uid else { return }
+                            try? await Firestore.firestore().collection("matches").document(userId).delete()
+                        }
+                        
+                        
+                        
+                        homeView = true
+                        
+                    }) {
+                        Text("ホーム")
+                            .frame(width: 150, height: 60)
                     }
-                    
-                    Task {
-                        guard let userId = Auth.auth().currentUser?.uid else { return }
-                        try? await Firestore.firestore().collection("matches").document(userId).delete()
+                    .accentColor(Color.white)
+                    .background(Color.black)
+                    .cornerRadius(60)
+                    .fullScreenCover(isPresented: $homeView) {
+                        ContentView(viewModel: AuthViewModel())
                     }
-
-                    
-                    
-                    homeView = true
-                    
-                }) {
-                    Text("ホーム")
-                        .frame(width: 150, height: 60)
-                }
-                .accentColor(Color.white)
-                .background(Color.black)
-                .cornerRadius(60)
-                .fullScreenCover(isPresented: $homeView) {
-                    ContentView(viewModel: AuthViewModel())
                 }
             }
+            .task { currentUser = await gateway.getSelf()}
         }
-        .task { currentUser = await gateway.getSelf()}
     }
 }
+
 #Preview {
     ThankYou()
 }

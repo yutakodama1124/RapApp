@@ -18,12 +18,16 @@ struct SettingsView: View {
         List {
             NavigationLink(destination: WebView(url: URL(string: "https://docs.google.com/document/d/1dvEd1Wij5y-YvMtiNNcOnFkyw0UfQrEZ_TcMizj3hPg/edit?usp=sharing")!)) {
                 Text("プライバシーポリシー")
+                    .foregroundColor(.black)
             }
-
+            .listRowBackground(Color.white)
+            
             NavigationLink(destination: WebView(url: URL(string: "https://docs.google.com/document/d/12Wa4f8OpUkRmANVYBHm7FddElwwuyOkBoSkPjiDGHQk/edit?usp=sharing")!)) {
                 Text("利用規約")
+                    .foregroundColor(.black)
             }
-
+            .listRowBackground(Color.white)
+            
             Button(action: {
                 do {
                     try Auth.auth().signOut()
@@ -35,13 +39,15 @@ struct SettingsView: View {
                 Text("ログアウト")
                     .foregroundColor(.blue)
             }
-
+            .listRowBackground(Color.white)
+            
             Button(action: {
                 showingDeleteAlert = true
             }) {
                 Text("アカウント削除")
                     .foregroundColor(.red)
             }
+            .listRowBackground(Color.white)
             .alert(isPresented: $showingDeleteAlert) {
                 Alert(
                     title: Text("アカウント削除"),
@@ -53,6 +59,8 @@ struct SettingsView: View {
                 )
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color(red: 0.97, green: 0.97, blue: 0.97))
         .navigationTitle("設定")
     }
 }

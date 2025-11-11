@@ -13,40 +13,44 @@ struct OpponentWaitView: View {
     let beatindex: Int
     
     var body: some View {
-        VStack(spacing: 30) {
-            Spacer()
-
-            ProgressView()
-                .scaleEffect(1.5)
-            
-            Text("相手を待っています")
-                .font(.title2)
-                .foregroundColor(.secondary)
-
-            Button("キャンセル") {
-                Task {
-                    let db = Firestore.firestore()
-                    guard let userId = Auth.auth().currentUser?.uid else { return }
-                    
-                    try? db.collection("matches").document(userId).delete()
+        ZStack {
+            Color(red: 0.97, green: 0.97, blue: 0.97)
+                .ignoresSafeArea()
+            VStack(spacing: 30) {
+                Spacer()
+                
+                ProgressView()
+                    .scaleEffect(1.5)
+                
+                Text("相手を待っています")
+                    .font(.title2)
+                    .foregroundColor(.secondary)
+                
+                Button("キャンセル") {
+                    Task {
+                        let db = Firestore.firestore()
+                        guard let userId = Auth.auth().currentUser?.uid else { return }
+                        
+                        try? db.collection("matches").document(userId).delete()
+                    }
+                    home = true
                 }
-                home = true
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(8)
+                
+                Spacer()
             }
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.red)
-            .cornerRadius(8)
-            
-            Spacer()
-        }
-        .fullScreenCover(isPresented: $home) {
-            ContentView()
-        }
-        .fullScreenCover(isPresented: $DetailView) {
-            Detail(beatindex: beatindex, opponentUser: opponentUser)
-        }
-        .onAppear {
-            startMatchPolling()
+            .fullScreenCover(isPresented: $home) {
+                ContentView()
+            }
+            .fullScreenCover(isPresented: $DetailView) {
+                Detail(beatindex: beatindex, opponentUser: opponentUser)
+            }
+            .onAppear {
+                startMatchPolling()
+            }
         }
     }
     

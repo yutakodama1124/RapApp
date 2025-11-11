@@ -32,9 +32,11 @@ struct InputView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 32)
             }
-            .background(Color.white)
+            .background(Color(red: 0.97, green: 0.97, blue: 0.97))
+            .environment(\.colorScheme, .light)
             .navigationTitle("評価を入力")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.light, for: .navigationBar)
             .fullScreenCover(isPresented: $ThankYouView) {
                 ThankYou()
             }

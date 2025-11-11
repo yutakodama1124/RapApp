@@ -94,6 +94,8 @@ struct ProfileEdit: View {
                 )
             }
         }
+        .background(Color(red: 0.97, green: 0.97, blue: 0.97))
+        .environment(\.colorScheme, .light)
         .task {
             guard let uid = Auth.auth().currentUser?.uid else {
                 print("ログインしているユーザーが見つかりません")
@@ -158,6 +160,7 @@ struct ProfileEdit: View {
     private func profileField(title: String, text: Binding<String>) -> some View {
         VStack {
             Text(title)
+                .foregroundColor(Color.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 24, weight: .medium, design: .rounded))
                 .offset(x: 30)
@@ -168,6 +171,7 @@ struct ProfileEdit: View {
                 .offset(x: 30)
             
             Rectangle()
+                .stroke(Color.black)
                 .frame(width: 305, height: 1)
         }
         .padding()

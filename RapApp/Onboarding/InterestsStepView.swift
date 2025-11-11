@@ -5,23 +5,28 @@ struct InterestsStepView: View {
     @Binding var favrapper: String
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 30) {
-                Image(systemName: "music.note.list")
-                    .font(.system(size: 80))
-                    .foregroundColor(.black)
-                    .padding(.top, 40)
-                
-                Text("あなたの趣味・好きなラッパー")
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 20)
- 
-                profileField(title: "趣味 *", text: $hobby)
-                profileField(title: "好きなラッパー *", text: $favrapper)
-                
-                Spacer()
+        ZStack {
+            Color(red: 0.97, green: 0.97, blue: 0.97)
+                .ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 30) {
+                    Image(systemName: "music.note.list")
+                        .font(.system(size: 80))
+                        .foregroundColor(.black)
+                        .padding(.top, 40)
+                    
+                    Text("あなたの趣味・好きなラッパー")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom, 20)
+                    
+                    profileField(title: "趣味 *", text: $hobby)
+                    profileField(title: "好きなラッパー *", text: $favrapper)
+                    
+                    Spacer()
+                }
             }
         }
     }

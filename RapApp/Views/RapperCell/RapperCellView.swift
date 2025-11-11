@@ -103,6 +103,7 @@ struct RapperCellView: View {
             
             Spacer()
         }
+        .background(Color.white)
         .padding(.vertical, 10)
         .padding(.horizontal, 16)
         

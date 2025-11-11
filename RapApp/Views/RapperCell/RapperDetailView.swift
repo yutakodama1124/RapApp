@@ -102,8 +102,8 @@ struct RapperDetailView: View {
                         .onEnded { _ in isPressed = false }
                 )
             }
-            .background(Color.gray.opacity(0.05))
         }
+        .background(Color(red: 0.97, green: 0.97, blue: 0.97))
         .ignoresSafeArea(.all, edges: .top)
         .navigationTitle("")
         .fullScreenCover(isPresented: $NextShown) {

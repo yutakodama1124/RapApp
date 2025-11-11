@@ -12,49 +12,54 @@ struct SignUp: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30) {
-                Spacer()
+            ZStack {
+                Color(red: 0.97, green: 0.97, blue: 0.97)
+                    .ignoresSafeArea()
                 
-                Image(systemName: "music.mic")
-                    .font(.system(size: 100))
-                    .foregroundColor(.black)
-                
-                Text("RapApp")
-                    .font(.system(size: 48, weight: .bold, design: .rounded))
-                    .foregroundColor(.black)
-                
-                Text("バトルを始めよう")
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.gray)
-                
-                Spacer()
-                
-                SignInWithAppleButton(.signUp) { request in
-                    let nonce = randomNonceString()
-                    currentNonce = nonce
-                    request.requestedScopes = [.fullName, .email]
-                    request.nonce = sha256(nonce)
-                } onCompletion: { result in
-                    switch result {
-                    case .success(let authResults):
-                        handleAppleSignIn(authResults)
-                    case .failure(let error):
-                        loginError = "Apple sign-in failed: \(error.localizedDescription)"
+                VStack(spacing: 30) {
+                    Spacer()
+                    
+                    Image(systemName: "music.mic")
+                        .font(.system(size: 100))
+                        .foregroundColor(.black)
+                    
+                    Text("RapApp")
+                        .font(.system(size: 48, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
+                    
+                    Text("バトルを始めよう")
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(.gray)
+                    
+                    Spacer()
+                    
+                    SignInWithAppleButton(.signUp) { request in
+                        let nonce = randomNonceString()
+                        currentNonce = nonce
+                        request.requestedScopes = [.fullName, .email]
+                        request.nonce = sha256(nonce)
+                    } onCompletion: { result in
+                        switch result {
+                        case .success(let authResults):
+                            handleAppleSignIn(authResults)
+                        case .failure(let error):
+                            loginError = "Apple sign-in failed: \(error.localizedDescription)"
+                        }
                     }
-                }
-                .frame(height: 50)
-                .padding(.horizontal, 40)
-                .padding(.bottom, 50)
-
-                if !loginError.isEmpty {
-                    Text(loginError)
-                        .foregroundColor(.red)
-                        .padding()
+                    .frame(height: 50)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 50)
+                    
+                    if !loginError.isEmpty {
+                        Text(loginError)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                 }
             }
         }
     }
-
+    
     private func handleAppleSignIn(_ authResults: ASAuthorization) {
         guard case let appleIDCredential as ASAuthorizationAppleIDCredential = authResults.credential else {
             loginError = "Invalid Apple ID credential."

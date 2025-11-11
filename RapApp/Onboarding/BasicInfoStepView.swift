@@ -6,50 +6,55 @@ struct BasicInfoStepView: View {
     @Binding var showImagePicker: Bool
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                Text("プロフィール設定")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundColor(.black)
-                    .padding(.top, 20)
-
-                ZStack(alignment: .bottomTrailing) {
-                    if let image = selectedImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 290, height: 350)
-                            .clipShape(Rectangle())
-                            .cornerRadius(25)
-                            .onTapGesture { showImagePicker = true }
-                    } else {
-                        Rectangle()
-                            .fill(Color.black.opacity(0.1))
-                            .frame(width: 290, height: 350)
-                            .cornerRadius(25)
-                            .overlay(
-                                Text("写真を選択")
-                                    .foregroundColor(.black)
-                                    .font(.system(size: 18, design: .rounded))
-                            )
-                            .onTapGesture { showImagePicker = true }
-                    }
+        ZStack {
+            Color(red: 0.97, green: 0.97, blue: 0.97)
+                .ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("プロフィール設定")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundColor(.black)
+                        .padding(.top, 20)
                     
-                    Button(action: { showImagePicker = true }) {
-                        Image(systemName: "camera.fill")
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(Color.black.opacity(0.7))
-                            .clipShape(Circle())
-                            .shadow(radius: 3)
+                    ZStack(alignment: .bottomTrailing) {
+                        if let image = selectedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 290, height: 350)
+                                .clipShape(Rectangle())
+                                .cornerRadius(25)
+                                .onTapGesture { showImagePicker = true }
+                        } else {
+                            Rectangle()
+                                .fill(Color.black.opacity(0.1))
+                                .frame(width: 290, height: 350)
+                                .cornerRadius(25)
+                                .overlay(
+                                    Text("写真を選択")
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 18, design: .rounded))
+                                )
+                                .onTapGesture { showImagePicker = true }
+                        }
+                        
+                        Button(action: { showImagePicker = true }) {
+                            Image(systemName: "camera.fill")
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .background(Color.black.opacity(0.7))
+                                .clipShape(Circle())
+                                .shadow(radius: 3)
+                        }
+                        .padding(12)
                     }
-                    .padding(12)
+                    .padding()
+                    
+                    profileField(title: "ユーザーネーム *", text: $name)
+                    
+                    Spacer()
                 }
-                .padding()
-
-                profileField(title: "ユーザーネーム *", text: $name)
-                
-                Spacer()
             }
         }
     }
